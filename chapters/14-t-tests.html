@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>14&nbsp; Comparing Two Groups: t-tests – CQC Statistical Guidance</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/15-correlation.html" rel="next">
+<link href="../chapters/13-spc-basics.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5c568ff3620675dfea6bfa6c73bdaad4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../custom.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/12-z-scoring.html">Part II: Core Methods</a></li><li class="breadcrumb-item"><a href="../chapters/14-t-tests.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparing Two Groups: t-tests</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">CQC Statistical Guidance</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CQC Statistical Guidance</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to Use This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quick-reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quick Reference</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Types &amp; Implications</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-data-visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualising Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Central Tendency and Position</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-variation-uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measuring Variation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-distribution-shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distribution Shape</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-unusual-observations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unusual Observations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-statistical-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Statistical Inference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-missing-data-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Handling Missing Data: Foundations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-qa-principles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Quality Assurance Principles</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-tooling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Analytical Tooling at CQC</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-generative-ai.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Generative AI in Analytical Work</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Core Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-z-scoring.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparing Provider Performance: Z-scoring</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-spc-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Monitoring Trends Over Time: SPC Basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-t-tests.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparing Two Groups: t-tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-correlation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Exploring Relationships: Correlation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-outlier-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Outlier Detection Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-missing-data-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Missing Data: Computational Methods</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Part III: Worked Examples</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Worked Examples Library</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-01-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Example 1: GP Access Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-02-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Example 2: Care Home Falls Monitoring</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-03-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Example 3: Mental Health Wait Times</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-04-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Example 4: Medication Safety Pilot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-05-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Example 5: Regional A&amp;E Performance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-06-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Example 6: Ambulance Handover Delays</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-07-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Example 7: Infection Rates in Care Homes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-08-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Example 8: DoLS Application Trends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-09-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Example 9: Staffing and Quality Outcomes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-10-outliers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Example 10: Care Home Staffing Investigation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">References &amp; Resources</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-t-tests" id="toc-sec-t-tests" class="nav-link active" data-scroll-target="#sec-t-tests"><span class="header-section-number">14.1</span> One Idea, Three Flavours</a>
+  <ul class="collapse">
+  <li><a href="#is-a-t-test-the-right-tool-at-all" id="toc-is-a-t-test-the-right-tool-at-all" class="nav-link" data-scroll-target="#is-a-t-test-the-right-tool-at-all">Is a t-test the right tool at all?</a></li>
+  </ul></li>
+  <li><a href="#before-you-start" id="toc-before-you-start" class="nav-link" data-scroll-target="#before-you-start"><span class="header-section-number">14.2</span> Before You Start</a></li>
+  <li><a href="#step-by-step-guide" id="toc-step-by-step-guide" class="nav-link" data-scroll-target="#step-by-step-guide"><span class="header-section-number">14.3</span> Step-by-Step Guide</a>
+  <ul class="collapse">
+  <li><a href="#step-1-state-the-hypotheses-before-touching-the-data" id="toc-step-1-state-the-hypotheses-before-touching-the-data" class="nav-link" data-scroll-target="#step-1-state-the-hypotheses-before-touching-the-data">Step 1: State the hypotheses before touching the data</a></li>
+  <li><a href="#step-2-check-the-assumptions-in-order-of-importance" id="toc-step-2-check-the-assumptions-in-order-of-importance" class="nav-link" data-scroll-target="#step-2-check-the-assumptions-in-order-of-importance">Step 2: Check the assumptions, in order of importance</a></li>
+  <li><a href="#step-3-run-the-test" id="toc-step-3-run-the-test" class="nav-link" data-scroll-target="#step-3-run-the-test">Step 3: Run the test</a></li>
+  <li><a href="#step-4-report-the-estimate-first-the-verdict-second" id="toc-step-4-report-the-estimate-first-the-verdict-second" class="nav-link" data-scroll-target="#step-4-report-the-estimate-first-the-verdict-second">Step 4: Report the estimate first, the verdict second</a></li>
+  </ul></li>
+  <li><a href="#effect-sizes-answering-how-large" id="toc-effect-sizes-answering-how-large" class="nav-link" data-scroll-target="#effect-sizes-answering-how-large"><span class="header-section-number">14.4</span> Effect Sizes: Answering “How Large?”</a></li>
+  <li><a href="#worked-example-care-coordination-pilot" id="toc-worked-example-care-coordination-pilot" class="nav-link" data-scroll-target="#worked-example-care-coordination-pilot"><span class="header-section-number">14.5</span> Worked Example: Care Coordination Pilot</a>
+  <ul class="collapse">
+  <li><a href="#set-up-and-look-at-the-data" id="toc-set-up-and-look-at-the-data" class="nav-link" data-scroll-target="#set-up-and-look-at-the-data">Set up and look at the data</a></li>
+  <li><a href="#run-the-test-and-size-the-effect" id="toc-run-the-test-and-size-the-effect" class="nav-link" data-scroll-target="#run-the-test-and-size-the-effect">Run the test and size the effect</a></li>
+  <li><a href="#interpret" id="toc-interpret" class="nav-link" data-scroll-target="#interpret">Interpret</a></li>
+  </ul></li>
+  <li><a href="#many-comparisons-the-multiplicity-problem" id="toc-many-comparisons-the-multiplicity-problem" class="nav-link" data-scroll-target="#many-comparisons-the-multiplicity-problem"><span class="header-section-number">14.6</span> Many Comparisons: the Multiplicity Problem</a></li>
+  <li><a href="#documenting-your-analysis" id="toc-documenting-your-analysis" class="nav-link" data-scroll-target="#documenting-your-analysis"><span class="header-section-number">14.7</span> Documenting Your Analysis</a></li>
+  <li><a href="#related-approaches" id="toc-related-approaches" class="nav-link" data-scroll-target="#related-approaches"><span class="header-section-number">14.8</span> Related Approaches</a></li>
+  <li><a href="#when-to-seek-support-from-the-guild" id="toc-when-to-seek-support-from-the-guild" class="nav-link" data-scroll-target="#when-to-seek-support-from-the-guild"><span class="header-section-number">14.9</span> When to Seek Support from the Guild</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">14.10</span> Further Reading</a>
+  <ul class="collapse">
+  <li><a href="#internal-cqc-resources" id="toc-internal-cqc-resources" class="nav-link" data-scroll-target="#internal-cqc-resources">Internal CQC resources</a></li>
+  <li><a href="#comparison-of-means-and-its-assumptions" id="toc-comparison-of-means-and-its-assumptions" class="nav-link" data-scroll-target="#comparison-of-means-and-its-assumptions">Comparison of means and its assumptions</a></li>
+  <li><a href="#estimation-significance-and-multiplicity" id="toc-estimation-significance-and-multiplicity" class="nav-link" data-scroll-target="#estimation-significance-and-multiplicity">Estimation, significance, and multiplicity</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/12-z-scoring.html">Part II: Core Methods</a></li><li class="breadcrumb-item"><a href="../chapters/14-t-tests.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparing Two Groups: t-tests</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparing Two Groups: t-tests</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What this is for
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You need to decide whether two means genuinely differ – or whether one mean differs from a target. For example:</p>
+<ul>
+<li>Did patient experience scores improve in the practices that ran a care coordination pilot, compared with those that did not?</li>
+<li>Has mean length of stay changed after a discharge intervention, comparing the same wards before and after?</li>
+<li>Is a trust’s mean handover time different from the 15-minute standard?</li>
+</ul>
+<p>A t-test weighs the difference you observed against the difference random variation could plausibly produce, and returns the verdict together with an interval for how large the true difference might be.</p>
+</div>
+</div>
+<section id="sec-t-tests" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="sec-t-tests"><span class="header-section-number">14.1</span> One Idea, Three Flavours</h2>
+<p>Strip away the variants and every t-test computes the same quantity:</p>
+<p><span class="math display">\[t = \frac{\text{estimate} - \text{null value}}{\text{standard error of the estimate}}\]</span></p>
+<p>The numerator is the signal – how far what you observed sits from business as usual. The denominator is the noise – the <a href="../chapters/07-statistical-inference.html">standard error</a>, how much that estimate would wobble from sample to sample. Their ratio says how many standard errors of noise the signal spans: a t near zero is unremarkable, a t of 3 means the observed difference is three times the wobble that chance alone produces, which chance rarely manages. Because the noise is <em>estimated from the sample</em> rather than known, the ratio is compared against Student’s t distribution – a bell curve with heavier tails than the normal, the extra tail-weight being the honest price of estimating the spread from limited data. As samples grow the penalty fades and t becomes the normal distribution; with ten observations it matters.</p>
+<p>What changes between the flavours is only <em>which estimate</em> goes in the numerator:</p>
+<table class="caption-top table">
+<caption>The three t-test flavours share one logic</caption>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 32%">
+<col style="width: 22%">
+<col style="width: 18%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flavour</th>
+<th>Question</th>
+<th>Estimate</th>
+<th>Standard error</th>
+<th>Degrees of freedom</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>One-sample</td>
+<td>Does this group’s mean differ from a target <span class="math inline">\(\mu_0\)</span>?</td>
+<td><span class="math inline">\(\bar{x} - \mu_0\)</span></td>
+<td><span class="math inline">\(s/\sqrt{n}\)</span></td>
+<td><span class="math inline">\(n - 1\)</span></td>
+</tr>
+<tr class="even">
+<td>Two-sample (independent)</td>
+<td>Do two separate groups differ?</td>
+<td><span class="math inline">\(\bar{x}_1 - \bar{x}_2\)</span></td>
+<td>combined from both groups’ spreads</td>
+<td>from both group sizes</td>
+</tr>
+<tr class="odd">
+<td>Paired</td>
+<td>Did the same units change between two measurements?</td>
+<td><span class="math inline">\(\bar{d}\)</span>, the mean within-pair difference</td>
+<td><span class="math inline">\(s_d/\sqrt{n}\)</span></td>
+<td><span class="math inline">\(n - 1\)</span> pairs</td>
+</tr>
+</tbody>
+</table>
+<p>Notation here is the sample notation of <a href="../chapters/07-statistical-inference.html">the chapter on statistical inference</a> – <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(s\)</span>, divisor <span class="math inline">\(n-1\)</span> – because a t-test is inference through and through: the groups in hand stand for the larger reality you are reasoning about.</p>
+<p>The choice between the last two flavours is about design, not preference. Pairing applies when the <em>same units</em> appear in both measurements – the same wards before and after, the same practices in two winters. Differencing within each pair cancels everything stable about the unit (size, case-mix, culture), so the comparison rides only on what changed, which usually buys substantial precision. Treating genuinely paired data as independent throws that precision away; treating independent groups as paired is simply invalid. Match the test to how the data arose.</p>
+<section id="is-a-t-test-the-right-tool-at-all" class="level3">
+<h3 class="anchored" data-anchor-id="is-a-t-test-the-right-tool-at-all">Is a t-test the right tool at all?</h3>
+<p>At CQC the honest answer is often no – not because t-tests are weak, but because the routine regulatory questions have different shapes. Comparing <em>many</em> providers against a national picture is <a href="../chapters/12-z-scoring.html">z-scoring and funnel plot</a> territory: t-tests handle exactly two groups, and running one per provider both asks the wrong question and multiplies false alarms. Watching <em>one</em> provider or system <em>over time</em> belongs to <a href="../chapters/13-spc-basics.html">statistical process control</a>. The t-test’s natural CQC habitat is the deliberate two-group question: a pilot evaluated against controls, a before/after comparison with no ongoing stream, a thematic analysis contrasting two defined groups of services. If that is your question, read on.</p>
+</section>
+</section>
+<section id="before-you-start" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="before-you-start"><span class="header-section-number">14.2</span> Before You Start</h2>
+<p><strong>Data requirements.</strong> A continuous outcome (<a href="../chapters/01-data-types.html">quantitative data</a>, at the top of the measurement ladder); two defined groups, or one group plus a meaningful target; and enough observations to estimate a spread – below about five per group the test technically runs but tells you little. Complete the usual <a href="../chapters/09-qa-principles.html">data-quality checks</a> first.</p>
+<p><strong>Independence is the assumption that kills.</strong> Each observation must be one independent unit. The CQC trap is clustering: if you compare <em>patient-level</em> scores between two groups of practices, the patients within a practice resemble each other, the effective sample is far smaller than the patient count, and the test’s certainty is fictitious. The simple, safe unit for a t-test is the provider: analyse practice-level means and let <span class="math inline">\(n\)</span> be the number of practices. Patient-level comparisons across clustered groups need multilevel methods – Guild territory.</p>
+<p><strong>When a t-test is not appropriate.</strong> More than two groups (ANOVA – raise with the Guild); heavily skewed outcomes with small samples (transform first, or use the rank-based alternatives in the Overthinking box); categorical outcomes (different methods entirely); paired and independent structure mixed together (Guild).</p>
+<p><strong>QA framework alignment.</strong> t-tests most directly support QA question 3 (Analysis – is the method appropriate and correctly applied?) and, in pilot evaluations, question 5 (Fitness for Purpose – does the comparison answer the right question?). Document the flavour chosen and why, the assumption checks, and every comparison you ran – not only the significant ones.</p>
+<p><strong>Worked examples for this chapter.</strong> <a href="../examples/example-04-complete.html">Example 4: Medication Safety Pilot</a> is a paired before/after evaluation; <a href="../examples/example-05-complete.html">Example 5: Regional A&amp;E Performance</a> is a two-sample comparison with assumption checking.</p>
+<p><em>The code below uses small illustrative datasets defined inline, so the R and Python tabs are each fully self-contained.</em></p>
+</section>
+<section id="step-by-step-guide" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="step-by-step-guide"><span class="header-section-number">14.3</span> Step-by-Step Guide</h2>
+<section id="step-1-state-the-hypotheses-before-touching-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-state-the-hypotheses-before-touching-the-data">Step 1: State the hypotheses before touching the data</h3>
+<p>The null hypothesis is business as usual, exactly as <a href="../chapters/07-statistical-inference.html">the chapter on statistical inference</a> frames it: the pilot made no difference, the two regions share one true mean, the trust meets the standard. The alternative is the possibility you are entertaining. State them – and the direction, if you genuinely have one – before looking at the outcomes, because a hypothesis written after peeking inherits the peek’s bias.</p>
+</section>
+<section id="step-2-check-the-assumptions-in-order-of-importance" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-check-the-assumptions-in-order-of-importance">Step 2: Check the assumptions, in order of importance</h3>
+<p><em>Independence</em> first, because no later step can repair it: one unit, one observation, no clustering, no repeated measures smuggled into an “independent” comparison.</p>
+<p><em>Normality</em> second, with proportion: the test assumes the relevant quantity – the observations, or for a paired test the within-pair <em>differences</em> – is roughly normal. Look at a histogram or Q-Q plot rather than leaning on a formal test (Shapiro–Wilk flags trivial departures in large samples and misses real ones in small samples, which is exactly backwards for your needs). With more than 30 or so observations per group, the Central Limit Theorem makes the test robust to moderate non-normality; with ten, heavy skew or wild outliers genuinely distort it.</p>
+<p><em>Equal variances</em> you can largely retire as a worry: use <strong>Welch’s t-test</strong>, which estimates each group’s spread separately and adjusts the degrees of freedom. It is R’s default for good reason – it costs almost nothing when the variances happen to be equal and protects you when they do not. Do not run a preliminary variance test to decide which t-test to use; the two-stage routine distorts the very error rates it is meant to guard.</p>
+</section>
+<section id="step-3-run-the-test" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-run-the-test">Step 3: Run the test</h3>
+<p>One line in either language:</p>
+<ul>
+<li>R: <code>t.test(group1, group2)</code> – Welch by default; <code>paired = TRUE</code> for paired; <code>mu = target</code> with a single vector for one-sample.</li>
+<li>Python: <code>scipy.stats.ttest_ind(group1, group2, equal_var=False)</code>; <code>ttest_rel</code> for paired; <code>ttest_1samp</code> for one-sample.</li>
+</ul>
+</section>
+<section id="step-4-report-the-estimate-first-the-verdict-second" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-report-the-estimate-first-the-verdict-second">Step 4: Report the estimate first, the verdict second</h3>
+<p>Lead with the difference in means and its confidence interval, in the indicator’s own units – that is the finding. The t-statistic, degrees of freedom and p-value follow as supporting evidence, with the p-value read as <a href="../chapters/07-statistical-inference.html">graded surprise, not proof</a>. The interval in the software output is 95 per cent by convention and by default; remember the level is a dial someone chose, not a law of nature. And translate: “scores were 6.8 points higher (95 per cent CI 1.9 to 11.8)” tells a decision-maker something; “p = 0.011” alone does not.</p>
+</section>
+</section>
+<section id="effect-sizes-answering-how-large" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="effect-sizes-answering-how-large"><span class="header-section-number">14.4</span> Effect Sizes: Answering “How Large?”</h2>
+<p>A p-value answers “could this be noise?” and nothing else. The question a regulator actually acts on – is this difference big enough to matter? – needs an <strong>effect size</strong>: a measure of magnitude that does not change just because you collected more data.</p>
+<p>The most useful effect size is usually the plainest: the difference in means, in original units, with its confidence interval. “6.8 points on a 100-point experience score” can be weighed against costs, baselines, and what a point of experience score means for people using services; no further statistics needed.</p>
+<p>The standardised companion is <em>Cohen’s d</em>: the difference in means divided by the pooled standard deviation,</p>
+<p><span class="math display">\[d = \frac{\bar{x}_1 - \bar{x}_2}{s_p}\]</span></p>
+<p>which expresses the gap in units of how much practices ordinarily differ from each other. Its value is comparability – d can be compared across indicators with different units, which is why evaluation literatures speak it. Conventional labels exist (0.2 small, 0.5 medium, 0.8 large), and they are the most over-trusted numbers in applied statistics: Cohen offered them reluctantly, for use when nothing better was available, and context beats them every time. A d of 0.2 on mortality matters more than a d of 0.8 on a survey item nobody acts on.</p>
+<p>Effect sizes also carry the power lesson in reverse. A small pilot can only ever <em>detect</em> large effects – with ten units a group, a real but modest improvement will routinely fail to reach significance. So a non-significant pilot has usually told you “this study could not see effects of plausible size”, not “there is no effect”. If a pilot’s verdict will drive investment, size the study for the smallest effect worth detecting <em>before</em> collecting data – a power calculation, and a conversation for the Guild.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🤔 Rethinking: the verdict trap in pilot evaluations
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Pilot evaluations invite a binary reading – “did it work, yes or no?” – and the t-test seems to oblige, p-value as gavel. Both halves of that reading mislead.</p>
+<p>A significant pilot has shown that <em>something</em> moved the numbers in the pilot sites. Whether it was the intervention is a separate question the test cannot answer: pilot sites are rarely chosen at random, they enjoy attention, enthusiasm, and resources that a rollout will not carry (and improvement driven by being watched has its own name, the Hawthorne effect), and a site selected <em>because</em> it was struggling will drift back towards ordinary regardless – the same <a href="../chapters/12-z-scoring.html">regression to the mean</a> that haunts provider flags. A significant t-test is evidence the pilot sites improved; corroboration is what turns it into evidence the <em>programme</em> works.</p>
+<p>A non-significant pilot has shown even less. With small samples the test is weak, so “no significant difference” is usually a statement about the pilot’s size, not the programme’s value – absence of evidence, not evidence of absence. The honest summary of a small null pilot is the confidence interval: “the data are consistent with effects anywhere from −1 to +9 points” keeps the genuine uncertainty visible, where “the pilot found no effect” quietly buries it. Decisions can still be made under that uncertainty; they should just be made knowing it is there.</p>
+</div>
+</div>
+</section>
+<section id="worked-example-care-coordination-pilot" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="worked-example-care-coordination-pilot"><span class="header-section-number">14.5</span> Worked Example: Care Coordination Pilot</h2>
+<p><em>Scenario</em>: ten GP practices ran a care coordination pilot for a year; ten comparable practices did not. The outcome is each practice’s mean patient experience score (0–100) from the year-end survey. Did experience improve in the pilot practices?</p>
+<p>Note the unit of analysis: the practice, not the patient. Each practice contributes one number – its mean score – so the twenty observations are independent and a t-test is legitimate. Comparing the thousands of underlying patient responses directly would ignore the clustering of patients within practices and overstate the evidence.</p>
+<section id="set-up-and-look-at-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="set-up-and-look-at-the-data">Set up and look at the data</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Practice-level mean experience scores (0-100)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pilot   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">80.5</span>, <span class="fl">72.7</span>, <span class="fl">76.5</span>, <span class="fl">77.5</span>, <span class="fl">76.6</span>, <span class="fl">74.6</span>, <span class="fl">81.0</span>, <span class="fl">74.6</span>, <span class="fl">83.1</span>, <span class="fl">74.7</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">76.2</span>, <span class="fl">80.1</span>, <span class="fl">65.4</span>, <span class="fl">69.9</span>, <span class="fl">70.5</span>, <span class="fl">73.5</span>, <span class="fl">69.9</span>, <span class="fl">60.4</span>, <span class="fl">61.2</span>, <span class="fl">76.3</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">score =</span> <span class="fu">c</span>(pilot, control),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Pilot"</span>, <span class="st">"Control"</span>), <span class="at">each =</span> <span class="dv">10</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(score <span class="sc">~</span> group, scores, <span class="cf">function</span>(x) <span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    group score.mean  score.sd
+1 Control  70.340000  6.517191
+2   Pilot  77.180000  3.351550</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Practice-level mean experience scores (0-100)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>pilot <span class="op">=</span> np.array([<span class="fl">80.5</span>, <span class="fl">72.7</span>, <span class="fl">76.5</span>, <span class="fl">77.5</span>, <span class="fl">76.6</span>, <span class="fl">74.6</span>, <span class="fl">81.0</span>, <span class="fl">74.6</span>, <span class="fl">83.1</span>, <span class="fl">74.7</span>])</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>control <span class="op">=</span> np.array([<span class="fl">76.2</span>, <span class="fl">80.1</span>, <span class="fl">65.4</span>, <span class="fl">69.9</span>, <span class="fl">70.5</span>, <span class="fl">73.5</span>, <span class="fl">69.9</span>, <span class="fl">60.4</span>, <span class="fl">61.2</span>, <span class="fl">76.3</span>])</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"score"</span>: np.concatenate([pilot, control]),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"group"</span>: [<span class="st">"Pilot"</span>] <span class="op">*</span> <span class="dv">10</span> <span class="op">+</span> [<span class="st">"Control"</span>] <span class="op">*</span> <span class="dv">10</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>scores.groupby(<span class="st">"group"</span>)[<span class="st">"score"</span>].agg([<span class="st">"mean"</span>, <span class="st">"std"</span>]).<span class="bu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          mean   std
+group               
+Control  70.34  6.52
+Pilot    77.18  3.35</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>With ten points a group, show every point rather than summarising them away:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/theme_cqc.R"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(score <span class="sc">~</span> group, scores, mean)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(scores, <span class="fu">aes</span>(group, score, <span class="at">colour =</span> group)) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.06</span>, <span class="at">size =</span> <span class="fl">2.4</span>, <span class="at">alpha =</span> <span class="fl">0.85</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">data =</span> means, <span class="fu">aes</span>(<span class="at">ymin =</span> score, <span class="at">ymax =</span> score),</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.3</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">colour =</span> cqc_ink) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Control"</span> <span class="ot">=</span> <span class="st">"#375071"</span>, <span class="st">"Pilot"</span> <span class="ot">=</span> <span class="st">"#007EF5"</span>)) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Mean patient experience score (0-100)"</span>) <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cqc</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-ttest-dots-r" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Dot plot of patient experience scores for twenty GP practices in two columns, control and pilot. Control practices range from about 60 to 80 with a mean bar near 70. Pilot practices range from about 73 to 83 with a mean bar near 77. The groups overlap: the highest control practices exceed the lowest pilot practices. The control group is more spread out than the pilot group.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ttest-dots-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="14-t-tests_files/figure-html/fig-ttest-dots-r-1.png" class="img-fluid figure-img" alt="Dot plot of patient experience scores for twenty GP practices in two columns, control and pilot. Control practices range from about 60 to 80 with a mean bar near 70. Pilot practices range from about 73 to 83 with a mean bar near 77. The groups overlap: the highest control practices exceed the lowest pilot practices. The control group is more spread out than the pilot group." width="576">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ttest-dots-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.1: Pilot practices score higher on average, but the groups overlap – the question is whether a gap this size survives the noise. Every practice is shown; the horizontal bar marks each group’s mean. Three control practices score above several pilot practices, and the control group is visibly more spread out.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, <span class="st">"../python"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> cqc_style <span class="im">import</span> apply_cqc_style, CQC_INK</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>apply_cqc_style()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">1</span>)  <span class="co"># jitter only, for legibility</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (name, vals, col) <span class="kw">in</span> <span class="bu">enumerate</span>(</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    [(<span class="st">"Control"</span>, control, <span class="st">"#375071"</span>), (<span class="st">"Pilot"</span>, pilot, <span class="st">"#007EF5"</span>)]</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> i <span class="op">+</span> rng.uniform(<span class="op">-</span><span class="fl">0.06</span>, <span class="fl">0.06</span>, <span class="bu">len</span>(vals))</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    ax.scatter(x, vals, color<span class="op">=</span>col, s<span class="op">=</span><span class="dv">35</span>, alpha<span class="op">=</span><span class="fl">0.85</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    ax.hlines(vals.mean(), i <span class="op">-</span> <span class="fl">0.15</span>, i <span class="op">+</span> <span class="fl">0.15</span>, color<span class="op">=</span>CQC_INK, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="st">"Control"</span>, <span class="st">"Pilot"</span>])</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Mean patient experience score (0-100)"</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-ttest-dots-py" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Dot plot of patient experience scores for twenty GP practices in two columns, control and pilot. Control practices range from about 60 to 80 with a mean bar near 70. Pilot practices range from about 73 to 83 with a mean bar near 77. The groups overlap: the highest control practices exceed the lowest pilot practices. The control group is more spread out than the pilot group.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ttest-dots-py-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="14-t-tests_files/figure-html/fig-ttest-dots-py-1.png" class="img-fluid figure-img" alt="Dot plot of patient experience scores for twenty GP practices in two columns, control and pilot. Control practices range from about 60 to 80 with a mean bar near 70. Pilot practices range from about 73 to 83 with a mean bar near 77. The groups overlap: the highest control practices exceed the lowest pilot practices. The control group is more spread out than the pilot group." width="576">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ttest-dots-py-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.2: Pilot practices score higher on average, but the groups overlap – the question is whether a gap this size survives the noise. Every practice is shown; the horizontal bar marks each group’s mean. Three control practices score above several pilot practices, and the control group is visibly more spread out.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>The picture already carries most of the analysis: the pilot group sits higher on average, the groups overlap, and the control group is noticeably more variable – which is precisely why the test should be Welch’s.</p>
+</section>
+<section id="run-the-test-and-size-the-effect" class="level3">
+<h3 class="anchored" data-anchor-id="run-the-test-and-size-the-effect">Run the test and size the effect</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Welch two-sample t-test (R's default)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">t.test</span>(pilot, control)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  pilot and control
+t = 2.9515, df = 13.449, p-value = 0.0109
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+  1.850356 11.829644
+sample estimates:
+mean of x mean of y 
+    77.18     70.34 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Effect size: Cohen's d (pooled standard deviation)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>s_pooled <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((<span class="fu">var</span>(pilot) <span class="sc">*</span> <span class="dv">9</span> <span class="sc">+</span> <span class="fu">var</span>(control) <span class="sc">*</span> <span class="dv">9</span>) <span class="sc">/</span> <span class="dv">18</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> (<span class="fu">mean</span>(pilot) <span class="sc">-</span> <span class="fu">mean</span>(control)) <span class="sc">/</span> s_pooled</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Difference in means:"</span>, <span class="fu">round</span>(<span class="fu">mean</span>(pilot) <span class="sc">-</span> <span class="fu">mean</span>(control), <span class="dv">1</span>),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"points; Cohen's d:"</span>, <span class="fu">round</span>(d, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Difference in means: 6.8 points; Cohen's d: 1.32 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Welch two-sample t-test (equal_var=False)</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> stats.ttest_ind(pilot, control, equal_var<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>ci <span class="op">=</span> result.confidence_interval()</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"t = </span><span class="sc">{</span>result<span class="sc">.</span>statistic<span class="sc">:.2f}</span><span class="ss">, df = </span><span class="sc">{</span>result<span class="sc">.</span>df<span class="sc">:.1f}</span><span class="ss">, "</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"p = </span><span class="sc">{</span>result<span class="sc">.</span>pvalue<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>t = 2.95, df = 13.4, p = 0.0109</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"95% CI for the difference: </span><span class="sc">{</span>ci<span class="sc">.</span>low<span class="sc">:.2f}</span><span class="ss"> to </span><span class="sc">{</span>ci<span class="sc">.</span>high<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>95% CI for the difference: 1.85 to 11.83</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Effect size: Cohen's d (pooled standard deviation)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>s_pooled <span class="op">=</span> np.sqrt((pilot.var(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">*</span> <span class="dv">9</span> <span class="op">+</span> control.var(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">*</span> <span class="dv">9</span>) <span class="op">/</span> <span class="dv">18</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> (pilot.mean() <span class="op">-</span> control.mean()) <span class="op">/</span> s_pooled</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Difference in means: </span><span class="sc">{</span>pilot<span class="sc">.</span>mean() <span class="op">-</span> control<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss"> points; "</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"Cohen's d: </span><span class="sc">{</span>d<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Difference in means: 6.8 points; Cohen's d: 1.32</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="interpret" class="level3">
+<h3 class="anchored" data-anchor-id="interpret">Interpret</h3>
+<p>Lead with the estimate: pilot practices scored about 6.8 points higher on average, with a 95 per cent confidence interval from roughly 1.9 to 11.8 points. The interval excludes zero – equivalently, the test is significant (t ≈ 2.95, p ≈ 0.011) – so the difference is unlikely to be noise. But read the interval honestly: the data are consistent with anything from a modest 2-point gap to a substantial 12-point one. Cohen’s d ≈ 1.3 sounds impressive, yet with ten practices a side it is estimated as imprecisely as everything else here.</p>
+<p>Then temper the causal reading, as the Rethinking box above argues: this establishes that pilot practices ended the year scoring higher, not that the programme caused it. Were the pilot sites selected at random, or did enthusiastic practices volunteer? Did they differ at baseline? A 6.8-point difference with this much honest context is a good case for a larger, better-designed evaluation – which is usually exactly what a pilot should earn.</p>
+</section>
+</section>
+<section id="many-comparisons-the-multiplicity-problem" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="many-comparisons-the-multiplicity-problem"><span class="header-section-number">14.6</span> Many Comparisons: the Multiplicity Problem</h2>
+<p>Run one test at the conventional threshold and a true null has a 5 per cent chance of a false alarm. Run twenty – twenty indicators, twenty subgroups, twenty regions – and the chance that <em>at least one</em> comes up “significant” by luck alone is about 64 per cent. Multiplicity is how diligent, well-intentioned analysis manufactures findings out of noise, and two-group comparisons are especially prone to it because each one is so easy to run.</p>
+<p>The defences, in the order to reach for them:</p>
+<ul>
+<li><strong>Pre-specify.</strong> Name the primary comparison before touching the data; everything else is exploratory and labelled as such. This is the cheapest and strongest defence.</li>
+<li><strong>Report everything.</strong> All comparisons run, not just the survivors – a “significant” result means little without the denominator of attempts behind it.</li>
+<li><strong>Correct formally where verdicts matter.</strong> The <em>Bonferroni correction</em> divides the significance threshold by the number of tests (20 tests → 0.05/20 = 0.0025 each): simple, defensible, and conservative – with many tests it can drown real effects. The <em>Benjamini–Hochberg</em> procedure controls the false discovery rate instead – the expected share of flagged results that are false – which suits screening contexts where some false alarms are tolerable but a flood is not. Choosing between them, and counting what the “family” of tests even is, is worth a Guild conversation when the stakes are real.</li>
+</ul>
+<p>In routine profiling across many indicators, recall <a href="../chapters/12-z-scoring.html">the corroboration posture from z-scoring</a>: require signals to agree across sources before acting. Formal corrections are for the designed, verdict-bearing analyses – evaluations, published comparisons – where a stated error rate is part of the claim.</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>⚙️ Overthinking: when the assumptions fail
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Non-normal data.</strong> With small samples and visible skew, two routes exist. A transformation (log is the workhorse for right-skewed times and rates) often restores enough symmetry, at the price of interpreting results on the transformed scale – “a 15 per cent multiplicative difference” rather than “3 days”. Or switch to the rank-based alternatives: <em>Mann–Whitney U</em> for two independent groups, <em>Wilcoxon signed-rank</em> for paired data. They trade a little power for robustness, and note they test a subtly different hypothesis – whether one group’s values tend to exceed the other’s, not whether means differ – which is often closer to the regulatory question anyway.</p>
+<p><strong>Outliers.</strong> A single wild value can swamp a ten-observation t-test. Do not delete it to rescue significance: <a href="../chapters/06-unusual-observations.html">investigate it</a>, report results with and without it, and if the two disagree, say so – that disagreement <em>is</em> the finding.</p>
+<p><strong>Clustered data.</strong> No alternative test fixes broken independence. Patients within practices, residents within homes, repeated months within a provider – these need the right unit of analysis (aggregate to one value per cluster, as the worked example does) or multilevel models (Guild). A t-test on clustered observations is not conservative or approximate; it is wrong, and wrong in the flattering direction.</p>
+<p><strong>Equivalence is not a failed difference test.</strong> “No significant difference” never demonstrates that two groups are the same – the absence-of-evidence trap again. If sameness is the actual claim (a cheaper service performs <em>no worse</em>, say), that is equivalence or non-inferiority testing, which reverses the burden of proof and needs its own design. Raise it with the Guild before promising anyone a “no difference” conclusion.</p>
+</div>
+</div>
+</section>
+<section id="documenting-your-analysis" class="level2" data-number="14.7">
+<h2 data-number="14.7" class="anchored" data-anchor-id="documenting-your-analysis"><span class="header-section-number">14.7</span> Documenting Your Analysis</h2>
+<p>For QA purposes, record: the question and the two groups (or target), with the unit of analysis stated; the flavour of test and why; the assumption checks and what they showed; <em>every</em> comparison run, including the non-significant ones; the estimate with its confidence interval, the test statistics, and the effect size; and the practical interpretation, including the limits on any causal reading. The Code of Practice’s sound-methods obligations are satisfied by exactly this trail – and a pilot evaluation that may drive investment decisions deserves nothing less.</p>
+</section>
+<section id="related-approaches" class="level2" data-number="14.8">
+<h2 data-number="14.8" class="anchored" data-anchor-id="related-approaches"><span class="header-section-number">14.8</span> Related Approaches</h2>
+<ul>
+<li>Comparing many providers at once → <a href="../chapters/12-z-scoring.html">z-scoring and funnel plots</a>; running a t-test per provider is the multiplicity problem in costume.</li>
+<li>Following one provider or system over time → <a href="../chapters/13-spc-basics.html">statistical process control</a>; a before/after question with an ongoing data stream is usually better answered by a chart with frozen baseline limits.</li>
+<li>Relationships between two continuous variables → <a href="../chapters/15-correlation.html">correlation</a>.</li>
+<li>Foundations → <a href="../chapters/07-statistical-inference.html">statistical inference</a> for p-values, intervals, and the error trade-off; <a href="../chapters/05-distribution-shape.html">distribution shape</a> for skewness and transformation.</li>
+<li>Complete workflows → <a href="../examples/example-04-complete.html">Example 4: Medication Safety Pilot</a> (paired) and <a href="../examples/example-05-complete.html">Example 5: Regional A&amp;E Performance</a> (two-sample).</li>
+</ul>
+</section>
+<section id="when-to-seek-support-from-the-guild" class="level2" data-number="14.9">
+<h2 data-number="14.9" class="anchored" data-anchor-id="when-to-seek-support-from-the-guild"><span class="header-section-number">14.9</span> When to Seek Support from the Guild</h2>
+<p>Raise your analysis with the Quantitative Analytics and Statistics Guild (the Guild) at a Quant Clinic session when: you need more than two groups (ANOVA), adjustment for confounders (regression), or repeated measures (multilevel models); the data are clustered and aggregation to one value per cluster loses the question; you need a power calculation before a pilot; the claim is equivalence rather than difference; the comparisons multiply and you need a correction strategy; or assumptions fail and you are unsure which alternative answers the question actually asked.</p>
+</section>
+<section id="further-reading" class="level2" data-number="14.10">
+<h2 data-number="14.10" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">14.10</span> Further Reading</h2>
+<section id="internal-cqc-resources" class="level3">
+<h3 class="anchored" data-anchor-id="internal-cqc-resources">Internal CQC resources</h3>
+<ul>
+<li>The QA Framework sets the documentation standards for comparative analyses; see <a href="../getting-started.html">How to Use This Book</a> for how to access support.</li>
+</ul>
+</section>
+<section id="comparison-of-means-and-its-assumptions" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-of-means-and-its-assumptions">Comparison of means and its assumptions</h3>
+<ul>
+<li>Altman, D.G. (1991). <em>Practical Statistics for Medical Research</em>. Chapman &amp; Hall. (Chapter 9 remains the standard treatment of comparing groups in health data.)</li>
+<li>HM Treasury (2015). <em>The Aqua Book: guidance on producing quality analysis for government.</em> (Uncertainty and verification expectations for government analysis.)</li>
+</ul>
+</section>
+<section id="estimation-significance-and-multiplicity" class="level3">
+<h3 class="anchored" data-anchor-id="estimation-significance-and-multiplicity">Estimation, significance, and multiplicity</h3>
+<ul>
+<li>Cumming, G. (2014). “The new statistics: why and how.” <em>Psychological Science</em>, 25(1), 7–29. (The estimate-first reporting posture this chapter follows.)</li>
+<li>Greenland, S. et al.&nbsp;(2016). “Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations.” <em>European Journal of Epidemiology</em>, 31, 337–350.</li>
+<li>Wasserstein, R.L. &amp; Lazar, N.A. (2016). “The ASA’s statement on p-values: context, process, and purpose.” <em>The American Statistician</em>, 70(2), 129–133.</li>
+<li>Bland, J.M. &amp; Altman, D.G. (1995). “Multiple significance tests: the Bonferroni method.” <em>BMJ</em>, 310(6973), 170.</li>
+</ul>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+(function () {
+  'use strict';
+
+  function init() {
+    var sidebar = document.getElementById('quarto-margin-sidebar');
+    if (!sidebar) return;
+
+    var tocLinks = Array.from(sidebar.querySelectorAll('a[href^="#"]'));
+    if (!tocLinks.length) return;
+
+    var sectionIds = tocLinks
+      .map(function (a) { return a.getAttribute('href').slice(1); })
+      .filter(Boolean);
+
+    var sections = sectionIds
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+
+    if (!sections.length) return;
+
+    function setActive(id) {
+      tocLinks.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+
+    // Track the topmost visible section
+    var visible = new Set();
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            visible.add(e.target.id);
+          } else {
+            visible.delete(e.target.id);
+          }
+        });
+        // Activate the first section in document order that is visible
+        for (var i = 0; i < sections.length; i++) {
+          if (visible.has(sections[i].id)) {
+            setActive(sections[i].id);
+            return;
+          }
+        }
+      },
+      { rootMargin: '0px 0px -70% 0px', threshold: 0 }
+    );
+
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/13-spc-basics.html" class="pagination-link" aria-label="Monitoring Trends Over Time: SPC Basics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Monitoring Trends Over Time: SPC Basics</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/15-correlation.html" class="pagination-link" aria-label="Exploring Relationships: Correlation">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Exploring Relationships: Correlation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Comparing Two Groups: t-tests"</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the Python tabs through reticulate so both languages share one dataset</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## What this is for</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>You need to decide whether two means genuinely differ – or whether one mean differs from a target. For example:</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Did patient experience scores improve in the practices that ran a care coordination pilot, compared with those that did not?</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Has mean length of stay changed after a discharge intervention, comparing the same wards before and after?</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Is a trust's mean handover time different from the 15-minute standard?</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>A t-test weighs the difference you observed against the difference random variation could plausibly produce, and returns the verdict together with an interval for how large the true difference might be.</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## One Idea, Three Flavours {#sec-t-tests}</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>Strip away the variants and every t-test computes the same quantity:</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>$$t = \frac{\text{estimate} - \text{null value}}{\text{standard error of the estimate}}$$</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>The numerator is the signal – how far what you observed sits from business as usual. The denominator is the noise – the <span class="co">[</span><span class="ot">standard error</span><span class="co">](07-statistical-inference.qmd)</span>, how much that estimate would wobble from sample to sample. Their ratio says how many standard errors of noise the signal spans: a t near zero is unremarkable, a t of 3 means the observed difference is three times the wobble that chance alone produces, which chance rarely manages. Because the noise is *estimated from the sample* rather than known, the ratio is compared against Student's t distribution – a bell curve with heavier tails than the normal, the extra tail-weight being the honest price of estimating the spread from limited data. As samples grow the penalty fades and t becomes the normal distribution; with ten observations it matters.</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>What changes between the flavours is only *which estimate* goes in the numerator:</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Flavour <span class="pp">|</span> Question <span class="pp">|</span> Estimate <span class="pp">|</span> Standard error <span class="pp">|</span> Degrees of freedom <span class="pp">|</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|----------|----------|----------------|--------------------|</span></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> One-sample <span class="pp">|</span> Does this group's mean differ from a target $\mu_0$? <span class="pp">|</span> $\bar{x} - \mu_0$ <span class="pp">|</span> $s/\sqrt{n}$ <span class="pp">|</span> $n - 1$ <span class="pp">|</span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Two-sample (independent) <span class="pp">|</span> Do two separate groups differ? <span class="pp">|</span> $\bar{x}_1 - \bar{x}_2$ <span class="pp">|</span> combined from both groups' spreads <span class="pp">|</span> from both group sizes <span class="pp">|</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Paired <span class="pp">|</span> Did the same units change between two measurements? <span class="pp">|</span> $\bar{d}$, the mean within-pair difference <span class="pp">|</span> $s_d/\sqrt{n}$ <span class="pp">|</span> $n - 1$ pairs <span class="pp">|</span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>: The three t-test flavours share one logic {tbl-colwidths="<span class="co">[</span><span class="ot">16,32,22,18,12</span><span class="co">]</span>"}</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>Notation here is the sample notation of <span class="co">[</span><span class="ot">the chapter on statistical inference</span><span class="co">](07-statistical-inference.qmd)</span> – $\bar{x}$ and $s$, divisor $n-1$ – because a t-test is inference through and through: the groups in hand stand for the larger reality you are reasoning about.</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>The choice between the last two flavours is about design, not preference. Pairing applies when the *same units* appear in both measurements – the same wards before and after, the same practices in two winters. Differencing within each pair cancels everything stable about the unit (size, case-mix, culture), so the comparison rides only on what changed, which usually buys substantial precision. Treating genuinely paired data as independent throws that precision away; treating independent groups as paired is simply invalid. Match the test to how the data arose.</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a><span class="fu">### Is a t-test the right tool at all?</span></span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>At CQC the honest answer is often no – not because t-tests are weak, but because the routine regulatory questions have different shapes. Comparing *many* providers against a national picture is [z-scoring and funnel plot](12-z-scoring.qmd) territory: t-tests handle exactly two groups, and running one per provider both asks the wrong question and multiplies false alarms. Watching *one* provider or system *over time* belongs to <span class="co">[</span><span class="ot">statistical process control</span><span class="co">](13-spc-basics.qmd)</span>. The t-test's natural CQC habitat is the deliberate two-group question: a pilot evaluated against controls, a before/after comparison with no ongoing stream, a thematic analysis contrasting two defined groups of services. If that is your question, read on.</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a><span class="fu">## Before You Start</span></span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>**Data requirements.** A continuous outcome (<span class="co">[</span><span class="ot">quantitative data</span><span class="co">](01-data-types.qmd)</span>, at the top of the measurement ladder); two defined groups, or one group plus a meaningful target; and enough observations to estimate a spread – below about five per group the test technically runs but tells you little. Complete the usual <span class="co">[</span><span class="ot">data-quality checks</span><span class="co">](09-qa-principles.qmd)</span> first.</span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>**Independence is the assumption that kills.** Each observation must be one independent unit. The CQC trap is clustering: if you compare *patient-level* scores between two groups of practices, the patients within a practice resemble each other, the effective sample is far smaller than the patient count, and the test's certainty is fictitious. The simple, safe unit for a t-test is the provider: analyse practice-level means and let $n$ be the number of practices. Patient-level comparisons across clustered groups need multilevel methods – Guild territory.</span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a>**When a t-test is not appropriate.** More than two groups (ANOVA – raise with the Guild); heavily skewed outcomes with small samples (transform first, or use the rank-based alternatives in the Overthinking box); categorical outcomes (different methods entirely); paired and independent structure mixed together (Guild).</span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a>**QA framework alignment.** t-tests most directly support QA question 3 (Analysis – is the method appropriate and correctly applied?) and, in pilot evaluations, question 5 (Fitness for Purpose – does the comparison answer the right question?). Document the flavour chosen and why, the assumption checks, and every comparison you ran – not only the significant ones.</span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>**Worked examples for this chapter.** <span class="co">[</span><span class="ot">Example 4: Medication Safety Pilot</span><span class="co">](../examples/example-04-complete.qmd)</span> is a paired before/after evaluation; <span class="co">[</span><span class="ot">Example 5: Regional A&amp;E Performance</span><span class="co">](../examples/example-05-complete.qmd)</span> is a two-sample comparison with assumption checking.</span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>*The code below uses small illustrative datasets defined inline, so the R and Python tabs are each fully self-contained.*</span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step-by-Step Guide</span></span>
+<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 1: State the hypotheses before touching the data</span></span>
+<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>The null hypothesis is business as usual, exactly as <span class="co">[</span><span class="ot">the chapter on statistical inference</span><span class="co">](07-statistical-inference.qmd)</span> frames it: the pilot made no difference, the two regions share one true mean, the trust meets the standard. The alternative is the possibility you are entertaining. State them – and the direction, if you genuinely have one – before looking at the outcomes, because a hypothesis written after peeking inherits the peek's bias.</span>
+<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 2: Check the assumptions, in order of importance</span></span>
+<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a>*Independence* first, because no later step can repair it: one unit, one observation, no clustering, no repeated measures smuggled into an "independent" comparison.</span>
+<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a>*Normality* second, with proportion: the test assumes the relevant quantity – the observations, or for a paired test the within-pair *differences* – is roughly normal. Look at a histogram or Q-Q plot rather than leaning on a formal test (Shapiro–Wilk flags trivial departures in large samples and misses real ones in small samples, which is exactly backwards for your needs). With more than 30 or so observations per group, the Central Limit Theorem makes the test robust to moderate non-normality; with ten, heavy skew or wild outliers genuinely distort it.</span>
+<span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a>*Equal variances* you can largely retire as a worry: use **Welch's t-test**, which estimates each group's spread separately and adjusts the degrees of freedom. It is R's default for good reason – it costs almost nothing when the variances happen to be equal and protects you when they do not. Do not run a preliminary variance test to decide which t-test to use; the two-stage routine distorts the very error rates it is meant to guard.</span>
+<span id="cb17-78"><a href="#cb17-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 3: Run the test</span></span>
+<span id="cb17-80"><a href="#cb17-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a>One line in either language:</span>
+<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>R: <span class="in">`t.test(group1, group2)`</span> – Welch by default; <span class="in">`paired = TRUE`</span> for paired; <span class="in">`mu = target`</span> with a single vector for one-sample.</span>
+<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Python: <span class="in">`scipy.stats.ttest_ind(group1, group2, equal_var=False)`</span>; <span class="in">`ttest_rel`</span> for paired; <span class="in">`ttest_1samp`</span> for one-sample.</span>
+<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-86"><a href="#cb17-86" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 4: Report the estimate first, the verdict second</span></span>
+<span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-88"><a href="#cb17-88" aria-hidden="true" tabindex="-1"></a>Lead with the difference in means and its confidence interval, in the indicator's own units – that is the finding. The t-statistic, degrees of freedom and p-value follow as supporting evidence, with the p-value read as <span class="co">[</span><span class="ot">graded surprise, not proof</span><span class="co">](07-statistical-inference.qmd)</span>. The interval in the software output is 95 per cent by convention and by default; remember the level is a dial someone chose, not a law of nature. And translate: "scores were 6.8 points higher (95 per cent CI 1.9 to 11.8)" tells a decision-maker something; "p = 0.011" alone does not.</span>
+<span id="cb17-89"><a href="#cb17-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-90"><a href="#cb17-90" aria-hidden="true" tabindex="-1"></a><span class="fu">## Effect Sizes: Answering "How Large?"</span></span>
+<span id="cb17-91"><a href="#cb17-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-92"><a href="#cb17-92" aria-hidden="true" tabindex="-1"></a>A p-value answers "could this be noise?" and nothing else. The question a regulator actually acts on – is this difference big enough to matter? – needs an **effect size**: a measure of magnitude that does not change just because you collected more data.</span>
+<span id="cb17-93"><a href="#cb17-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-94"><a href="#cb17-94" aria-hidden="true" tabindex="-1"></a>The most useful effect size is usually the plainest: the difference in means, in original units, with its confidence interval. "6.8 points on a 100-point experience score" can be weighed against costs, baselines, and what a point of experience score means for people using services; no further statistics needed.</span>
+<span id="cb17-95"><a href="#cb17-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-96"><a href="#cb17-96" aria-hidden="true" tabindex="-1"></a>The standardised companion is *Cohen's d*: the difference in means divided by the pooled standard deviation,</span>
+<span id="cb17-97"><a href="#cb17-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-98"><a href="#cb17-98" aria-hidden="true" tabindex="-1"></a>$$d = \frac{\bar{x}_1 - \bar{x}_2}{s_p}$$</span>
+<span id="cb17-99"><a href="#cb17-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-100"><a href="#cb17-100" aria-hidden="true" tabindex="-1"></a>which expresses the gap in units of how much practices ordinarily differ from each other. Its value is comparability – d can be compared across indicators with different units, which is why evaluation literatures speak it. Conventional labels exist (0.2 small, 0.5 medium, 0.8 large), and they are the most over-trusted numbers in applied statistics: Cohen offered them reluctantly, for use when nothing better was available, and context beats them every time. A d of 0.2 on mortality matters more than a d of 0.8 on a survey item nobody acts on.</span>
+<span id="cb17-101"><a href="#cb17-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-102"><a href="#cb17-102" aria-hidden="true" tabindex="-1"></a>Effect sizes also carry the power lesson in reverse. A small pilot can only ever *detect* large effects – with ten units a group, a real but modest improvement will routinely fail to reach significance. So a non-significant pilot has usually told you "this study could not see effects of plausible size", not "there is no effect". If a pilot's verdict will drive investment, size the study for the smallest effect worth detecting *before* collecting data – a power calculation, and a conversation for the Guild.</span>
+<span id="cb17-103"><a href="#cb17-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-104"><a href="#cb17-104" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb17-105"><a href="#cb17-105" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🤔 Rethinking: the verdict trap in pilot evaluations</span></span>
+<span id="cb17-106"><a href="#cb17-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-107"><a href="#cb17-107" aria-hidden="true" tabindex="-1"></a>Pilot evaluations invite a binary reading – "did it work, yes or no?" – and the t-test seems to oblige, p-value as gavel. Both halves of that reading mislead.</span>
+<span id="cb17-108"><a href="#cb17-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-109"><a href="#cb17-109" aria-hidden="true" tabindex="-1"></a>A significant pilot has shown that *something* moved the numbers in the pilot sites. Whether it was the intervention is a separate question the test cannot answer: pilot sites are rarely chosen at random, they enjoy attention, enthusiasm, and resources that a rollout will not carry (and improvement driven by being watched has its own name, the Hawthorne effect), and a site selected *because* it was struggling will drift back towards ordinary regardless – the same [regression to the mean](12-z-scoring.qmd) that haunts provider flags. A significant t-test is evidence the pilot sites improved; corroboration is what turns it into evidence the *programme* works.</span>
+<span id="cb17-110"><a href="#cb17-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-111"><a href="#cb17-111" aria-hidden="true" tabindex="-1"></a>A non-significant pilot has shown even less. With small samples the test is weak, so "no significant difference" is usually a statement about the pilot's size, not the programme's value – absence of evidence, not evidence of absence. The honest summary of a small null pilot is the confidence interval: "the data are consistent with effects anywhere from −1 to +9 points" keeps the genuine uncertainty visible, where "the pilot found no effect" quietly buries it. Decisions can still be made under that uncertainty; they should just be made knowing it is there.</span>
+<span id="cb17-112"><a href="#cb17-112" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb17-113"><a href="#cb17-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-114"><a href="#cb17-114" aria-hidden="true" tabindex="-1"></a><span class="fu">## Worked Example: Care Coordination Pilot</span></span>
+<span id="cb17-115"><a href="#cb17-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-116"><a href="#cb17-116" aria-hidden="true" tabindex="-1"></a>*Scenario*: ten GP practices ran a care coordination pilot for a year; ten comparable practices did not. The outcome is each practice's mean patient experience score (0–100) from the year-end survey. Did experience improve in the pilot practices?</span>
+<span id="cb17-117"><a href="#cb17-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-118"><a href="#cb17-118" aria-hidden="true" tabindex="-1"></a>Note the unit of analysis: the practice, not the patient. Each practice contributes one number – its mean score – so the twenty observations are independent and a t-test is legitimate. Comparing the thousands of underlying patient responses directly would ignore the clustering of patients within practices and overstate the evidence.</span>
+<span id="cb17-119"><a href="#cb17-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-120"><a href="#cb17-120" aria-hidden="true" tabindex="-1"></a><span class="fu">### Set up and look at the data</span></span>
+<span id="cb17-121"><a href="#cb17-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-122"><a href="#cb17-122" aria-hidden="true" tabindex="-1"></a>:::: {.panel-tabset group="language"}</span>
+<span id="cb17-123"><a href="#cb17-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## R</span></span>
+<span id="cb17-126"><a href="#cb17-126" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-127"><a href="#cb17-127" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: ttest-data</span></span>
+<span id="cb17-128"><a href="#cb17-128" aria-hidden="true" tabindex="-1"></a><span class="co"># Practice-level mean experience scores (0-100)</span></span>
+<span id="cb17-129"><a href="#cb17-129" aria-hidden="true" tabindex="-1"></a>pilot   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">80.5</span>, <span class="fl">72.7</span>, <span class="fl">76.5</span>, <span class="fl">77.5</span>, <span class="fl">76.6</span>, <span class="fl">74.6</span>, <span class="fl">81.0</span>, <span class="fl">74.6</span>, <span class="fl">83.1</span>, <span class="fl">74.7</span>)</span>
+<span id="cb17-130"><a href="#cb17-130" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">76.2</span>, <span class="fl">80.1</span>, <span class="fl">65.4</span>, <span class="fl">69.9</span>, <span class="fl">70.5</span>, <span class="fl">73.5</span>, <span class="fl">69.9</span>, <span class="fl">60.4</span>, <span class="fl">61.2</span>, <span class="fl">76.3</span>)</span>
+<span id="cb17-131"><a href="#cb17-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-132"><a href="#cb17-132" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb17-133"><a href="#cb17-133" aria-hidden="true" tabindex="-1"></a>  <span class="at">score =</span> <span class="fu">c</span>(pilot, control),</span>
+<span id="cb17-134"><a href="#cb17-134" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Pilot"</span>, <span class="st">"Control"</span>), <span class="at">each =</span> <span class="dv">10</span>)</span>
+<span id="cb17-135"><a href="#cb17-135" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-136"><a href="#cb17-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-137"><a href="#cb17-137" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(score <span class="sc">~</span> group, scores, <span class="cf">function</span>(x) <span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x)))</span>
+<span id="cb17-138"><a href="#cb17-138" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-139"><a href="#cb17-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-140"><a href="#cb17-140" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
+<span id="cb17-143"><a href="#cb17-143" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb17-144"><a href="#cb17-144" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: ttest-data-py</span></span>
+<span id="cb17-145"><a href="#cb17-145" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb17-146"><a href="#cb17-146" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb17-147"><a href="#cb17-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-148"><a href="#cb17-148" aria-hidden="true" tabindex="-1"></a><span class="co"># Practice-level mean experience scores (0-100)</span></span>
+<span id="cb17-149"><a href="#cb17-149" aria-hidden="true" tabindex="-1"></a>pilot <span class="op">=</span> np.array([<span class="fl">80.5</span>, <span class="fl">72.7</span>, <span class="fl">76.5</span>, <span class="fl">77.5</span>, <span class="fl">76.6</span>, <span class="fl">74.6</span>, <span class="fl">81.0</span>, <span class="fl">74.6</span>, <span class="fl">83.1</span>, <span class="fl">74.7</span>])</span>
+<span id="cb17-150"><a href="#cb17-150" aria-hidden="true" tabindex="-1"></a>control <span class="op">=</span> np.array([<span class="fl">76.2</span>, <span class="fl">80.1</span>, <span class="fl">65.4</span>, <span class="fl">69.9</span>, <span class="fl">70.5</span>, <span class="fl">73.5</span>, <span class="fl">69.9</span>, <span class="fl">60.4</span>, <span class="fl">61.2</span>, <span class="fl">76.3</span>])</span>
+<span id="cb17-151"><a href="#cb17-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-152"><a href="#cb17-152" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb17-153"><a href="#cb17-153" aria-hidden="true" tabindex="-1"></a>    <span class="st">"score"</span>: np.concatenate([pilot, control]),</span>
+<span id="cb17-154"><a href="#cb17-154" aria-hidden="true" tabindex="-1"></a>    <span class="st">"group"</span>: [<span class="st">"Pilot"</span>] <span class="op">*</span> <span class="dv">10</span> <span class="op">+</span> [<span class="st">"Control"</span>] <span class="op">*</span> <span class="dv">10</span>,</span>
+<span id="cb17-155"><a href="#cb17-155" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb17-156"><a href="#cb17-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-157"><a href="#cb17-157" aria-hidden="true" tabindex="-1"></a>scores.groupby(<span class="st">"group"</span>)[<span class="st">"score"</span>].agg([<span class="st">"mean"</span>, <span class="st">"std"</span>]).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb17-158"><a href="#cb17-158" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-159"><a href="#cb17-159" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb17-160"><a href="#cb17-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-161"><a href="#cb17-161" aria-hidden="true" tabindex="-1"></a>With ten points a group, show every point rather than summarising them away:</span>
+<span id="cb17-162"><a href="#cb17-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-163"><a href="#cb17-163" aria-hidden="true" tabindex="-1"></a>:::: {.panel-tabset group="language"}</span>
+<span id="cb17-164"><a href="#cb17-164" aria-hidden="true" tabindex="-1"></a><span class="fu">## R</span></span>
+<span id="cb17-167"><a href="#cb17-167" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-168"><a href="#cb17-168" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-ttest-dots-r</span></span>
+<span id="cb17-169"><a href="#cb17-169" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Pilot practices score higher on average, but the groups overlap – the question is whether a gap this size survives the noise. Every practice is shown; the horizontal bar marks each group's mean. Three control practices score above several pilot practices, and the control group is visibly more spread out."</span></span>
+<span id="cb17-170"><a href="#cb17-170" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "Dot plot of patient experience scores for twenty GP practices in two columns, control and pilot. Control practices range from about 60 to 80 with a mean bar near 70. Pilot practices range from about 73 to 83 with a mean bar near 77. The groups overlap: the highest control practices exceed the lowest pilot practices. The control group is more spread out than the pilot group."</span></span>
+<span id="cb17-171"><a href="#cb17-171" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 6</span></span>
+<span id="cb17-172"><a href="#cb17-172" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 4</span></span>
+<span id="cb17-173"><a href="#cb17-173" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb17-174"><a href="#cb17-174" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb17-175"><a href="#cb17-175" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/theme_cqc.R"</span>)</span>
+<span id="cb17-176"><a href="#cb17-176" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb17-177"><a href="#cb17-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-178"><a href="#cb17-178" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(score <span class="sc">~</span> group, scores, mean)</span>
+<span id="cb17-179"><a href="#cb17-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-180"><a href="#cb17-180" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(scores, <span class="fu">aes</span>(group, score, <span class="at">colour =</span> group)) <span class="sc">+</span></span>
+<span id="cb17-181"><a href="#cb17-181" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.06</span>, <span class="at">size =</span> <span class="fl">2.4</span>, <span class="at">alpha =</span> <span class="fl">0.85</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb17-182"><a href="#cb17-182" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">data =</span> means, <span class="fu">aes</span>(<span class="at">ymin =</span> score, <span class="at">ymax =</span> score),</span>
+<span id="cb17-183"><a href="#cb17-183" aria-hidden="true" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.3</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">colour =</span> cqc_ink) <span class="sc">+</span></span>
+<span id="cb17-184"><a href="#cb17-184" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Control"</span> <span class="ot">=</span> <span class="st">"#375071"</span>, <span class="st">"Pilot"</span> <span class="ot">=</span> <span class="st">"#007EF5"</span>)) <span class="sc">+</span></span>
+<span id="cb17-185"><a href="#cb17-185" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Mean patient experience score (0-100)"</span>) <span class="sc">+</span></span>
+<span id="cb17-186"><a href="#cb17-186" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cqc</span>()</span>
+<span id="cb17-187"><a href="#cb17-187" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-188"><a href="#cb17-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-189"><a href="#cb17-189" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
+<span id="cb17-192"><a href="#cb17-192" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb17-193"><a href="#cb17-193" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-ttest-dots-py</span></span>
+<span id="cb17-194"><a href="#cb17-194" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Pilot practices score higher on average, but the groups overlap – the question is whether a gap this size survives the noise. Every practice is shown; the horizontal bar marks each group's mean. Three control practices score above several pilot practices, and the control group is visibly more spread out."</span></span>
+<span id="cb17-195"><a href="#cb17-195" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "Dot plot of patient experience scores for twenty GP practices in two columns, control and pilot. Control practices range from about 60 to 80 with a mean bar near 70. Pilot practices range from about 73 to 83 with a mean bar near 77. The groups overlap: the highest control practices exceed the lowest pilot practices. The control group is more spread out than the pilot group."</span></span>
+<span id="cb17-196"><a href="#cb17-196" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb17-197"><a href="#cb17-197" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, <span class="st">"../python"</span>)</span>
+<span id="cb17-198"><a href="#cb17-198" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb17-199"><a href="#cb17-199" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> cqc_style <span class="im">import</span> apply_cqc_style, CQC_INK</span>
+<span id="cb17-200"><a href="#cb17-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-201"><a href="#cb17-201" aria-hidden="true" tabindex="-1"></a>apply_cqc_style()</span>
+<span id="cb17-202"><a href="#cb17-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-203"><a href="#cb17-203" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">1</span>)  <span class="co"># jitter only, for legibility</span></span>
+<span id="cb17-204"><a href="#cb17-204" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb17-205"><a href="#cb17-205" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (name, vals, col) <span class="kw">in</span> <span class="bu">enumerate</span>(</span>
+<span id="cb17-206"><a href="#cb17-206" aria-hidden="true" tabindex="-1"></a>    [(<span class="st">"Control"</span>, control, <span class="st">"#375071"</span>), (<span class="st">"Pilot"</span>, pilot, <span class="st">"#007EF5"</span>)]</span>
+<span id="cb17-207"><a href="#cb17-207" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb17-208"><a href="#cb17-208" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> i <span class="op">+</span> rng.uniform(<span class="op">-</span><span class="fl">0.06</span>, <span class="fl">0.06</span>, <span class="bu">len</span>(vals))</span>
+<span id="cb17-209"><a href="#cb17-209" aria-hidden="true" tabindex="-1"></a>    ax.scatter(x, vals, color<span class="op">=</span>col, s<span class="op">=</span><span class="dv">35</span>, alpha<span class="op">=</span><span class="fl">0.85</span>)</span>
+<span id="cb17-210"><a href="#cb17-210" aria-hidden="true" tabindex="-1"></a>    ax.hlines(vals.mean(), i <span class="op">-</span> <span class="fl">0.15</span>, i <span class="op">+</span> <span class="fl">0.15</span>, color<span class="op">=</span>CQC_INK, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb17-211"><a href="#cb17-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-212"><a href="#cb17-212" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="st">"Control"</span>, <span class="st">"Pilot"</span>])</span>
+<span id="cb17-213"><a href="#cb17-213" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Mean patient experience score (0-100)"</span>)</span>
+<span id="cb17-214"><a href="#cb17-214" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb17-215"><a href="#cb17-215" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb17-216"><a href="#cb17-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-217"><a href="#cb17-217" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb17-218"><a href="#cb17-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-219"><a href="#cb17-219" aria-hidden="true" tabindex="-1"></a>The picture already carries most of the analysis: the pilot group sits higher on average, the groups overlap, and the control group is noticeably more variable – which is precisely why the test should be Welch's.</span>
+<span id="cb17-220"><a href="#cb17-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-221"><a href="#cb17-221" aria-hidden="true" tabindex="-1"></a><span class="fu">### Run the test and size the effect</span></span>
+<span id="cb17-222"><a href="#cb17-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-223"><a href="#cb17-223" aria-hidden="true" tabindex="-1"></a>:::: {.panel-tabset group="language"}</span>
+<span id="cb17-224"><a href="#cb17-224" aria-hidden="true" tabindex="-1"></a><span class="fu">## R</span></span>
+<span id="cb17-227"><a href="#cb17-227" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-228"><a href="#cb17-228" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: ttest-run</span></span>
+<span id="cb17-229"><a href="#cb17-229" aria-hidden="true" tabindex="-1"></a><span class="co"># Welch two-sample t-test (R's default)</span></span>
+<span id="cb17-230"><a href="#cb17-230" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">t.test</span>(pilot, control)</span>
+<span id="cb17-231"><a href="#cb17-231" aria-hidden="true" tabindex="-1"></a>result</span>
+<span id="cb17-232"><a href="#cb17-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-233"><a href="#cb17-233" aria-hidden="true" tabindex="-1"></a><span class="co"># Effect size: Cohen's d (pooled standard deviation)</span></span>
+<span id="cb17-234"><a href="#cb17-234" aria-hidden="true" tabindex="-1"></a>s_pooled <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((<span class="fu">var</span>(pilot) <span class="sc">*</span> <span class="dv">9</span> <span class="sc">+</span> <span class="fu">var</span>(control) <span class="sc">*</span> <span class="dv">9</span>) <span class="sc">/</span> <span class="dv">18</span>)</span>
+<span id="cb17-235"><a href="#cb17-235" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> (<span class="fu">mean</span>(pilot) <span class="sc">-</span> <span class="fu">mean</span>(control)) <span class="sc">/</span> s_pooled</span>
+<span id="cb17-236"><a href="#cb17-236" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Difference in means:"</span>, <span class="fu">round</span>(<span class="fu">mean</span>(pilot) <span class="sc">-</span> <span class="fu">mean</span>(control), <span class="dv">1</span>),</span>
+<span id="cb17-237"><a href="#cb17-237" aria-hidden="true" tabindex="-1"></a>    <span class="st">"points; Cohen's d:"</span>, <span class="fu">round</span>(d, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb17-238"><a href="#cb17-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-239"><a href="#cb17-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-240"><a href="#cb17-240" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
+<span id="cb17-243"><a href="#cb17-243" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb17-244"><a href="#cb17-244" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: ttest-run-py</span></span>
+<span id="cb17-245"><a href="#cb17-245" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb17-246"><a href="#cb17-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-247"><a href="#cb17-247" aria-hidden="true" tabindex="-1"></a><span class="co"># Welch two-sample t-test (equal_var=False)</span></span>
+<span id="cb17-248"><a href="#cb17-248" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> stats.ttest_ind(pilot, control, equal_var<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb17-249"><a href="#cb17-249" aria-hidden="true" tabindex="-1"></a>ci <span class="op">=</span> result.confidence_interval()</span>
+<span id="cb17-250"><a href="#cb17-250" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"t = </span><span class="sc">{</span>result<span class="sc">.</span>statistic<span class="sc">:.2f}</span><span class="ss">, df = </span><span class="sc">{</span>result<span class="sc">.</span>df<span class="sc">:.1f}</span><span class="ss">, "</span></span>
+<span id="cb17-251"><a href="#cb17-251" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"p = </span><span class="sc">{</span>result<span class="sc">.</span>pvalue<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb17-252"><a href="#cb17-252" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"95% CI for the difference: </span><span class="sc">{</span>ci<span class="sc">.</span>low<span class="sc">:.2f}</span><span class="ss"> to </span><span class="sc">{</span>ci<span class="sc">.</span>high<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb17-253"><a href="#cb17-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-254"><a href="#cb17-254" aria-hidden="true" tabindex="-1"></a><span class="co"># Effect size: Cohen's d (pooled standard deviation)</span></span>
+<span id="cb17-255"><a href="#cb17-255" aria-hidden="true" tabindex="-1"></a>s_pooled <span class="op">=</span> np.sqrt((pilot.var(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">*</span> <span class="dv">9</span> <span class="op">+</span> control.var(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">*</span> <span class="dv">9</span>) <span class="op">/</span> <span class="dv">18</span>)</span>
+<span id="cb17-256"><a href="#cb17-256" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> (pilot.mean() <span class="op">-</span> control.mean()) <span class="op">/</span> s_pooled</span>
+<span id="cb17-257"><a href="#cb17-257" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Difference in means: </span><span class="sc">{</span>pilot<span class="sc">.</span>mean() <span class="op">-</span> control<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss"> points; "</span></span>
+<span id="cb17-258"><a href="#cb17-258" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"Cohen's d: </span><span class="sc">{</span>d<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb17-259"><a href="#cb17-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-260"><a href="#cb17-260" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb17-261"><a href="#cb17-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-262"><a href="#cb17-262" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interpret</span></span>
+<span id="cb17-263"><a href="#cb17-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-264"><a href="#cb17-264" aria-hidden="true" tabindex="-1"></a>Lead with the estimate: pilot practices scored about 6.8 points higher on average, with a 95 per cent confidence interval from roughly 1.9 to 11.8 points. The interval excludes zero – equivalently, the test is significant (t ≈ 2.95, p ≈ 0.011) – so the difference is unlikely to be noise. But read the interval honestly: the data are consistent with anything from a modest 2-point gap to a substantial 12-point one. Cohen's d ≈ 1.3 sounds impressive, yet with ten practices a side it is estimated as imprecisely as everything else here.</span>
+<span id="cb17-265"><a href="#cb17-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-266"><a href="#cb17-266" aria-hidden="true" tabindex="-1"></a>Then temper the causal reading, as the Rethinking box above argues: this establishes that pilot practices ended the year scoring higher, not that the programme caused it. Were the pilot sites selected at random, or did enthusiastic practices volunteer? Did they differ at baseline? A 6.8-point difference with this much honest context is a good case for a larger, better-designed evaluation – which is usually exactly what a pilot should earn.</span>
+<span id="cb17-267"><a href="#cb17-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-268"><a href="#cb17-268" aria-hidden="true" tabindex="-1"></a><span class="fu">## Many Comparisons: the Multiplicity Problem</span></span>
+<span id="cb17-269"><a href="#cb17-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-270"><a href="#cb17-270" aria-hidden="true" tabindex="-1"></a>Run one test at the conventional threshold and a true null has a 5 per cent chance of a false alarm. Run twenty – twenty indicators, twenty subgroups, twenty regions – and the chance that *at least one* comes up "significant" by luck alone is about 64 per cent. Multiplicity is how diligent, well-intentioned analysis manufactures findings out of noise, and two-group comparisons are especially prone to it because each one is so easy to run.</span>
+<span id="cb17-271"><a href="#cb17-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-272"><a href="#cb17-272" aria-hidden="true" tabindex="-1"></a>The defences, in the order to reach for them:</span>
+<span id="cb17-273"><a href="#cb17-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-274"><a href="#cb17-274" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Pre-specify.** Name the primary comparison before touching the data; everything else is exploratory and labelled as such. This is the cheapest and strongest defence.</span>
+<span id="cb17-275"><a href="#cb17-275" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Report everything.** All comparisons run, not just the survivors – a "significant" result means little without the denominator of attempts behind it.</span>
+<span id="cb17-276"><a href="#cb17-276" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Correct formally where verdicts matter.** The *Bonferroni correction* divides the significance threshold by the number of tests (20 tests → 0.05/20 = 0.0025 each): simple, defensible, and conservative – with many tests it can drown real effects. The *Benjamini–Hochberg* procedure controls the false discovery rate instead – the expected share of flagged results that are false – which suits screening contexts where some false alarms are tolerable but a flood is not. Choosing between them, and counting what the "family" of tests even is, is worth a Guild conversation when the stakes are real.</span>
+<span id="cb17-277"><a href="#cb17-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-278"><a href="#cb17-278" aria-hidden="true" tabindex="-1"></a>In routine profiling across many indicators, recall <span class="co">[</span><span class="ot">the corroboration posture from z-scoring</span><span class="co">](12-z-scoring.qmd)</span>: require signals to agree across sources before acting. Formal corrections are for the designed, verdict-bearing analyses – evaluations, published comparisons – where a stated error rate is part of the claim.</span>
+<span id="cb17-279"><a href="#cb17-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-280"><a href="#cb17-280" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning icon=false}</span>
+<span id="cb17-281"><a href="#cb17-281" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚙️ Overthinking: when the assumptions fail</span></span>
+<span id="cb17-282"><a href="#cb17-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-283"><a href="#cb17-283" aria-hidden="true" tabindex="-1"></a>**Non-normal data.** With small samples and visible skew, two routes exist. A transformation (log is the workhorse for right-skewed times and rates) often restores enough symmetry, at the price of interpreting results on the transformed scale – "a 15 per cent multiplicative difference" rather than "3 days". Or switch to the rank-based alternatives: *Mann–Whitney U* for two independent groups, *Wilcoxon signed-rank* for paired data. They trade a little power for robustness, and note they test a subtly different hypothesis – whether one group's values tend to exceed the other's, not whether means differ – which is often closer to the regulatory question anyway.</span>
+<span id="cb17-284"><a href="#cb17-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-285"><a href="#cb17-285" aria-hidden="true" tabindex="-1"></a>**Outliers.** A single wild value can swamp a ten-observation t-test. Do not delete it to rescue significance: <span class="co">[</span><span class="ot">investigate it</span><span class="co">](06-unusual-observations.qmd)</span>, report results with and without it, and if the two disagree, say so – that disagreement *is* the finding.</span>
+<span id="cb17-286"><a href="#cb17-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-287"><a href="#cb17-287" aria-hidden="true" tabindex="-1"></a>**Clustered data.** No alternative test fixes broken independence. Patients within practices, residents within homes, repeated months within a provider – these need the right unit of analysis (aggregate to one value per cluster, as the worked example does) or multilevel models (Guild). A t-test on clustered observations is not conservative or approximate; it is wrong, and wrong in the flattering direction.</span>
+<span id="cb17-288"><a href="#cb17-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-289"><a href="#cb17-289" aria-hidden="true" tabindex="-1"></a>**Equivalence is not a failed difference test.** "No significant difference" never demonstrates that two groups are the same – the absence-of-evidence trap again. If sameness is the actual claim (a cheaper service performs *no worse*, say), that is equivalence or non-inferiority testing, which reverses the burden of proof and needs its own design. Raise it with the Guild before promising anyone a "no difference" conclusion.</span>
+<span id="cb17-290"><a href="#cb17-290" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb17-291"><a href="#cb17-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-292"><a href="#cb17-292" aria-hidden="true" tabindex="-1"></a><span class="fu">## Documenting Your Analysis</span></span>
+<span id="cb17-293"><a href="#cb17-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-294"><a href="#cb17-294" aria-hidden="true" tabindex="-1"></a>For QA purposes, record: the question and the two groups (or target), with the unit of analysis stated; the flavour of test and why; the assumption checks and what they showed; *every* comparison run, including the non-significant ones; the estimate with its confidence interval, the test statistics, and the effect size; and the practical interpretation, including the limits on any causal reading. The Code of Practice's sound-methods obligations are satisfied by exactly this trail – and a pilot evaluation that may drive investment decisions deserves nothing less.</span>
+<span id="cb17-295"><a href="#cb17-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-296"><a href="#cb17-296" aria-hidden="true" tabindex="-1"></a><span class="fu">## Related Approaches</span></span>
+<span id="cb17-297"><a href="#cb17-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-298"><a href="#cb17-298" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Comparing many providers at once → <span class="co">[</span><span class="ot">z-scoring and funnel plots</span><span class="co">](12-z-scoring.qmd)</span>; running a t-test per provider is the multiplicity problem in costume.</span>
+<span id="cb17-299"><a href="#cb17-299" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Following one provider or system over time → <span class="co">[</span><span class="ot">statistical process control</span><span class="co">](13-spc-basics.qmd)</span>; a before/after question with an ongoing data stream is usually better answered by a chart with frozen baseline limits.</span>
+<span id="cb17-300"><a href="#cb17-300" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Relationships between two continuous variables → <span class="co">[</span><span class="ot">correlation</span><span class="co">](15-correlation.qmd)</span>.</span>
+<span id="cb17-301"><a href="#cb17-301" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Foundations → <span class="co">[</span><span class="ot">statistical inference</span><span class="co">](07-statistical-inference.qmd)</span> for p-values, intervals, and the error trade-off; <span class="co">[</span><span class="ot">distribution shape</span><span class="co">](05-distribution-shape.qmd)</span> for skewness and transformation.</span>
+<span id="cb17-302"><a href="#cb17-302" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Complete workflows → <span class="co">[</span><span class="ot">Example 4: Medication Safety Pilot</span><span class="co">](../examples/example-04-complete.qmd)</span> (paired) and <span class="co">[</span><span class="ot">Example 5: Regional A&amp;E Performance</span><span class="co">](../examples/example-05-complete.qmd)</span> (two-sample).</span>
+<span id="cb17-303"><a href="#cb17-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-304"><a href="#cb17-304" aria-hidden="true" tabindex="-1"></a><span class="fu">## When to Seek Support from the Guild</span></span>
+<span id="cb17-305"><a href="#cb17-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-306"><a href="#cb17-306" aria-hidden="true" tabindex="-1"></a>Raise your analysis with the Quantitative Analytics and Statistics Guild (the Guild) at a Quant Clinic session when: you need more than two groups (ANOVA), adjustment for confounders (regression), or repeated measures (multilevel models); the data are clustered and aggregation to one value per cluster loses the question; you need a power calculation before a pilot; the claim is equivalence rather than difference; the comparisons multiply and you need a correction strategy; or assumptions fail and you are unsure which alternative answers the question actually asked.</span>
+<span id="cb17-307"><a href="#cb17-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-308"><a href="#cb17-308" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further Reading</span></span>
+<span id="cb17-309"><a href="#cb17-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-310"><a href="#cb17-310" aria-hidden="true" tabindex="-1"></a><span class="fu">### Internal CQC resources</span></span>
+<span id="cb17-311"><a href="#cb17-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-312"><a href="#cb17-312" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The QA Framework sets the documentation standards for comparative analyses; see <span class="co">[</span><span class="ot">How to Use This Book</span><span class="co">](../getting-started.qmd)</span> for how to access support.</span>
+<span id="cb17-313"><a href="#cb17-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-314"><a href="#cb17-314" aria-hidden="true" tabindex="-1"></a><span class="fu">### Comparison of means and its assumptions</span></span>
+<span id="cb17-315"><a href="#cb17-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-316"><a href="#cb17-316" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Altman, D.G. (1991). *Practical Statistics for Medical Research*. Chapman &amp; Hall. (Chapter 9 remains the standard treatment of comparing groups in health data.)</span>
+<span id="cb17-317"><a href="#cb17-317" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>HM Treasury (2015). *The Aqua Book: guidance on producing quality analysis for government.* (Uncertainty and verification expectations for government analysis.)</span>
+<span id="cb17-318"><a href="#cb17-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-319"><a href="#cb17-319" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimation, significance, and multiplicity</span></span>
+<span id="cb17-320"><a href="#cb17-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-321"><a href="#cb17-321" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Cumming, G. (2014). "The new statistics: why and how." *Psychological Science*, 25(1), 7–29. (The estimate-first reporting posture this chapter follows.)</span>
+<span id="cb17-322"><a href="#cb17-322" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Greenland, S. et al. (2016). "Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations." *European Journal of Epidemiology*, 31, 337–350.</span>
+<span id="cb17-323"><a href="#cb17-323" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Wasserstein, R.L. &amp; Lazar, N.A. (2016). "The ASA's statement on p-values: context, process, and purpose." *The American Statistician*, 70(2), 129–133.</span>
+<span id="cb17-324"><a href="#cb17-324" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Bland, J.M. &amp; Altman, D.G. (1995). "Multiple significance tests: the Bonferroni method." *BMJ*, 310(6973), 170.</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

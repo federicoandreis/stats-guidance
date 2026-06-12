@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>11&nbsp; Generative AI in Analytical Work – CQC Statistical Guidance</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/12-z-scoring.html" rel="next">
+<link href="../chapters/10-tooling.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5c568ff3620675dfea6bfa6c73bdaad4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../custom.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/01-data-types.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="../chapters/11-generative-ai.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Generative AI in Analytical Work</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">CQC Statistical Guidance</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CQC Statistical Guidance</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to Use This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quick-reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quick Reference</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Types &amp; Implications</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-data-visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualising Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Central Tendency and Position</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-variation-uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measuring Variation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-distribution-shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distribution Shape</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-unusual-observations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unusual Observations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-statistical-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Statistical Inference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-missing-data-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Handling Missing Data: Foundations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-qa-principles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Quality Assurance Principles</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-tooling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Analytical Tooling at CQC</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-generative-ai.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Generative AI in Analytical Work</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Part II: Core Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-z-scoring.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparing Provider Performance: Z-scoring</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-spc-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Monitoring Trends Over Time: SPC Basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-t-tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparing Two Groups: t-tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-correlation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Exploring Relationships: Correlation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-outlier-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Outlier Detection Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-missing-data-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Missing Data: Computational Methods</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Part III: Worked Examples</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Worked Examples Library</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-01-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Example 1: GP Access Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-02-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Example 2: Care Home Falls Monitoring</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-03-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Example 3: Mental Health Wait Times</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-04-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Example 4: Medication Safety Pilot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-05-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Example 5: Regional A&amp;E Performance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-06-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Example 6: Ambulance Handover Delays</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-07-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Example 7: Infection Rates in Care Homes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-08-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Example 8: DoLS Application Trends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-09-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Example 9: Staffing and Quality Outcomes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-10-outliers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Example 10: Care Home Staffing Investigation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">References &amp; Resources</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-generative-ai" id="toc-sec-generative-ai" class="nav-link active" data-scroll-target="#sec-generative-ai"><span class="header-section-number">11.1</span> A Genuinely Useful Tool, and the Catch</a></li>
+  <li><a href="#a-model-that-sounds-right" id="toc-a-model-that-sounds-right" class="nav-link" data-scroll-target="#a-model-that-sounds-right"><span class="header-section-number">11.2</span> A Model That Sounds Right</a></li>
+  <li><a href="#what-it-is-good-for" id="toc-what-it-is-good-for" class="nav-link" data-scroll-target="#what-it-is-good-for"><span class="header-section-number">11.3</span> What It Is Good For</a>
+  <ul class="collapse">
+  <li><a href="#the-errors-that-dont-announce-themselves" id="toc-the-errors-that-dont-announce-themselves" class="nav-link" data-scroll-target="#the-errors-that-dont-announce-themselves">The Errors That Don’t Announce Themselves</a></li>
+  <li><a href="#when-it-invents-the-method" id="toc-when-it-invents-the-method" class="nav-link" data-scroll-target="#when-it-invents-the-method">When It Invents the Method</a></li>
+  </ul></li>
+  <li><a href="#the-line-you-do-not-cross" id="toc-the-line-you-do-not-cross" class="nav-link" data-scroll-target="#the-line-you-do-not-cross"><span class="header-section-number">11.4</span> The Line You Do Not Cross</a></li>
+  <li><a href="#keeping-data-safe" id="toc-keeping-data-safe" class="nav-link" data-scroll-target="#keeping-data-safe"><span class="header-section-number">11.5</span> Keeping Data Safe</a></li>
+  <li><a href="#where-this-leads" id="toc-where-this-leads" class="nav-link" data-scroll-target="#where-this-leads"><span class="header-section-number">11.6</span> Where This Leads</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/01-data-types.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="../chapters/11-generative-ai.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Generative AI in Analytical Work</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Generative AI in Analytical Work</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Learning outcomes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After reading this chapter you will be able to:</p>
+<ul>
+<li>describe, in plain terms, where <strong>generative AI</strong> tools and the <strong>large language model</strong> behind them come from, and the basic limitations that follow;</li>
+<li>describe the <strong>main ways generative AI can support</strong> quantitative analytical work, and the checking each of those uses demands;</li>
+<li>recognise the line that must not be crossed: the <strong>analyst, never the tool, owns the analysis and every decision within it</strong>;</li>
+<li>apply the <strong>data-governance and transparency expectations</strong> for AI use – keeping sensitive material in approved tools, and owning and recording the choices you make.</li>
+</ul>
+</div>
+</div>
+<section id="sec-generative-ai" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="sec-generative-ai"><span class="header-section-number">11.1</span> A Genuinely Useful Tool, and the Catch</h2>
+<p><strong>Generative AI</strong> – the family of tools that produce text, code, and images on demand, and that most people first met through chatbots – has arrived in analytical work, and it is genuinely useful. What sets these tools apart from anything analysts have had before is how you work with them: you instruct them in ordinary language, and they take in unstructured material – notes, documents, a half-formed question – rather than only neatly arranged data. That is the real change. CQC analysts have access to an enterprise version of Microsoft Copilot, and Microsoft Fabric offers AI features alongside the notebooks described in the chapter on <a href="../chapters/10-tooling.html">analytical tooling</a>. These tools can draft code in seconds, explain an unfamiliar function, suggest an approach you had not considered, and talk through a problem at any hour. Many analysts will be tempted to lean on them, and for good reason: used well, they remove friction from the parts of the work that are mechanical rather than thoughtful.</p>
+<p>This chapter is about using them well, because the same fluency that makes them useful makes them dangerous. CQC does not yet have an official internal policy on generative AI in analytical work; what follows is professional guidance grounded in the national picture, not an internal rulebook. The catch is simple to state and easy to forget: these tools are confident whether or not they are correct, and confidence is a signal we tend to read as competence. An analysis that <em>runs without errors</em> and <em>sounds right</em> can still be wrong, and a tool that helps you produce one quickly has not helped you at all.</p>
+<p>The rest of this chapter rests on a single idea, so it is worth stating plainly before going further: a generative AI tool is itself a statistical model, and likely the most persuasive one you will ever work with. Everything this guidance asks you to do with a statistical method – understand its assumptions, check that they hold, and never trust an output you cannot defend – applies here, and applies more sharply, because this model is extremely complex under the bonnet, and built to sound very, very convincing.</p>
+</section>
+<section id="a-model-that-sounds-right" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="a-model-that-sounds-right"><span class="header-section-number">11.2</span> A Model That Sounds Right</h2>
+<p>It helps to be precise about what these tools are. A <strong>large language model</strong> (LLM) is the engine inside most AI-powered applications, think for example of an AI chatbot like Copilot, or Claude. It is built by training a statistical model on an enormous quantity of data until it becomes very good at one narrow task: given a stretch of text, predict the next word in the sequence. A response is produced by doing this over and over – predict a word, add it, predict the next – which is why the output reads as fluent prose. The UK government’s own <a href="https://www.gov.uk/government/publications/ai-playbook-for-the-uk-government/artificial-intelligence-playbook-for-the-uk-government-html">AI Playbook</a> puts it without euphemism: these systems “generate content by returning the most likely output for a given input based on patterns learnt from training data, <em>without actual understanding</em>.”</p>
+<p>Two consequences follow, and both matter for analytical work. First, the model is optimising for a <em>plausible-sounding</em> answer, not a <em>true</em> one – and most of the time, on common questions, plausible and true coincide, which is precisely what lulls you. Second, when they do not coincide, the model has no way to tell you. It cannot signal that it is guessing, because from the inside every answer is the same kind of object: a likely continuation. This is why a chatbot will, with the same even confidence, give you a correct formula and then invent a citation to support it. The fabrication – often called a <strong>hallucination</strong> – is not a malfunction. It is the machinery working exactly as designed, on a question where the most likely-sounding continuation happens not to be true.</p>
+<p>The AI Task Force of the Royal Statistical Society makes this the centre of its argument in <a href="https://rss.org.uk/RSS/media/File-library/Policy/2026/AI-is-Statistics-FINAL.pdf"><em>AI is Statistics</em></a>: these tools are “fluent, confident and persuasive – even when they are completely wrong,” and they have “no natural way to express uncertainty or to signal that they are operating outside their zone of competence.” The remedy proposed is the habit this whole book is trying to build – a statistical mindset that asks, of any result: what is this based on? how reliable is it? does it square with what we already know? how much would it change if the inputs changed slightly? what assumptions sit underneath it? You would ask these questions of an analytical output. The argument of this chapter is that you must ask them of a chatbot too.</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>⚙️ Overthinking: What an LLM Is, Statistically
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is worth seeing why “predicts the next word” produces something that feels like thought. During training, the model is shown vast amounts of text with words hidden, and its internal settings are adjusted, billions of times, until its predictions of the hidden words match the real ones as closely as possible. What it learns in the process is a fantastically detailed map of which words tend to follow which – a map detailed enough to encode grammar, facts, argument structure, and the cadence of human writing, all as statistical regularities.</p>
+<p>When you send a <strong>prompt</strong> - a set of instructions, typically expressed in natural language - the model does not look anything up and does not reason in the way a person does. It computes, for its entire vocabulary, how likely each word is to come next given everything so far, and samples from that distribution – then repeats. There is no separate store of “things that are true” being consulted (unless a bespoke one is built for this explicit purpose); truth and falsehood are both just patterns in the text it was trained on. A further wrinkle: these models are calibrated using human feedback, and people tend to rate agreeable, confident-sounding answers more highly. The result is a measurable tendency, documented in <a href="https://arxiv.org/abs/2310.13548">Anthropic’s research on the topic</a>, towards <strong>sycophancy</strong> – telling you what you seem to want to hear. A tool that is both fluent and eager to agree is a poor sceptic, which matters the moment you try to use it as one.</p>
+</div>
+</div>
+</section>
+<section id="what-it-is-good-for" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="what-it-is-good-for"><span class="header-section-number">11.3</span> What It Is Good For</h2>
+<p>None of this means the tools are off-limits. It means their useful range is the work where a wrong answer is cheap and easy to catch, and their dangerous range is the work where a wrong answer is expensive and hard to spot. Within the safe range, the gains are real. Brainstorming is a natural fit: ask for five ways to approach a problem and you get a quick map of the territory, from which <em>you</em> choose, for reasons you can state. Suggesting methods is similar – a starting point for your own reading, not a verdict. Explaining unfamiliar code or an error message can turn an hour of searching into a minute. Drafting boilerplate code – the repetitive scaffolding around the real analysis – is often faster to check than to write.</p>
+<p>Notice what these uses share: in every one, the analyst remains the person who decides, and the AI’s output is an <em>input to your judgement</em>, not a substitute for it. The verification is built in because you treat the answer as a suggestion to be weighed, not an instruction to be followed. The danger arrives when that relationship quietly inverts – when the suggestion becomes the decision because checking it felt like unnecessary friction.</p>
+<p>Red-teaming – asking the tool to find the flaws in your reasoning – deserves a particular mention. It sounds like the perfect safeguard, and it can surface things you missed or steer you to consider alternatives that you might have overlooked. But a tool that tends towards agreement is a weak adversary: it may reassure you precisely where you most need challenge. Use it to generate candidate objections, then test them yourself; do not mistake “the AI couldn’t find a problem” for “there is no problem.” Agreement from a model built to be agreeable is not evidence.</p>
+<section id="the-errors-that-dont-announce-themselves" class="level3">
+<h3 class="anchored" data-anchor-id="the-errors-that-dont-announce-themselves">The Errors That Don’t Announce Themselves</h3>
+<p>There are two ways the help a tool gives you can be wrong, and they are not equally dangerous. One is loud: say you ask for some code, and what comes back simply does not work – it breaks, or refuses to run, and you know at once that something is off. That kind of error is almost harmless, precisely because it announces itself. The dangerous kind is silent: the work runs through smoothly, produces a clean and convincing result, and gives no hint that it has answered a different question from the one you asked.</p>
+<p>Picture asking a tool for the overall performance score across a set of services of very different sizes – a few large, many small. Back comes a tidy figure, sensibly rounded, stated with quiet confidence. Nothing about it looks wrong: it is an entirely ordinary-looking number, sitting in the range you expected. But suppose it has taken a plain average of each service’s percentage, giving a service with a handful of responses the same weight as one with thousands, when the question called for an average weighted by how many people each score was based on. The two answers can differ enough to matter, and the wrong one carries no warning label. Only someone who understands what the average is meant to represent will notice that a perfectly clean result has answered the wrong question.</p>
+<p>The lesson is not “do not use these tools.” It is that accepting an output means owning it: understanding what it actually did, and confirming it did what the analysis needed – the <em>verification</em> and <em>validation</em> the <a href="../chapters/09-qa-principles.html">quality assurance principles</a> chapter sets out, applied with extra care precisely because the result arrived looking finished. The answer that breaks is the one you can trust to tell you something is wrong; the answer that runs is the one to check.</p>
+</section>
+<section id="when-it-invents-the-method" class="level3">
+<h3 class="anchored" data-anchor-id="when-it-invents-the-method">When It Invents the Method</h3>
+<p>The same confidence extends to methods and to the literature. Ask a chatbot how to compare satisfaction scores across three providers and it may recommend a one-way analysis of variance, report how to read the result, and cite a methods paper that looks authoritative – author, journal, year, all present. Two things can be wrong at once. If the satisfaction scores are an <a href="../chapters/01-data-types.html">ordinal</a> scale rather than genuine quantities, analysis of variance is not the appropriate tool, and the chatbot has not paused to ask which kind of data you have, because it cannot. And the citation may simply not exist: a plausible-sounding combination of a real-looking author and a real-looking title that was never written. An analyst who knows the levels-of-measurement ladder catches the first problem; an analyst who checks the reference catches the second. An analyst who trusts the fluent answer inherits both.</p>
+</section>
+</section>
+<section id="the-line-you-do-not-cross" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="the-line-you-do-not-cross"><span class="header-section-number">11.4</span> The Line You Do Not Cross</h2>
+<p>There is one boundary that does not move with the stakes or the verification: <strong>never let a generative AI tool run the analysis for you.</strong> It can help you think, draft, and check; it must not be the thing that produces the finding. If you take code from it, take the code – then verify every line and run it yourself, on your data, in your environment, until you understand and trust each step. The output that goes into a piece of CQC analysis must be one you can explain and defend as though you had written it from scratch.</p>
+<p>This is the principle the AI Playbook calls “meaningful human control at the right stages,” and it is the same principle behind the assurance roles in the <a href="../chapters/09-qa-principles.html">quality assurance principles</a> chapter: a human being is accountable for the analysis, and accountability cannot be delegated to a tool that does not understand what it produced. The temptation runs the other way – the more capable the tool feels, the more it invites you to hand over not just the typing but the thinking. Handing over the typing is efficiency. Handing over the thinking is the failure this chapter exists to warn against, and it compounds: an unexamined output becomes an input to the next step, and a small error you never understood propagates into a result you cannot account for.</p>
+</section>
+<section id="keeping-data-safe" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="keeping-data-safe"><span class="header-section-number">11.5</span> Keeping Data Safe</h2>
+<p>In this context, it is tempting to picture data-governance considerations as simply being about feeding datasets into a tool. In practice you will rarely do that – partly because you should not be letting the tool run the analysis, so it has no need of your data, and partly because these tools have practical limits on how much they can take in at once. The more realistic, and more useful, case is sharing <em>context</em> to guide the work: an analysis plan, a data dictionary or code book, a description of what the variables mean, a draft write-up you want a second read of. That is where these tools genuinely help, and it is subject to exactly the same rules.</p>
+<p>Those rules are simple to state. CQC’s enterprise Microsoft Copilot and the AI features within Fabric are configured to keep information inside CQC’s environment; public, consumer chatbots are not, and anything typed into them may leave CQC’s control entirely. So <strong>CQC information – provider data, unpublished findings, internal plans and codebooks, anything not already public – goes only into the approved, enterprise tools, and never into an external AI application.</strong> Some enterprise features may depend on specific licences; whether a particular tool is cleared to hold a particular kind of information is exactly the question to settle <em>before</em> you use it, with the Practice Lead and the Platform and Solutions team, not after. Pasting sensitive material into a chat box may feel weightless, but it is not.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🤔 Rethinking: Whose Judgement Was It?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If a tool shaped a piece of analysis, that should be visible in the record – and the part that needs particular care is not <em>what</em> was decided but <em>why</em>. An audit trail that shows a particular method was chosen is defensible when the reason is “the analyst chose it because it fits the data and the question in this and this other ways”, and not when the honest reason is “the chatbot suggested it and we went with it.” The two can potentially produce the identical result, yet one is professional judgement and the other is its absence.</p>
+<p>The distinction is not that AI may not be consulted – it may. It is that a suggestion becomes a sound analytical decision only once an analyst has understood it, tested it against what they know, and made it their own. At that point the choice is genuinely theirs, and the record should say so: a sentence noting where and what a tool was used for – “an initial method shortlist came from a chatbot and was checked against this guidance”; “Copilot drafted code that was then reviewed and tested” – is part of being transparent about how the work was done, which is one of the standards under the <a href="https://code.statisticsauthority.gov.uk/">Code of Practice for Statistics</a>’ Trustworthiness pillar. Owning your choices and recording them honestly is what lets you use these tools without quietly outsourcing the thing you are accountable for.</p>
+</div>
+</div>
+</section>
+<section id="where-this-leads" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="where-this-leads"><span class="header-section-number">11.6</span> Where This Leads</h2>
+<p>The chapters that follow are where these tools will tempt you most, because each method involves choices an AI will happily make on your behalf. The argument of this chapter is worth carrying forward intact: treat a generative AI tool as you would any statistical method in this guidance – something to understand before you rely on it, and whose output you check rather than trust on sight. It is a tool to think <em>with</em>, never one to decide <em>for</em> you or to do the work <em>for</em> you.</p>
+<p>What the tool cannot supply is the thing this guidance advocates as irrenunciable: the judgement to know what a result means, whether it can be believed, and how to defend it. That judgement is what makes someone an analyst rather than a conduit for a machine’s most likely answer. Generative AI can make a good analyst faster. It cannot make anyone an analyst, and it can make a careless one quietly, fluently wrong.</p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script>
+(function () {
+  'use strict';
+
+  function init() {
+    var sidebar = document.getElementById('quarto-margin-sidebar');
+    if (!sidebar) return;
+
+    var tocLinks = Array.from(sidebar.querySelectorAll('a[href^="#"]'));
+    if (!tocLinks.length) return;
+
+    var sectionIds = tocLinks
+      .map(function (a) { return a.getAttribute('href').slice(1); })
+      .filter(Boolean);
+
+    var sections = sectionIds
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+
+    if (!sections.length) return;
+
+    function setActive(id) {
+      tocLinks.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+
+    // Track the topmost visible section
+    var visible = new Set();
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            visible.add(e.target.id);
+          } else {
+            visible.delete(e.target.id);
+          }
+        });
+        // Activate the first section in document order that is visible
+        for (var i = 0; i < sections.length; i++) {
+          if (visible.has(sections[i].id)) {
+            setActive(sections[i].id);
+            return;
+          }
+        }
+      },
+      { rootMargin: '0px 0px -70% 0px', threshold: 0 }
+    );
+
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/10-tooling.html" class="pagination-link" aria-label="Analytical Tooling at CQC">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Analytical Tooling at CQC</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/12-z-scoring.html" class="pagination-link" aria-label="Comparing Provider Performance: Z-scoring">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparing Provider Performance: Z-scoring</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Generative AI in Analytical Work"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning outcomes</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>After reading this chapter you will be able to:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>describe, in plain terms, where **generative AI** tools and the **large language model** behind them come from, and the basic limitations that follow;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>describe the **main ways generative AI can support** quantitative analytical work, and the checking each of those uses demands;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>recognise the line that must not be crossed: the **analyst, never the tool, owns the analysis and every decision within it**;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>apply the **data-governance and transparency expectations** for AI use – keeping sensitive material in approved tools, and owning and recording the choices you make.</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## A Genuinely Useful Tool, and the Catch {#sec-generative-ai}</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>**Generative AI** – the family of tools that produce text, code, and images on demand, and that most people first met through chatbots – has arrived in analytical work, and it is genuinely useful. What sets these tools apart from anything analysts have had before is how you work with them: you instruct them in ordinary language, and they take in unstructured material – notes, documents, a half-formed question – rather than only neatly arranged data. That is the real change. CQC analysts have access to an enterprise version of Microsoft Copilot, and Microsoft Fabric offers AI features alongside the notebooks described in the chapter on <span class="co">[</span><span class="ot">analytical tooling</span><span class="co">](10-tooling.qmd)</span>. These tools can draft code in seconds, explain an unfamiliar function, suggest an approach you had not considered, and talk through a problem at any hour. Many analysts will be tempted to lean on them, and for good reason: used well, they remove friction from the parts of the work that are mechanical rather than thoughtful.</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>This chapter is about using them well, because the same fluency that makes them useful makes them dangerous. CQC does not yet have an official internal policy on generative AI in analytical work; what follows is professional guidance grounded in the national picture, not an internal rulebook. The catch is simple to state and easy to forget: these tools are confident whether or not they are correct, and confidence is a signal we tend to read as competence. An analysis that *runs without errors* and *sounds right* can still be wrong, and a tool that helps you produce one quickly has not helped you at all.</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>The rest of this chapter rests on a single idea, so it is worth stating plainly before going further: a generative AI tool is itself a statistical model, and likely the most persuasive one you will ever work with. Everything this guidance asks you to do with a statistical method – understand its assumptions, check that they hold, and never trust an output you cannot defend – applies here, and applies more sharply, because this model is extremely complex under the bonnet, and built to sound very, very convincing.</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">## A Model That Sounds Right</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>It helps to be precise about what these tools are. A **large language model** (LLM) is the engine inside most AI-powered applications, think for example of an AI chatbot like Copilot, or Claude. It is built by training a statistical model on an enormous quantity of data until it becomes very good at one narrow task: given a stretch of text, predict the next word in the sequence. A response is produced by doing this over and over – predict a word, add it, predict the next – which is why the output reads as fluent prose. The UK government's own <span class="co">[</span><span class="ot">AI Playbook</span><span class="co">](https://www.gov.uk/government/publications/ai-playbook-for-the-uk-government/artificial-intelligence-playbook-for-the-uk-government-html)</span> puts it without euphemism: these systems "generate content by returning the most likely output for a given input based on patterns learnt from training data, *without actual understanding*."</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>Two consequences follow, and both matter for analytical work. First, the model is optimising for a *plausible-sounding* answer, not a *true* one – and most of the time, on common questions, plausible and true coincide, which is precisely what lulls you. Second, when they do not coincide, the model has no way to tell you. It cannot signal that it is guessing, because from the inside every answer is the same kind of object: a likely continuation. This is why a chatbot will, with the same even confidence, give you a correct formula and then invent a citation to support it. The fabrication – often called a **hallucination** – is not a malfunction. It is the machinery working exactly as designed, on a question where the most likely-sounding continuation happens not to be true.</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>The AI Task Force of the Royal Statistical Society makes this the centre of its argument in <span class="co">[</span><span class="ot">*AI is Statistics*</span><span class="co">](https://rss.org.uk/RSS/media/File-library/Policy/2026/AI-is-Statistics-FINAL.pdf)</span>: these tools are "fluent, confident and persuasive – even when they are completely wrong," and they have "no natural way to express uncertainty or to signal that they are operating outside their zone of competence." The remedy proposed is the habit this whole book is trying to build – a statistical mindset that asks, of any result: what is this based on? how reliable is it? does it square with what we already know? how much would it change if the inputs changed slightly? what assumptions sit underneath it? You would ask these questions of an analytical output. The argument of this chapter is that you must ask them of a chatbot too.</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning icon=false}</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚙️ Overthinking: What an LLM Is, Statistically</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>It is worth seeing why "predicts the next word" produces something that feels like thought. During training, the model is shown vast amounts of text with words hidden, and its internal settings are adjusted, billions of times, until its predictions of the hidden words match the real ones as closely as possible. What it learns in the process is a fantastically detailed map of which words tend to follow which – a map detailed enough to encode grammar, facts, argument structure, and the cadence of human writing, all as statistical regularities.</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>When you send a **prompt** - a set of instructions, typically expressed in natural language - the model does not look anything up and does not reason in the way a person does. It computes, for its entire vocabulary, how likely each word is to come next given everything so far, and samples from that distribution – then repeats. There is no separate store of "things that are true" being consulted (unless a bespoke one is built for this explicit purpose); truth and falsehood are both just patterns in the text it was trained on. A further wrinkle: these models are calibrated using human feedback, and people tend to rate agreeable, confident-sounding answers more highly. The result is a measurable tendency, documented in [Anthropic's research on the topic](https://arxiv.org/abs/2310.13548), towards **sycophancy** – telling you what you seem to want to hear. A tool that is both fluent and eager to agree is a poor sceptic, which matters the moment you try to use it as one.</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## What It Is Good For</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>None of this means the tools are off-limits. It means their useful range is the work where a wrong answer is cheap and easy to catch, and their dangerous range is the work where a wrong answer is expensive and hard to spot. Within the safe range, the gains are real. Brainstorming is a natural fit: ask for five ways to approach a problem and you get a quick map of the territory, from which *you* choose, for reasons you can state. Suggesting methods is similar – a starting point for your own reading, not a verdict. Explaining unfamiliar code or an error message can turn an hour of searching into a minute. Drafting boilerplate code – the repetitive scaffolding around the real analysis – is often faster to check than to write.</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>Notice what these uses share: in every one, the analyst remains the person who decides, and the AI's output is an *input to your judgement*, not a substitute for it. The verification is built in because you treat the answer as a suggestion to be weighed, not an instruction to be followed. The danger arrives when that relationship quietly inverts – when the suggestion becomes the decision because checking it felt like unnecessary friction.</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>Red-teaming – asking the tool to find the flaws in your reasoning – deserves a particular mention. It sounds like the perfect safeguard, and it can surface things you missed or steer you to consider alternatives that you might have overlooked. But a tool that tends towards agreement is a weak adversary: it may reassure you precisely where you most need challenge. Use it to generate candidate objections, then test them yourself; do not mistake "the AI couldn't find a problem" for "there is no problem." Agreement from a model built to be agreeable is not evidence.</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Errors That Don't Announce Themselves</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>There are two ways the help a tool gives you can be wrong, and they are not equally dangerous. One is loud: say you ask for some code, and what comes back simply does not work – it breaks, or refuses to run, and you know at once that something is off. That kind of error is almost harmless, precisely because it announces itself. The dangerous kind is silent: the work runs through smoothly, produces a clean and convincing result, and gives no hint that it has answered a different question from the one you asked.</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>Picture asking a tool for the overall performance score across a set of services of very different sizes – a few large, many small. Back comes a tidy figure, sensibly rounded, stated with quiet confidence. Nothing about it looks wrong: it is an entirely ordinary-looking number, sitting in the range you expected. But suppose it has taken a plain average of each service's percentage, giving a service with a handful of responses the same weight as one with thousands, when the question called for an average weighted by how many people each score was based on. The two answers can differ enough to matter, and the wrong one carries no warning label. Only someone who understands what the average is meant to represent will notice that a perfectly clean result has answered the wrong question.</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>The lesson is not "do not use these tools." It is that accepting an output means owning it: understanding what it actually did, and confirming it did what the analysis needed – the *verification* and *validation* the <span class="co">[</span><span class="ot">quality assurance principles</span><span class="co">](09-qa-principles.qmd)</span> chapter sets out, applied with extra care precisely because the result arrived looking finished. The answer that breaks is the one you can trust to tell you something is wrong; the answer that runs is the one to check.</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="fu">### When It Invents the Method</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>The same confidence extends to methods and to the literature. Ask a chatbot how to compare satisfaction scores across three providers and it may recommend a one-way analysis of variance, report how to read the result, and cite a methods paper that looks authoritative – author, journal, year, all present. Two things can be wrong at once. If the satisfaction scores are an <span class="co">[</span><span class="ot">ordinal</span><span class="co">](01-data-types.qmd)</span> scale rather than genuine quantities, analysis of variance is not the appropriate tool, and the chatbot has not paused to ask which kind of data you have, because it cannot. And the citation may simply not exist: a plausible-sounding combination of a real-looking author and a real-looking title that was never written. An analyst who knows the levels-of-measurement ladder catches the first problem; an analyst who checks the reference catches the second. An analyst who trusts the fluent answer inherits both.</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Line You Do Not Cross</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>There is one boundary that does not move with the stakes or the verification: **never let a generative AI tool run the analysis for you.** It can help you think, draft, and check; it must not be the thing that produces the finding. If you take code from it, take the code – then verify every line and run it yourself, on your data, in your environment, until you understand and trust each step. The output that goes into a piece of CQC analysis must be one you can explain and defend as though you had written it from scratch.</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>This is the principle the AI Playbook calls "meaningful human control at the right stages," and it is the same principle behind the assurance roles in the <span class="co">[</span><span class="ot">quality assurance principles</span><span class="co">](09-qa-principles.qmd)</span> chapter: a human being is accountable for the analysis, and accountability cannot be delegated to a tool that does not understand what it produced. The temptation runs the other way – the more capable the tool feels, the more it invites you to hand over not just the typing but the thinking. Handing over the typing is efficiency. Handing over the thinking is the failure this chapter exists to warn against, and it compounds: an unexamined output becomes an input to the next step, and a small error you never understood propagates into a result you cannot account for.</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Keeping Data Safe</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>In this context, it is tempting to picture data-governance considerations as simply being about feeding datasets into a tool. In practice you will rarely do that – partly because you should not be letting the tool run the analysis, so it has no need of your data, and partly because these tools have practical limits on how much they can take in at once. The more realistic, and more useful, case is sharing *context* to guide the work: an analysis plan, a data dictionary or code book, a description of what the variables mean, a draft write-up you want a second read of. That is where these tools genuinely help, and it is subject to exactly the same rules.</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>Those rules are simple to state. CQC's enterprise Microsoft Copilot and the AI features within Fabric are configured to keep information inside CQC's environment; public, consumer chatbots are not, and anything typed into them may leave CQC's control entirely. So **CQC information – provider data, unpublished findings, internal plans and codebooks, anything not already public – goes only into the approved, enterprise tools, and never into an external AI application.** Some enterprise features may depend on specific licences; whether a particular tool is cleared to hold a particular kind of information is exactly the question to settle *before* you use it, with the Practice Lead and the Platform and Solutions team, not after. Pasting sensitive material into a chat box may feel weightless, but it is not.</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🤔 Rethinking: Whose Judgement Was It?</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>If a tool shaped a piece of analysis, that should be visible in the record – and the part that needs particular care is not *what* was decided but *why*. An audit trail that shows a particular method was chosen is defensible when the reason is "the analyst chose it because it fits the data and the question in this and this other ways", and not when the honest reason is "the chatbot suggested it and we went with it." The two can potentially produce the identical result, yet one is professional judgement and the other is its absence.</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>The distinction is not that AI may not be consulted – it may. It is that a suggestion becomes a sound analytical decision only once an analyst has understood it, tested it against what they know, and made it their own. At that point the choice is genuinely theirs, and the record should say so: a sentence noting where and what a tool was used for – "an initial method shortlist came from a chatbot and was checked against this guidance"; "Copilot drafted code that was then reviewed and tested" – is part of being transparent about how the work was done, which is one of the standards under the <span class="co">[</span><span class="ot">Code of Practice for Statistics</span><span class="co">](https://code.statisticsauthority.gov.uk/)</span>' Trustworthiness pillar. Owning your choices and recording them honestly is what lets you use these tools without quietly outsourcing the thing you are accountable for.</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="fu">## Where This Leads</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>The chapters that follow are where these tools will tempt you most, because each method involves choices an AI will happily make on your behalf. The argument of this chapter is worth carrying forward intact: treat a generative AI tool as you would any statistical method in this guidance – something to understand before you rely on it, and whose output you check rather than trust on sight. It is a tool to think *with*, never one to decide *for* you or to do the work *for* you.</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>What the tool cannot supply is the thing this guidance advocates as irrenunciable: the judgement to know what a result means, whether it can be believed, and how to defend it. That judgement is what makes someone an analyst rather than a conduit for a machine's most likely answer. Generative AI can make a good analyst faster. It cannot make anyone an analyst, and it can make a careless one quietly, fluently wrong.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

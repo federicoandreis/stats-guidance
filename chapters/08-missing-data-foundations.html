@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>8&nbsp; Handling Missing Data: Foundations – CQC Statistical Guidance</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/09-qa-principles.html" rel="next">
+<link href="../chapters/07-statistical-inference.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5c568ff3620675dfea6bfa6c73bdaad4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../custom.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/01-data-types.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="../chapters/08-missing-data-foundations.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Handling Missing Data: Foundations</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">CQC Statistical Guidance</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CQC Statistical Guidance</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to Use This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quick-reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quick Reference</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Types &amp; Implications</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-data-visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualising Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Central Tendency and Position</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-variation-uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measuring Variation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-distribution-shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distribution Shape</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-unusual-observations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unusual Observations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-statistical-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Statistical Inference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-missing-data-foundations.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Handling Missing Data: Foundations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-qa-principles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Quality Assurance Principles</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-tooling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Analytical Tooling at CQC</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-generative-ai.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Generative AI in Analytical Work</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Part II: Core Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-z-scoring.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparing Provider Performance: Z-scoring</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-spc-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Monitoring Trends Over Time: SPC Basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-t-tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparing Two Groups: t-tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-correlation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Exploring Relationships: Correlation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-outlier-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Outlier Detection Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-missing-data-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Missing Data: Computational Methods</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Part III: Worked Examples</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Worked Examples Library</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-01-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Example 1: GP Access Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-02-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Example 2: Care Home Falls Monitoring</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-03-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Example 3: Mental Health Wait Times</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-04-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Example 4: Medication Safety Pilot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-05-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Example 5: Regional A&amp;E Performance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-06-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Example 6: Ambulance Handover Delays</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-07-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Example 7: Infection Rates in Care Homes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-08-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Example 8: DoLS Application Trends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-09-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Example 9: Staffing and Quality Outcomes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-10-outliers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Example 10: Care Home Staffing Investigation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">References &amp; Resources</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-missing-data-foundations" id="toc-sec-missing-data-foundations" class="nav-link active" data-scroll-target="#sec-missing-data-foundations"><span class="header-section-number">8.1</span> When the Value Isn’t There</a></li>
+  <li><a href="#why-data-goes-missing" id="toc-why-data-goes-missing" class="nav-link" data-scroll-target="#why-data-goes-missing"><span class="header-section-number">8.2</span> Why Data Goes Missing</a></li>
+  <li><a href="#two-kinds-of-harm-bias-and-precision" id="toc-two-kinds-of-harm-bias-and-precision" class="nav-link" data-scroll-target="#two-kinds-of-harm-bias-and-precision"><span class="header-section-number">8.3</span> Two Kinds of Harm: Bias and Precision</a></li>
+  <li><a href="#investigating-missingness" id="toc-investigating-missingness" class="nav-link" data-scroll-target="#investigating-missingness"><span class="header-section-number">8.4</span> Investigating Missingness</a></li>
+  <li><a href="#deciding-what-to-do" id="toc-deciding-what-to-do" class="nav-link" data-scroll-target="#deciding-what-to-do"><span class="header-section-number">8.5</span> Deciding What to Do</a></li>
+  <li><a href="#where-missing-data-leads" id="toc-where-missing-data-leads" class="nav-link" data-scroll-target="#where-missing-data-leads"><span class="header-section-number">8.6</span> Where Missing Data Leads</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/01-data-types.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="../chapters/08-missing-data-foundations.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Handling Missing Data: Foundations</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Handling Missing Data: Foundations</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Learning outcomes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After reading this chapter you will be able to:</p>
+<ul>
+<li>recognise that the first question about missing data is never “how do I fill the gaps?” but “<strong>why is this missing, and what does that tell me?</strong>” – the reason data is absent decides everything that follows;</li>
+<li>distinguish three <strong>missingness mechanisms</strong> – <strong>MCAR</strong>, <strong>MAR</strong> and <strong>MNAR</strong> – and treat them as a useful classification of <em>what the missingness depends on</em>, while seeing that the three labels are a coarse summary of a fuller story – a useful shorthand, not the only or final word;</li>
+<li>separate the two distinct harms missing data does – a loss of <strong>precision</strong> (every kind of missingness) from <strong>bias</strong> (only some) – by picturing estimation as archery, building on the <a href="../chapters/07-statistical-inference.html">inference</a> chapter’s account of estimates and their uncertainty;</li>
+<li>investigate missingness before handling it – quantify it, picture its pattern, relate it to what you <em>can</em> see, and ask the people who collected it <em>why</em> – and accept that the crucial MAR-versus-MNAR distinction is a <strong>judgement you declare</strong>, resting finally on domain expertise, not a fact the data can settle;</li>
+<li>choose proportionately between keeping complete cases, adjusting for what explains the gaps, and treating the <strong>pattern of missingness as the finding itself</strong> – the move that matters most in regulation – knowing that no rule of thumb substitutes for sensitivity analysis and qualitative knowledge.</li>
+</ul>
+</div>
+</div>
+<section id="sec-missing-data-foundations" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="sec-missing-data-foundations"><span class="header-section-number">8.1</span> When the Value Isn’t There</h2>
+<p>Some missing data is waiting in every real dataset, and regulatory data is no exception. Providers do not submit returns; surveys go unanswered; a system fails to record a field; a member of staff never fills one in. The chapters so far have quietly assumed the numbers were all present and correct – a histogram drawn, a <a href="../chapters/04-variation-uncertainty.html">standard deviation</a> calculated, an <a href="../chapters/06-unusual-observations.html">unusual value</a> investigated, and most recently an <a href="../chapters/07-statistical-inference.html">estimate carried from a sample to a conclusion</a> with its uncertainty attached. This chapter takes away that assumption and asks what to do when part of the picture is simply not there.</p>
+<p>The instinct, faced with a gap, is to reach for something to fill it – an average, a last known value, a plausible guess. Resist it. The single most important thing to understand about <strong>missing data</strong> is that the gap itself carries information, and the first job is to read it. <em>Why</em> is this value absent? A figure missing because a server rebooted at 3 a.m. is a different problem from a figure missing because the provider it belongs to would rather you did not see it. The two gaps look identical in the spreadsheet – an empty cell, an <code>NA</code> – and call for opposite responses. Everything in this chapter follows from telling them apart.</p>
+<p>So the question is not “do I have missing data?” – you do – but “<strong>does it matter for the question I am asking?</strong>” Sometimes a handful of absent values changes nothing of consequence. Sometimes a pattern of absence is the most important thing in the dataset. The work of this chapter is learning to tell which situation you are in <em>before</em> you decide what to do, and to be honest in your reporting about what the gaps allow you to claim. The computational machinery – visualising patterns at scale, multiple imputation, sensitivity analysis with code – is referred to a later chapter on <a href="../chapters/17-missing-data-methods.html">computational methods for missing data</a>. Here the work is conceptual: a way of thinking that keeps you from the two cardinal errors, filling a gap you should have read and ignoring one you should have filled.</p>
+</section>
+<section id="why-data-goes-missing" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="why-data-goes-missing"><span class="header-section-number">8.2</span> Why Data Goes Missing</h2>
+<p>Not all missingness is equal, and the differences are not about <em>how much</em> is missing but about <em>what the missingness depends on</em>. In 1976 Donald Rubin set out a classification that has organised the field ever since: three <strong>missingness mechanisms</strong>, distinguished by whether the chance of a value being absent is tied to nothing, to things you can see, or to the very thing you cannot. The names are a regrettable piece of statistical jargon – two of the three contain the word “random” and mean quite different things by it – so hold on to the underlying question in each case rather than the label.</p>
+<p>A value is <strong>missing completely at random (MCAR)</strong> when its absence has nothing to do with anything – not with the value itself, not with any other variable, observed or not. A server drops two per cent of records at moments unrelated to which records they are; a monitor fails on whichever patient happens to be next; you deliberately survey a <em>randomly chosen</em> half of providers and leave the other half blank by design. Under MCAR the values you <em>do</em> have are a fair, if smaller, sample of the values you wanted: the providers with complete data look, on average, just like the ones without. This is the benign case, and it is also the rare one. True randomness is uncommon in administrative data, because absence almost always relates to <em>something</em> – an older system, a smaller team, a busier week. Note the qualifier on the survey example: missingness <em>by design</em> is MCAR only when the selection is genuinely random. The moment a design leaves data blank according to a provider characteristic – send the long form only to large providers, sample more heavily in one region – the missingness depends on something you can see, and it is no longer MCAR. Treat MCAR as a useful idealisation to measure reality against, not a description you should expect to fit.</p>
+<p>A value is <strong>missing at random (MAR)</strong> when its absence depends on things you <em>have</em> observed, but not – once those are accounted for – on the missing value itself. This is the mechanism whose name does the most damage, because MAR data is precisely <em>not</em> missing at random in the everyday sense. Smaller providers might be less likely to return a particular metric; older respondents less likely to finish a survey; certain regions habitually late. In each case the gaps are patterned, but the pattern runs through something you can see – size, age, region – and <em>within</em> each group the missingness is as good as random. The practical promise of MAR is that the information needed to correct for the gaps is sitting in your own dataset: if you account for the variables the missingness leans on, you can recover an unbiased picture. The practical catch is that you can never be quite sure you have caught them all.</p>
+<p>A value is <strong>missing not at random (MNAR)</strong> when its absence depends on the missing value itself, even after you have accounted for everything you can observe. The provider with a high incident count is the one that does not submit incident data; the patient with the poor experience is the one who abandons the satisfaction survey; the service with the awkward cost figure is the one that withholds it. Here the gap is <em>informative in a way you cannot reach</em> – the reason a value is missing is bound up with how large or small or troubling it would have been, and no amount of looking at the data you have can tell you by how much. MNAR is the mechanism that should worry a regulator most, and it is exactly the one that regulation is most likely to produce, because the incentive to not report is often strongest where the unreported number is worst.</p>
+<p>Three mechanisms, then, with a clean logical ladder between them: MCAR depends on nothing, MAR on what you can see, MNAR on what you cannot. Two cautions keep this from hardening into something it is not. The first is that the data itself can carry you only partway up that ladder, a limit worth being precise about. The second is that these three labels, useful as they are, compress a richer story into a single word – a shorthand it pays to look behind once the stakes of the distinction are clear.</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>⚙️ Overthinking: what the data can and cannot tell you about the mechanism
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Rubin’s mechanisms have an exact definition that the prose above smooths over. Let <span class="math inline">\(R\)</span> be a <strong>response indicator</strong> for some variable – <span class="math inline">\(R = 1\)</span> when the value is recorded, <span class="math inline">\(R = 0\)</span> when it is missing – and split the data you wanted into the part you observed, <span class="math inline">\(X\)</span>, and the part that went missing, <span class="math inline">\(Y\)</span>. The three mechanisms are statements about what the probability of being missing, <span class="math inline">\(P(R = 0)\)</span>, is allowed to depend on:</p>
+<ul>
+<li><strong>MCAR</strong>: <span class="math inline">\(P(R = 0 \mid X, Y) = P(R = 0)\)</span> – the missingness depends on neither <span class="math inline">\(X\)</span> nor <span class="math inline">\(Y\)</span>.</li>
+<li><strong>MAR</strong>: <span class="math inline">\(P(R = 0 \mid X, Y) = P(R = 0 \mid X)\)</span> – it may depend on the observed <span class="math inline">\(X\)</span>, but not further on the missing <span class="math inline">\(Y\)</span>.</li>
+<li><strong>MNAR</strong>: <span class="math inline">\(P(R = 0)\)</span> depends on <span class="math inline">\(Y\)</span> even after conditioning on <span class="math inline">\(X\)</span>.</li>
+</ul>
+<p>Written this way, one awkward fact becomes plain. You can <em>test</em> whether missingness depends on <span class="math inline">\(X\)</span>, because you hold <span class="math inline">\(X\)</span> for everyone: compare the observed characteristics of the cases with and without the missing value, and if they differ, the data is not MCAR. But you <em>cannot</em> test the step that matters most – whether, among cases identical on everything you observed, missingness still depends on the unseen <span class="math inline">\(Y\)</span> – because testing it would require the very values that are missing. <strong>MAR and MNAR are not distinguishable from the data alone.</strong> Choosing between them is a judgement, grounded in how the data came to be and what the people who collected it know, not a hypothesis the numbers can decide. Rubin’s term for the comfortable case – MAR together with a mild technical condition – is that the mechanism is <strong>ignorable</strong>, meaning you may analyse the data without modelling the missingness process itself. The word is a promise about convenience, not about safety: a mechanism is ignorable only if MAR genuinely holds, and whether it does is something you assume rather than confirm – which is why Schafer and Graham, in their widely read review of the field, treat the choice of mechanism as a matter of judgement rather than a question the data can answer.</p>
+</div>
+</div>
+<p>These categories are not academic taxonomy. Each carries a different consequence for your analysis, and the consequences come in two kinds that are worth keeping firmly apart.</p>
+</section>
+<section id="two-kinds-of-harm-bias-and-precision" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="two-kinds-of-harm-bias-and-precision"><span class="header-section-number">8.3</span> Two Kinds of Harm: Bias and Precision</h2>
+<p>Missing data can hurt an analysis in two distinct ways, and confusing them is one of the commonest mistakes in this whole area. One harm is a loss of <strong>precision</strong>; the other is <strong>bias</strong>. They are not degrees of the same thing – they are different failures, with different cures, and a single estimate can suffer one, the other, or both.</p>
+<p>The cleanest way to hold them apart is to picture estimation as archery. Building on the <a href="../chapters/07-statistical-inference.html">inference</a> chapter’s estimates and confidence intervals, think of an estimate as an arrow loosed at a target, with the true value as the bullseye. <strong>Precision</strong> is how tightly your shots group: a precise estimator lands its arrows close together, an imprecise one scatters them. <strong>Bias</strong> is whether the group is centred on the bullseye or pulled systematically to one side. The two can be independent. You can have a tight group well off-centre, or a loose group centred on the gold. Missing data can do either – widen the scatter, shift the aim, or both – and the cure differs in each case.</p>
+<p>Losing precision means your estimate becomes <em>more uncertain</em>. Throw away the incomplete records and you are working with a smaller dataset; a smaller dataset gives a wider <a href="../chapters/07-statistical-inference.html">confidence interval</a>, less power to detect a real difference, a blurrier picture. The aim is still true – the arrows still cluster around the bullseye – it is simply a less steady hand. <em>Every</em> kind of missingness costs you precision, MCAR included, for the unavoidable reason that you have less data than you set out to collect. The cost is honest, in the sense that the wider interval openly admits how much less you now know.</p>
+<p>Bias is the more dangerous harm, because it is <em>dishonest</em>: the estimate becomes systematically wrong – consistently too high or too low – while often looking perfectly confident about it. If the providers who fail to report incidents are the ones with the most incidents, then the average you compute from those who <em>did</em> report is not a slightly fuzzy estimate of the true average; it is a precise estimate of the wrong quantity, the average among the well-behaved. And here is the trap that catches people: a biased estimate does not announce itself. Its interval is an ordinary width – set by how many records survived, not by how far the aim has slipped – so it looks no different from a sound one; it simply sits in the wrong place and fails to cover the truth. The hallmark of bias is an estimate that is confidently mistaken, and the width of the interval cannot expose it: width tells you how steady the aim is, never whether it is pointed at the right target.</p>
+<p>So the two harms map cleanly onto what the mechanisms do – though it is worth being careful with the verb, because a mechanism does not <em>cause</em> anything on its own; what does the damage, or avoids it, is the handling you choose in its light. Under MCAR there is no intrinsic risk of bias to begin with, because the cases you keep are a fair sample; the only cost is precision. Under MAR, bias appears if you ignore the observed variables the missingness leans on, and disappears if you account for them – the bias is real but removable, and removing it is your job. Under MNAR, bias survives every routine method, because the correction would need the missing values themselves; the most an honest analysis can do is bound it or report it. The figure below puts all three on one scale.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-bias-vs-precision" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A horizontal plot of estimated mean provider satisfaction on a scale from about 68 to 78, with a dashed vertical line marking the true average near 72. Three estimates are shown as points with horizontal 95 percent confidence-interval bars. 'Near-complete returns' sits very close to the dashed line with a narrow interval that covers it. 'MCAR – random non-response' also sits close to the dashed line but with a wider interval that still covers the truth. 'MNAR – lower scorers silent' sits well to the right near 75 to 76 with an interval of ordinary width that lies entirely above the true value, showing a confident estimate of the wrong number.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bias-vs-precision-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-missing-data-foundations_files/figure-html/fig-bias-vs-precision-1.png" class="img-fluid figure-img" alt="A horizontal plot of estimated mean provider satisfaction on a scale from about 68 to 78, with a dashed vertical line marking the true average near 72. Three estimates are shown as points with horizontal 95 percent confidence-interval bars. 'Near-complete returns' sits very close to the dashed line with a narrow interval that covers it. 'MCAR – random non-response' also sits close to the dashed line but with a wider interval that still covers the truth. 'MNAR – lower scorers silent' sits well to the right near 75 to 76 with an interval of ordinary width that lies entirely above the true value, showing a confident estimate of the wrong number." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bias-vs-precision-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.1: Three estimates of the same true average provider satisfaction (dashed line, the value you would get if every provider reported). Each shows a point estimate with its 95 per cent confidence interval. With near-complete returns the aim is true and the interval tight. Dropping incomplete records at random (MCAR) keeps the aim true but widens the interval – precision lost, no bias. Dropping records because lower-scoring providers stayed silent (MNAR) slides the estimate above the truth: the interval is an unremarkable width, set by how many cases survived, yet it never reaches the true value. Precision is how tight the grouping is; bias is whether it is centred on the target. An interval’s width tells you nothing about whether it is in the right place.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Carry the distinction with you, because it shapes every decision that follows. When you reach for a method to handle missing data, ask which harm you are trying to undo. If the missingness is MCAR and your only loss is precision, there is no bias to fix and the honest move may simply be to proceed with the smaller dataset and report the wider uncertainty. If there is bias, precision is the lesser worry: a sophisticated method that recovers a little precision while leaving the bias untouched has polished the wrong problem. And the regulatory stakes attach to both. Lost precision makes a genuinely failing provider harder to detect – it raises the <a href="../chapters/07-statistical-inference.html">false negative</a> rate, the graver kind of regulatory mistake. Bias does something worse: it can make a whole sector look better, or worse, than it is, and quietly mislead the decisions that rest on the analysis.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🤔 Rethinking: the three labels are a summary, not the whole story
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Rubin’s three mechanisms are the shared language of this field, and you will not get far without them. But be honest about what they are: MCAR, MAR and MNAR compress the whole story of <em>why</em> a value is absent into a single word, and a single word is sometimes too blunt for the awkward cases real data throws up. The label is a shorthand for the mechanism, never a substitute for understanding it.</p>
+<p>That gap between the label and the story is exactly where regulation bites. When the stakes are low, the shorthand is enough. When they are high, go back to the story itself: what, in the real world, decided whether each value was recorded, and could that reason be tied to the very thing you are trying to judge? That is a question about how the data came to be – answered from knowledge of the service and the people who collected it, not read off the dataset – and a confident “it’s MAR” can close an argument before anyone has checked whether it is true. The harder you look, the more you are forced to say out loud what you are assuming about the gaps; those assumptions are no more testable than the MAR-versus-MNAR call itself, but at least they are now visible. What that honesty buys is not certainty but clarity about exactly what you have assumed – which is why, for anything load-bearing, the mechanism behind the gaps is a deeper conversation waiting to happen, not a label to assign alone.</p>
+</div>
+</div>
+</section>
+<section id="investigating-missingness" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="investigating-missingness"><span class="header-section-number">8.4</span> Investigating Missingness</h2>
+<p>Because the mechanism cannot be read off a percentage, there is no shortcut threshold to lean on. “More than ten per cent missing, drop the variable” is the kind of rule that feels rigorous and decides nothing that matters: five per cent of MNAR gaps can bias an analysis badly, while thirty per cent of genuine MCAR gaps costs only precision. So the work is investigation, and it runs in four movements, from what the data shows you to what only a human can tell you. The thread that ties them together is a single posture: stop treating the gaps as nuisance to be cleared away and start <em>looking</em> at them, the same way you would look at the values themselves.</p>
+<p><strong>Quantify it first.</strong> How much is missing, and <em>where</em>? Not just the headline proportion but its distribution: which variables carry the most gaps, how many records are missing several fields at once, and – the question that earns its keep in regulation – whether certain <em>kinds</em> of provider are missing more than others. A single overall figure hides everything interesting. Missingness concentrated in one variable, or one type of provider, is the first hint that you are not in the benign MCAR case. (One caution that the methods chapter takes up in earnest: software often disguises missingness as a code rather than a blank – a <code>9</code>, a <code>999</code>, an “unknown” category – so a dataset that reports zero missing values on real-world data deserves suspicion, not relief.)</p>
+<p><strong>Look at the pattern.</strong> Numbers summarise; a picture reveals. The plainest picture is a <em>map</em> of the gaps: providers down one side, the metrics they should return across the other, every absent value shaded in. Scattered evenly, the way MCAR would leave it? Or clustered – in particular records, particular periods, particular providers?</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-missingness-map" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A grid with 36 provider rows and six columns – bed occupancy, staffing level, incident reports, complaints, waiting times, satisfaction survey – with each cell either pale (recorded) or strongly coloured (missing). The recorded cells dominate the lower two-thirds. Toward the top a cluster of rows has several coloured cells, and the incident-reports column has the most coloured cells overall, with staffing and satisfaction the next most affected. The colouring concentrates in particular rows and particular columns rather than scattering evenly across the grid.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-missingness-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-missing-data-foundations_files/figure-html/fig-missingness-map-1.png" class="img-fluid figure-img" alt="A grid with 36 provider rows and six columns – bed occupancy, staffing level, incident reports, complaints, waiting times, satisfaction survey – with each cell either pale (recorded) or strongly coloured (missing). The recorded cells dominate the lower two-thirds. Toward the top a cluster of rows has several coloured cells, and the incident-reports column has the most coloured cells overall, with staffing and satisfaction the next most affected. The colouring concentrates in particular rows and particular columns rather than scattering evenly across the grid." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-missingness-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.2: A missingness map of 36 providers (rows, sorted by how many fields they are missing) against six required returns. Shaded cells are absent. The gaps are not scattered evenly: a band of providers along the top is missing several fields at once, and the incident-reports column is the most affected. This is the visual signature of non-random missingness – exactly what a fair MCAR sample would not produce.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Do certain variables always go missing <em>together</em>, hinting at a shared cause such as a single unfiled return? Counting how often each <em>combination</em> of fields is absent answers that directly, and the answer is usually that gaps travel in bundles rather than singly.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-missingness-patterns" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A horizontal bar chart of the most common missingness patterns among 36 providers. The longest bar is 'Complete (all fields present)'. The next longest is the bundle 'Staffing + Incidents + Satisfaction'. Shorter bars show single- or paired-field patterns such as 'Incidents' alone. The bundled pattern is clearly more common than fields going missing one at a time.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-missingness-patterns-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-missing-data-foundations_files/figure-html/fig-missingness-patterns-1.png" class="img-fluid figure-img" alt="A horizontal bar chart of the most common missingness patterns among 36 providers. The longest bar is 'Complete (all fields present)'. The next longest is the bundle 'Staffing + Incidents + Satisfaction'. Shorter bars show single- or paired-field patterns such as 'Incidents' alone. The bundled pattern is clearly more common than fields going missing one at a time." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-missingness-patterns-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.3: The same 36 providers, counted by which combination of fields they are missing. Most providers are complete, but the gaps that do occur arrive in bundles: staffing, incidents and satisfaction go missing together far more often than any field goes missing alone. Co-missing fields point to a shared cause – here, a strained provider failing to file several returns at once – which a single overall percentage would have hidden entirely.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>These shapes – the clustered map, the bundled patterns – are the visual fingerprints of non-random mechanisms. A bar chart of co-missing fields like the one above is the simple cousin of the <strong>upset plot</strong> that the chapter on <a href="../chapters/17-missing-data-methods.html">computational methods for missing data</a> will draw at scale; the same chapter shows how to produce these maps and pattern summaries straight from a dataset, in R and Python. The point of meeting them here is to fix the habit before the tooling: a percentage tells you how much is missing, but only a picture tells you whether the missingness has a shape worth worrying about.</p>
+<p><strong>Relate it to what you can see.</strong> This is the step that tests, as far as anything can, where on the mechanism ladder you stand. Mark each record as missing or not on the variable of interest, and compare the two groups on everything else you <em>do</em> hold. Do the providers with missing satisfaction scores differ from the rest in size, region, sector, or rating? If they look the same on every observed characteristic, MCAR becomes more plausible. If they differ – smaller providers, say, far more likely to have gaps – then the missingness is at least MAR, and you have just identified the variable you will need to account for. And if the gaps cluster among providers with known risk factors – open complaints, past enforcement, a poor previous rating – then the warning light for MNAR is on, because the missingness is tracking the very thing you were trying to measure. But be clear about where this step stops. It can show that missingness depends on what you observed; it can never show that it depends <em>only</em> on what you observed. The last leg of the judgement always rests on assumptions and domain knowledge, because the defining feature of MNAR is precisely that the information you would need to detect it is the information you do not have.</p>
+<p><strong>Ask why.</strong> No statistic completes this step; you complete it by talking to the people who own the data. A gap can mean a system migration, a changed reporting requirement, a metric that simply does not apply to this provider type (which is not missing data at all, but a category to handle separately), a return that exists but has not yet arrived – or a deliberate choice not to submit. These causes sit at different points on the mechanism ladder, and you usually cannot tell which you are facing from the numbers. Sometimes the right response is to <em>augment</em> the data – link other records, pull a related field, bring in an external source that plausibly explains the gaps and shifts a suspected MNAR problem onto observed ground where you can handle it. That is often exactly the right move, and worth real effort. But it has a limit, and past it sits a judgement call no dataset can make for you: at some point you have to ask the people who know the service what the silence most likely means, and write down the answer as an assumption. Metadata, data managers, and the regulatory context – is submission mandatory, and what follows from not submitting? – are what turn a guess about the mechanism into a defensible judgement. The discipline of writing that judgement down, with its reasons, is part of the quality assurance that any proper analysis owes its readers.</p>
+<p>What the four movements give you is not a verdict the data has signed off on, but an honest, evidence-backed reading of the mechanism – and a reading is often enough to choose proportionately what to do next.</p>
+</section>
+<section id="deciding-what-to-do" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="deciding-what-to-do"><span class="header-section-number">8.5</span> Deciding What to Do</h2>
+<p>The mechanism you have argued for, together with how much is missing and how high the stakes are, points to one of a small number of responses. They escalate, from the light-touch default to the move that reframes the whole analysis. The table sets them side by side; the prose that follows walks the escalation.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Strategy</th>
+<th>When it is reasonable</th>
+<th>What it costs or risks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Complete case analysis</strong> (listwise deletion)</td>
+<td>The missing slice is small and plausibly MCAR; complete cases resemble the full set on everything you can see</td>
+<td>Loses precision; introduces bias under MAR or MNAR; silently changes the sample behind each table unless you report it</td>
+</tr>
+<tr class="even">
+<td><strong>Single imputation</strong> (mean, median, mode, or last value carried forward)</td>
+<td>A trivial gap, or a rough exploratory pass you will not act on</td>
+<td>Treats a guess as a fact: shrinks the standard error, overstates confidence, and distorts the distribution and the relationships between variables</td>
+</tr>
+<tr class="odd">
+<td><strong>Stratify, adjust, or weight</strong> on observed variables</td>
+<td>Missingness looks MAR and the variables it leans on are ones you hold and can put in the model</td>
+<td>Only as good as the MAR assumption and the variables you chose; any residual MNAR bias survives untouched</td>
+</tr>
+<tr class="even">
+<td><strong>Multiple imputation</strong></td>
+<td>MAR with useful auxiliary information; a high-stakes estimate worth doing properly</td>
+<td>Needs the right model and care; done casually it misleads as confidently as single imputation; computational – see the methods chapter and reach out to the Guild</td>
+</tr>
+<tr class="odd">
+<td><strong>Maximum likelihood</strong> (model-based)</td>
+<td>The same MAR territory; a principled alternative to imputation</td>
+<td>Specialist tooling; tied to a specific model of the data</td>
+</tr>
+<tr class="even">
+<td><strong>Sensitivity analysis</strong> / treat the pattern as the finding</td>
+<td>Substantial or MNAR missingness; whenever the mechanism cannot be settled</td>
+<td>Yields a range or a referral rather than one tidy number – and that honesty is the point</td>
+</tr>
+</tbody>
+</table>
+<p>When the missingness is <strong>minor and plausibly MCAR</strong> – a few per cent, scattered, with the missing and complete cases indistinguishable on everything you observed – the honest response is usually the simplest. <strong>Complete case analysis</strong> – also called <strong>listwise deletion</strong> – means working only with the records that have no gaps, and under MCAR it is unbiased: you lose a little precision and nothing else. The price of admission is transparency. Report the sample size before and after exclusion, state why you judge the missingness benign, and check quickly that the complete cases really do resemble the full set on the characteristics you can see. Done openly, this is not a fudge; it is the right tool for a small, well-behaved problem. What it is <em>not</em> is a default to apply silently, which is how it usually gets used: the most common failing in published work is not a bad imputation but a complete-case analysis nobody mentioned (and the fact that most statistical packages have this behaviour implemented as a default for certain analyses also does not help).</p>
+<p>When the missingness is <strong>moderate and looks MAR</strong> – patterned, but through variables you hold – the task is to <em>use</em> those variables so the pattern stops biasing the result. You might analyse the affected groups separately and combine them, include the variables the missingness leans on as adjustments in your model, weight the complete cases to stand in for the missing ones, or impute the gaps with a method that draws on the observed information. The first three are within reach of routine analysis; the fourth, <strong>multiple imputation</strong> done properly, is the substance of the <a href="../chapters/17-missing-data-methods.html">computational methods chapter</a> and, for a high-stakes result, a good moment to involve the Guild or the Practice Lead. Whatever you choose rests on the assumption that the missingness really is MAR – that the variables you adjusted for were the ones that mattered. State that assumption plainly, because if the truth is MNAR the bias survives every one of these methods.</p>
+<p>One thing this stage rarely makes obvious is that the <em>same</em> missingness, left unhandled, can do very different damage depending on the method you feed the data into. A handful of gaps that barely shift a simple average can pull hard on a model that leans on the joint behaviour of many variables at once – a regression with several predictors, a latent-variable or item-response model, a time series. As analysis moves onto that more advanced terrain, do not reach for a general rule of thumb; check instead whether the specialist literature has studied your particular combination of method and missingness, because for many of them it has, and the findings rarely transfer. Beyond the few standard cases, there is no substitute for patience, domain expertise, and a serious attempt at sensitivity analysis.</p>
+<p>When the missingness is <strong>substantial, or tangled up with the outcome itself</strong> – a large fraction gone, concentrated among providers you have other reasons to worry about – the right response is to stop reaching for a statistical patch. There is no method that recovers an unbiased estimate from MNAR data without assumptions you cannot check, and pretending otherwise launders a serious problem into a clean-looking number. The honest path forks. You can bound the answer with a <strong>sensitivity analysis</strong>, asking what your conclusion would be under the best and worst plausible stories about the missing values, and reporting the range rather than a false point. And you can take the step that, in regulation, is often the most important of all: stop treating the missingness as an obstacle to the finding, and recognise that <em>it is the finding</em>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🤔 Rethinking: in regulation, who doesn’t report is often the point
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Statistics textbooks present missing data as an obstacle: a nuisance standing between you and the unbiased estimate you wanted. In a regulatory setting that framing is frequently backwards.</p>
+<p>A researcher estimating average blood pressure has no interest in the missingness for its own sake; the gaps are noise to be overcome. But CQC is often not trying to estimate a typical value at all – it is trying to find the providers that warrant attention. And when the providers least likely to submit are the ones most likely to be failing, the <em>pattern of non-reporting carries the very signal the analysis exists to detect</em>. Forty per cent of providers not returning incident data is not merely a hole in your denominator; it is forty per cent of providers failing a reporting requirement, concentrated – your investigation showed – among those with open complaints and prior enforcement. The estimate you could squeeze from the sixty per cent who did report is the <em>less</em> important number on the page.</p>
+<p>So the question flips. Not “how do I get around the missing data to estimate performance?” but “what does the pattern of who is missing tell me about provider behaviour?” The non-reporters become a list to investigate in their own right, not because their imputed incident rate looks high, but because the silence itself is a finding – a possible failure of governance, of compliance, or of candour. A missing value, after all, is still an observation; it simply has a very special value, and in a system built to find exceptions that value can be more revealing than any number it conceals. The statistical handling still matters for whatever estimate you do report, and you should caveat it honestly. But read the gap before you fill it: the absence may be the answer.</p>
+</div>
+</div>
+<p>Across all four responses runs one constant: document what you found and what you did. For any analysis that will be acted on, record how much was missing and where, what mechanism you judged most likely and on what evidence, which handling you chose and why, and – the part most often skipped – what it all means for the confidence a reader should place in your conclusions. That record is not bureaucratic overhead; it is what lets the next person see the choices you made and trust, or challenge, the result. Missing data is one of the clearest places where a defensible analysis and an indefensible one differ not in their methods but in their honesty about the gaps.</p>
+</section>
+<section id="where-missing-data-leads" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="where-missing-data-leads"><span class="header-section-number">8.6</span> Where Missing Data Leads</h2>
+<p>This chapter has stayed deliberately conceptual: it offers a way of <em>thinking</em> about absent values, not a procedure to run. The frame – read the gap before filling it, tell the three mechanisms apart while remembering they summarise a richer process, separate bias from lost precision, investigate before handling, and in regulation treat systematic absence as a finding – is the foundation the rest of the book builds the machinery on.</p>
+<p>It sits where it does for a reason. The <a href="../chapters/07-statistical-inference.html">inference</a> chapter taught you to estimate a quantity from a sample and to carry honest uncertainty alongside it; this chapter took away the comfortable assumption underneath that work, that the sample was the one you meant to collect. The two ideas combine in the warning that runs through everything above: a single filled-in guess quietly lies about your uncertainty, shrinking the very <a href="../chapters/07-statistical-inference.html">confidence interval</a> that was supposed to tell the reader how much to trust the number. That is why imputation has to be done carefully rather than casually, and why the honest goal is a valid estimate with honest error bars, not an accurate prediction of values that are gone for good.</p>
+<p>The machinery is next door, in the chapter on <a href="../chapters/17-missing-data-methods.html">computational methods for missing data</a>, which turns these ideas into reproducible work: making disguised missingness visible, drawing the maps and patterns at scale, and carrying out the multiple imputation and sensitivity analyses sketched here in R and Python. The discipline of recording the assumptions and choices that missing-data handling forces on you belongs to <a href="../chapters/09-qa-principles.html">QA principles</a>, the next chapter, which makes the documentation this chapter keeps asking for into a standard you can hold an analysis to. And the habit underneath all of it is one this part of the book keeps returning to, whether the subject is an <a href="../chapters/06-unusual-observations.html">unusual value</a> or an absent one: look at what the data is doing, ask why it is doing it, and decide on the evidence – never reach for the convenient fix because a gap is inconvenient.</p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script>
+(function () {
+  'use strict';
+
+  function init() {
+    var sidebar = document.getElementById('quarto-margin-sidebar');
+    if (!sidebar) return;
+
+    var tocLinks = Array.from(sidebar.querySelectorAll('a[href^="#"]'));
+    if (!tocLinks.length) return;
+
+    var sectionIds = tocLinks
+      .map(function (a) { return a.getAttribute('href').slice(1); })
+      .filter(Boolean);
+
+    var sections = sectionIds
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+
+    if (!sections.length) return;
+
+    function setActive(id) {
+      tocLinks.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+
+    // Track the topmost visible section
+    var visible = new Set();
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            visible.add(e.target.id);
+          } else {
+            visible.delete(e.target.id);
+          }
+        });
+        // Activate the first section in document order that is visible
+        for (var i = 0; i < sections.length; i++) {
+          if (visible.has(sections[i].id)) {
+            setActive(sections[i].id);
+            return;
+          }
+        }
+      },
+      { rootMargin: '0px 0px -70% 0px', threshold: 0 }
+    );
+
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/07-statistical-inference.html" class="pagination-link" aria-label="Statistical Inference">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Statistical Inference</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/09-qa-principles.html" class="pagination-link" aria-label="Quality Assurance Principles">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Quality Assurance Principles</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Handling Missing Data: Foundations"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning outcomes</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>After reading this chapter you will be able to:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>recognise that the first question about missing data is never "how do I fill the gaps?" but "**why is this missing, and what does that tell me?**" – the reason data is absent decides everything that follows;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>distinguish three **missingness mechanisms** – **MCAR**, **MAR** and **MNAR** – and treat them as a useful classification of *what the missingness depends on*, while seeing that the three labels are a coarse summary of a fuller story – a useful shorthand, not the only or final word;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>separate the two distinct harms missing data does – a loss of **precision** (every kind of missingness) from **bias** (only some) – by picturing estimation as archery, building on the <span class="co">[</span><span class="ot">inference</span><span class="co">](07-statistical-inference.qmd)</span> chapter's account of estimates and their uncertainty;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>investigate missingness before handling it – quantify it, picture its pattern, relate it to what you *can* see, and ask the people who collected it *why* – and accept that the crucial MAR-versus-MNAR distinction is a **judgement you declare**, resting finally on domain expertise, not a fact the data can settle;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>choose proportionately between keeping complete cases, adjusting for what explains the gaps, and treating the **pattern of missingness as the finding itself** – the move that matters most in regulation – knowing that no rule of thumb substitutes for sensitivity analysis and qualitative knowledge.</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## When the Value Isn't There {#sec-missing-data-foundations}</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>Some missing data is waiting in every real dataset, and regulatory data is no exception. Providers do not submit returns; surveys go unanswered; a system fails to record a field; a member of staff never fills one in. The chapters so far have quietly assumed the numbers were all present and correct – a histogram drawn, a <span class="co">[</span><span class="ot">standard deviation</span><span class="co">](04-variation-uncertainty.qmd)</span> calculated, an <span class="co">[</span><span class="ot">unusual value</span><span class="co">](06-unusual-observations.qmd)</span> investigated, and most recently an <span class="co">[</span><span class="ot">estimate carried from a sample to a conclusion</span><span class="co">](07-statistical-inference.qmd)</span> with its uncertainty attached. This chapter takes away that assumption and asks what to do when part of the picture is simply not there.</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>The instinct, faced with a gap, is to reach for something to fill it – an average, a last known value, a plausible guess. Resist it. The single most important thing to understand about **missing data** is that the gap itself carries information, and the first job is to read it. *Why* is this value absent? A figure missing because a server rebooted at 3 a.m. is a different problem from a figure missing because the provider it belongs to would rather you did not see it. The two gaps look identical in the spreadsheet – an empty cell, an <span class="in">`NA`</span> – and call for opposite responses. Everything in this chapter follows from telling them apart.</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>So the question is not "do I have missing data?" – you do – but "**does it matter for the question I am asking?**" Sometimes a handful of absent values changes nothing of consequence. Sometimes a pattern of absence is the most important thing in the dataset. The work of this chapter is learning to tell which situation you are in *before* you decide what to do, and to be honest in your reporting about what the gaps allow you to claim. The computational machinery – visualising patterns at scale, multiple imputation, sensitivity analysis with code – is referred to a later chapter on <span class="co">[</span><span class="ot">computational methods for missing data</span><span class="co">](17-missing-data-methods.qmd)</span>. Here the work is conceptual: a way of thinking that keeps you from the two cardinal errors, filling a gap you should have read and ignoring one you should have filled.</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why Data Goes Missing</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>Not all missingness is equal, and the differences are not about *how much* is missing but about *what the missingness depends on*. In 1976 Donald Rubin set out a classification that has organised the field ever since: three **missingness mechanisms**, distinguished by whether the chance of a value being absent is tied to nothing, to things you can see, or to the very thing you cannot. The names are a regrettable piece of statistical jargon – two of the three contain the word "random" and mean quite different things by it – so hold on to the underlying question in each case rather than the label.</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>A value is **missing completely at random (MCAR)** when its absence has nothing to do with anything – not with the value itself, not with any other variable, observed or not. A server drops two per cent of records at moments unrelated to which records they are; a monitor fails on whichever patient happens to be next; you deliberately survey a *randomly chosen* half of providers and leave the other half blank by design. Under MCAR the values you *do* have are a fair, if smaller, sample of the values you wanted: the providers with complete data look, on average, just like the ones without. This is the benign case, and it is also the rare one. True randomness is uncommon in administrative data, because absence almost always relates to *something* – an older system, a smaller team, a busier week. Note the qualifier on the survey example: missingness *by design* is MCAR only when the selection is genuinely random. The moment a design leaves data blank according to a provider characteristic – send the long form only to large providers, sample more heavily in one region – the missingness depends on something you can see, and it is no longer MCAR. Treat MCAR as a useful idealisation to measure reality against, not a description you should expect to fit.</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>A value is **missing at random (MAR)** when its absence depends on things you *have* observed, but not – once those are accounted for – on the missing value itself. This is the mechanism whose name does the most damage, because MAR data is precisely *not* missing at random in the everyday sense. Smaller providers might be less likely to return a particular metric; older respondents less likely to finish a survey; certain regions habitually late. In each case the gaps are patterned, but the pattern runs through something you can see – size, age, region – and *within* each group the missingness is as good as random. The practical promise of MAR is that the information needed to correct for the gaps is sitting in your own dataset: if you account for the variables the missingness leans on, you can recover an unbiased picture. The practical catch is that you can never be quite sure you have caught them all.</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>A value is **missing not at random (MNAR)** when its absence depends on the missing value itself, even after you have accounted for everything you can observe. The provider with a high incident count is the one that does not submit incident data; the patient with the poor experience is the one who abandons the satisfaction survey; the service with the awkward cost figure is the one that withholds it. Here the gap is *informative in a way you cannot reach* – the reason a value is missing is bound up with how large or small or troubling it would have been, and no amount of looking at the data you have can tell you by how much. MNAR is the mechanism that should worry a regulator most, and it is exactly the one that regulation is most likely to produce, because the incentive to not report is often strongest where the unreported number is worst.</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>Three mechanisms, then, with a clean logical ladder between them: MCAR depends on nothing, MAR on what you can see, MNAR on what you cannot. Two cautions keep this from hardening into something it is not. The first is that the data itself can carry you only partway up that ladder, a limit worth being precise about. The second is that these three labels, useful as they are, compress a richer story into a single word – a shorthand it pays to look behind once the stakes of the distinction are clear.</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning icon=false}</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚙️ Overthinking: what the data can and cannot tell you about the mechanism</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>Rubin's mechanisms have an exact definition that the prose above smooths over. Let $R$ be a **response indicator** for some variable – $R = 1$ when the value is recorded, $R = 0$ when it is missing – and split the data you wanted into the part you observed, $X$, and the part that went missing, $Y$. The three mechanisms are statements about what the probability of being missing, $P(R = 0)$, is allowed to depend on:</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**MCAR**: $P(R = 0 \mid X, Y) = P(R = 0)$ – the missingness depends on neither $X$ nor $Y$.</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**MAR**: $P(R = 0 \mid X, Y) = P(R = 0 \mid X)$ – it may depend on the observed $X$, but not further on the missing $Y$.</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**MNAR**: $P(R = 0)$ depends on $Y$ even after conditioning on $X$.</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>Written this way, one awkward fact becomes plain. You can *test* whether missingness depends on $X$, because you hold $X$ for everyone: compare the observed characteristics of the cases with and without the missing value, and if they differ, the data is not MCAR. But you *cannot* test the step that matters most – whether, among cases identical on everything you observed, missingness still depends on the unseen $Y$ – because testing it would require the very values that are missing. **MAR and MNAR are not distinguishable from the data alone.** Choosing between them is a judgement, grounded in how the data came to be and what the people who collected it know, not a hypothesis the numbers can decide. Rubin's term for the comfortable case – MAR together with a mild technical condition – is that the mechanism is **ignorable**, meaning you may analyse the data without modelling the missingness process itself. The word is a promise about convenience, not about safety: a mechanism is ignorable only if MAR genuinely holds, and whether it does is something you assume rather than confirm – which is why Schafer and Graham, in their widely read review of the field, treat the choice of mechanism as a matter of judgement rather than a question the data can answer.</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>These categories are not academic taxonomy. Each carries a different consequence for your analysis, and the consequences come in two kinds that are worth keeping firmly apart.</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="fu">## Two Kinds of Harm: Bias and Precision</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>Missing data can hurt an analysis in two distinct ways, and confusing them is one of the commonest mistakes in this whole area. One harm is a loss of **precision**; the other is **bias**. They are not degrees of the same thing – they are different failures, with different cures, and a single estimate can suffer one, the other, or both.</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>The cleanest way to hold them apart is to picture estimation as archery. Building on the <span class="co">[</span><span class="ot">inference</span><span class="co">](07-statistical-inference.qmd)</span> chapter's estimates and confidence intervals, think of an estimate as an arrow loosed at a target, with the true value as the bullseye. **Precision** is how tightly your shots group: a precise estimator lands its arrows close together, an imprecise one scatters them. **Bias** is whether the group is centred on the bullseye or pulled systematically to one side. The two can be independent. You can have a tight group well off-centre, or a loose group centred on the gold. Missing data can do either – widen the scatter, shift the aim, or both – and the cure differs in each case.</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>Losing precision means your estimate becomes *more uncertain*. Throw away the incomplete records and you are working with a smaller dataset; a smaller dataset gives a wider [confidence interval](07-statistical-inference.qmd), less power to detect a real difference, a blurrier picture. The aim is still true – the arrows still cluster around the bullseye – it is simply a less steady hand. *Every* kind of missingness costs you precision, MCAR included, for the unavoidable reason that you have less data than you set out to collect. The cost is honest, in the sense that the wider interval openly admits how much less you now know.</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>Bias is the more dangerous harm, because it is *dishonest*: the estimate becomes systematically wrong – consistently too high or too low – while often looking perfectly confident about it. If the providers who fail to report incidents are the ones with the most incidents, then the average you compute from those who *did* report is not a slightly fuzzy estimate of the true average; it is a precise estimate of the wrong quantity, the average among the well-behaved. And here is the trap that catches people: a biased estimate does not announce itself. Its interval is an ordinary width – set by how many records survived, not by how far the aim has slipped – so it looks no different from a sound one; it simply sits in the wrong place and fails to cover the truth. The hallmark of bias is an estimate that is confidently mistaken, and the width of the interval cannot expose it: width tells you how steady the aim is, never whether it is pointed at the right target.</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>So the two harms map cleanly onto what the mechanisms do – though it is worth being careful with the verb, because a mechanism does not *cause* anything on its own; what does the damage, or avoids it, is the handling you choose in its light. Under MCAR there is no intrinsic risk of bias to begin with, because the cases you keep are a fair sample; the only cost is precision. Under MAR, bias appears if you ignore the observed variables the missingness leans on, and disappears if you account for them – the bias is real but removable, and removing it is your job. Under MNAR, bias survives every routine method, because the correction would need the missing values themselves; the most an honest analysis can do is bound it or report it. The figure below puts all three on one scale.</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-bias-vs-precision</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Three estimates of the same true average provider satisfaction (dashed line, the value you would get if every provider reported). Each shows a point estimate with its 95 per cent confidence interval. With near-complete returns the aim is true and the interval tight. Dropping incomplete records at random (MCAR) keeps the aim true but widens the interval – precision lost, no bias. Dropping records because lower-scoring providers stayed silent (MNAR) slides the estimate above the truth: the interval is an unremarkable width, set by how many cases survived, yet it never reaches the true value. Precision is how tight the grouping is; bias is whether it is centred on the target. An interval's width tells you nothing about whether it is in the right place."</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "A horizontal plot of estimated mean provider satisfaction on a scale from about 68 to 78, with a dashed vertical line marking the true average near 72. Three estimates are shown as points with horizontal 95 percent confidence-interval bars. 'Near-complete returns' sits very close to the dashed line with a narrow interval that covers it. 'MCAR – random non-response' also sits close to the dashed line but with a wider interval that still covers the truth. 'MNAR – lower scorers silent' sits well to the right near 75 to 76 with an interval of ordinary width that lies entirely above the true value, showing a confident estimate of the wrong number."</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 8</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.9</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/theme_cqc.R"</span>)</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">14</span>)</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="co"># A true average we are trying to estimate (every provider reporting).</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>truth <span class="ot">&lt;-</span> <span class="dv">72</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="co"># The providers that actually exist, with their satisfaction scores (0-100).</span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">400</span>, <span class="at">mean =</span> truth, <span class="at">sd =</span> <span class="dv">11</span>)</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>est_ci <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>  se <span class="ot">&lt;-</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">est =</span> m, <span class="at">lo =</span> m <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se, <span class="at">hi =</span> m <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se)</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="co"># Near-complete returns: a few per cent missing at random -&gt; aim true, tight.</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>full <span class="ot">&lt;-</span> <span class="fu">est_ci</span>(pop[<span class="fu">runif</span>(<span class="fu">length</span>(pop)) <span class="sc">&gt;</span> <span class="fl">0.04</span>])</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="co"># MCAR: keep a random subset -&gt; aim true, wider interval (smaller n).</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>mcar <span class="ot">&lt;-</span> <span class="fu">est_ci</span>(pop[<span class="fu">sample</span>(<span class="fu">length</span>(pop), <span class="dv">150</span>)])</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="co"># MNAR: response more likely for higher scores -&gt; biased upward.</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>responded <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">length</span>(pop)) <span class="sc">&lt;</span> <span class="fu">plogis</span>((pop <span class="sc">-</span> truth) <span class="sc">/</span> <span class="dv">12</span>)</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>mnar <span class="ot">&lt;-</span> <span class="fu">est_ci</span>(pop[responded])</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>scen <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(full, <span class="at">ypos =</span> <span class="dv">3</span>, <span class="at">harm =</span> <span class="st">"aim true"</span>),</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(mcar, <span class="at">ypos =</span> <span class="dv">2</span>, <span class="at">harm =</span> <span class="st">"precision lost"</span>),</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(mnar, <span class="at">ypos =</span> <span class="dv">1</span>, <span class="at">harm =</span> <span class="st">"biased"</span>)</span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(scen, <span class="fu">aes</span>(est, ypos, <span class="at">colour =</span> harm)) <span class="sc">+</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> truth, <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> cqc_ink, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> truth, <span class="at">y =</span> <span class="fl">3.55</span>, <span class="at">label =</span> <span class="st">"true average"</span>,</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>           <span class="at">colour =</span> cqc_ink, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">vjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> lo, <span class="at">xmax =</span> hi), <span class="at">height =</span> <span class="fl">0.18</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.6</span>) <span class="sc">+</span></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"aim true"</span> <span class="ot">=</span> <span class="st">"#375071"</span>,</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"precision lost"</span> <span class="ot">=</span> <span class="st">"#007EF5"</span>,</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"biased"</span> <span class="ot">=</span> <span class="st">"#A83DA4"</span>),</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>                       <span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">"aim true"</span>, <span class="st">"precision lost"</span>, <span class="st">"biased"</span>),</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>                       <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"MNAR –</span><span class="sc">\n</span><span class="st">lower scorers silent"</span>,</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"MCAR –</span><span class="sc">\n</span><span class="st">random non-response"</span>,</span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Near-complete</span><span class="sc">\n</span><span class="st">returns"</span>)) <span class="sc">+</span></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">68</span>, <span class="dv">78</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">3.9</span>), <span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Estimated mean provider satisfaction"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cqc</span>() <span class="sc">+</span></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">16</span>, <span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>Carry the distinction with you, because it shapes every decision that follows. When you reach for a method to handle missing data, ask which harm you are trying to undo. If the missingness is MCAR and your only loss is precision, there is no bias to fix and the honest move may simply be to proceed with the smaller dataset and report the wider uncertainty. If there is bias, precision is the lesser worry: a sophisticated method that recovers a little precision while leaving the bias untouched has polished the wrong problem. And the regulatory stakes attach to both. Lost precision makes a genuinely failing provider harder to detect – it raises the <span class="co">[</span><span class="ot">false negative</span><span class="co">](07-statistical-inference.qmd)</span> rate, the graver kind of regulatory mistake. Bias does something worse: it can make a whole sector look better, or worse, than it is, and quietly mislead the decisions that rest on the analysis.</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🤔 Rethinking: the three labels are a summary, not the whole story</span></span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>Rubin's three mechanisms are the shared language of this field, and you will not get far without them. But be honest about what they are: MCAR, MAR and MNAR compress the whole story of *why* a value is absent into a single word, and a single word is sometimes too blunt for the awkward cases real data throws up. The label is a shorthand for the mechanism, never a substitute for understanding it.</span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>That gap between the label and the story is exactly where regulation bites. When the stakes are low, the shorthand is enough. When they are high, go back to the story itself: what, in the real world, decided whether each value was recorded, and could that reason be tied to the very thing you are trying to judge? That is a question about how the data came to be – answered from knowledge of the service and the people who collected it, not read off the dataset – and a confident "it's MAR" can close an argument before anyone has checked whether it is true. The harder you look, the more you are forced to say out loud what you are assuming about the gaps; those assumptions are no more testable than the MAR-versus-MNAR call itself, but at least they are now visible. What that honesty buys is not certainty but clarity about exactly what you have assumed – which is why, for anything load-bearing, the mechanism behind the gaps is a deeper conversation waiting to happen, not a label to assign alone.</span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="fu">## Investigating Missingness</span></span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>Because the mechanism cannot be read off a percentage, there is no shortcut threshold to lean on. "More than ten per cent missing, drop the variable" is the kind of rule that feels rigorous and decides nothing that matters: five per cent of MNAR gaps can bias an analysis badly, while thirty per cent of genuine MCAR gaps costs only precision. So the work is investigation, and it runs in four movements, from what the data shows you to what only a human can tell you. The thread that ties them together is a single posture: stop treating the gaps as nuisance to be cleared away and start *looking* at them, the same way you would look at the values themselves.</span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>**Quantify it first.** How much is missing, and *where*? Not just the headline proportion but its distribution: which variables carry the most gaps, how many records are missing several fields at once, and – the question that earns its keep in regulation – whether certain *kinds* of provider are missing more than others. A single overall figure hides everything interesting. Missingness concentrated in one variable, or one type of provider, is the first hint that you are not in the benign MCAR case. (One caution that the methods chapter takes up in earnest: software often disguises missingness as a code rather than a blank – a <span class="in">`9`</span>, a <span class="in">`999`</span>, an "unknown" category – so a dataset that reports zero missing values on real-world data deserves suspicion, not relief.)</span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>**Look at the pattern.** Numbers summarise; a picture reveals. The plainest picture is a *map* of the gaps: providers down one side, the metrics they should return across the other, every absent value shaded in. Scattered evenly, the way MCAR would leave it? Or clustered – in particular records, particular periods, particular providers?</span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-missingness-map</span></span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "A missingness map of 36 providers (rows, sorted by how many fields they are missing) against six required returns. Shaded cells are absent. The gaps are not scattered evenly: a band of providers along the top is missing several fields at once, and the incident-reports column is the most affected. This is the visual signature of non-random missingness – exactly what a fair MCAR sample would not produce."</span></span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "A grid with 36 provider rows and six columns – bed occupancy, staffing level, incident reports, complaints, waiting times, satisfaction survey – with each cell either pale (recorded) or strongly coloured (missing). The recorded cells dominate the lower two-thirds. Toward the top a cluster of rows has several coloured cells, and the incident-reports column has the most coloured cells overall, with staffing and satisfaction the next most affected. The colouring concentrates in particular rows and particular columns rather than scattering evenly across the grid."</span></span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 7</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 4.2</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/theme_cqc.R"</span>)</span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>metrics <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Bed</span><span class="sc">\n</span><span class="st">occupancy"</span>, <span class="st">"Staffing</span><span class="sc">\n</span><span class="st">level"</span>, <span class="st">"Incident</span><span class="sc">\n</span><span class="st">reports"</span>,</span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Complaints"</span>, <span class="st">"Waiting</span><span class="sc">\n</span><span class="st">times"</span>, <span class="st">"Satisfaction</span><span class="sc">\n</span><span class="st">survey"</span>)</span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>n_prov <span class="ot">&lt;-</span> <span class="dv">36</span></span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="co"># Baseline: a little missingness everywhere.</span></span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(n_prov <span class="sc">*</span> <span class="fu">length</span>(metrics)) <span class="sc">&lt;</span> <span class="fl">0.04</span>,</span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a>            <span class="at">nrow =</span> n_prov, <span class="at">ncol =</span> <span class="fu">length</span>(metrics))</span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a><span class="co"># A strained group misses staffing, incidents and satisfaction together.</span></span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>strained <span class="ot">&lt;-</span> <span class="fu">sample</span>(n_prov, <span class="dv">8</span>)</span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a>M[strained, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">6</span>)] <span class="ot">&lt;-</span> M[strained, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">6</span>)] <span class="sc">|</span></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="fu">length</span>(strained) <span class="sc">*</span> <span class="dv">3</span>) <span class="sc">&lt;</span> <span class="fl">0.75</span>, <span class="at">nrow =</span> <span class="fu">length</span>(strained))</span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="co"># Incident reports go missing more broadly still.</span></span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a>M[<span class="fu">sample</span>(n_prov, <span class="dv">6</span>), <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a>ord <span class="ot">&lt;-</span> <span class="fu">order</span>(<span class="fu">rowSums</span>(M))</span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> M[ord, ]</span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">provider =</span> <span class="fu">seq_len</span>(n_prov),</span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a>                  <span class="at">metric =</span> <span class="fu">factor</span>(metrics, <span class="at">levels =</span> metrics))</span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>status <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">as.vector</span>(M), <span class="st">"Missing"</span>, <span class="st">"Recorded"</span>)</span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(metric, provider, <span class="at">fill =</span> status)) <span class="sc">+</span></span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">colour =</span> <span class="st">"#ffffff"</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Recorded"</span> <span class="ot">=</span> <span class="st">"#AFB9C6"</span>, <span class="st">"Missing"</span> <span class="ot">=</span> <span class="st">"#A83DA4"</span>),</span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a>                    <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">position =</span> <span class="st">"top"</span>) <span class="sc">+</span></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Providers (sorted by number of missing fields)"</span>) <span class="sc">+</span></span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cqc</span>() <span class="sc">+</span></span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a>Do certain variables always go missing *together*, hinting at a shared cause such as a single unfiled return? Counting how often each *combination* of fields is absent answers that directly, and the answer is usually that gaps travel in bundles rather than singly.</span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-missingness-patterns</span></span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "The same 36 providers, counted by which combination of fields they are missing. Most providers are complete, but the gaps that do occur arrive in bundles: staffing, incidents and satisfaction go missing together far more often than any field goes missing alone. Co-missing fields point to a shared cause – here, a strained provider failing to file several returns at once – which a single overall percentage would have hidden entirely."</span></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "A horizontal bar chart of the most common missingness patterns among 36 providers. The longest bar is 'Complete (all fields present)'. The next longest is the bundle 'Staffing + Incidents + Satisfaction'. Shorter bars show single- or paired-field patterns such as 'Incidents' alone. The bundled pattern is clearly more common than fields going missing one at a time."</span></span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 7</span></span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3.2</span></span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/theme_cqc.R"</span>)</span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a>metrics_short <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Bed occupancy"</span>, <span class="st">"Staffing"</span>, <span class="st">"Incidents"</span>,</span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"Complaints"</span>, <span class="st">"Waiting times"</span>, <span class="st">"Satisfaction"</span>)</span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a>n_prov <span class="ot">&lt;-</span> <span class="dv">36</span></span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(n_prov <span class="sc">*</span> <span class="fu">length</span>(metrics_short)) <span class="sc">&lt;</span> <span class="fl">0.04</span>,</span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a>            <span class="at">nrow =</span> n_prov, <span class="at">ncol =</span> <span class="fu">length</span>(metrics_short))</span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a>strained <span class="ot">&lt;-</span> <span class="fu">sample</span>(n_prov, <span class="dv">8</span>)</span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a>M[strained, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">6</span>)] <span class="ot">&lt;-</span> M[strained, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">6</span>)] <span class="sc">|</span></span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="fu">length</span>(strained) <span class="sc">*</span> <span class="dv">3</span>) <span class="sc">&lt;</span> <span class="fl">0.75</span>, <span class="at">nrow =</span> <span class="fu">length</span>(strained))</span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a>M[<span class="fu">sample</span>(n_prov, <span class="dv">6</span>), <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a>pattern <span class="ot">&lt;-</span> <span class="fu">apply</span>(M, <span class="dv">1</span>, <span class="cf">function</span>(r) {</span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">any</span>(r)) <span class="st">"Complete (all fields present)"</span> <span class="cf">else</span></span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(metrics_short[r], <span class="at">collapse =</span> <span class="st">" + "</span>)</span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">table</span>(pattern), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a>top <span class="ot">&lt;-</span> <span class="fu">head</span>(<span class="fu">data.frame</span>(tab, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>), <span class="dv">6</span>)</span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(top) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"pattern"</span>, <span class="st">"n"</span>)</span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a>top<span class="sc">$</span>pattern <span class="ot">&lt;-</span> <span class="fu">factor</span>(top<span class="sc">$</span>pattern, <span class="at">levels =</span> <span class="fu">rev</span>(top<span class="sc">$</span>pattern))</span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(top, <span class="fu">aes</span>(n, pattern)) <span class="sc">+</span></span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#375071"</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> n), <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.3</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">colour =</span> cqc_ink) <span class="sc">+</span></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.12</span>))) <span class="sc">+</span></span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of providers"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cqc</span>() <span class="sc">+</span></span>
+<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a>These shapes – the clustered map, the bundled patterns – are the visual fingerprints of non-random mechanisms. A bar chart of co-missing fields like the one above is the simple cousin of the **upset plot** that the chapter on <span class="co">[</span><span class="ot">computational methods for missing data</span><span class="co">](17-missing-data-methods.qmd)</span> will draw at scale; the same chapter shows how to produce these maps and pattern summaries straight from a dataset, in R and Python. The point of meeting them here is to fix the habit before the tooling: a percentage tells you how much is missing, but only a picture tells you whether the missingness has a shape worth worrying about.</span>
+<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a>**Relate it to what you can see.** This is the step that tests, as far as anything can, where on the mechanism ladder you stand. Mark each record as missing or not on the variable of interest, and compare the two groups on everything else you *do* hold. Do the providers with missing satisfaction scores differ from the rest in size, region, sector, or rating? If they look the same on every observed characteristic, MCAR becomes more plausible. If they differ – smaller providers, say, far more likely to have gaps – then the missingness is at least MAR, and you have just identified the variable you will need to account for. And if the gaps cluster among providers with known risk factors – open complaints, past enforcement, a poor previous rating – then the warning light for MNAR is on, because the missingness is tracking the very thing you were trying to measure. But be clear about where this step stops. It can show that missingness depends on what you observed; it can never show that it depends *only* on what you observed. The last leg of the judgement always rests on assumptions and domain knowledge, because the defining feature of MNAR is precisely that the information you would need to detect it is the information you do not have.</span>
+<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a>**Ask why.** No statistic completes this step; you complete it by talking to the people who own the data. A gap can mean a system migration, a changed reporting requirement, a metric that simply does not apply to this provider type (which is not missing data at all, but a category to handle separately), a return that exists but has not yet arrived – or a deliberate choice not to submit. These causes sit at different points on the mechanism ladder, and you usually cannot tell which you are facing from the numbers. Sometimes the right response is to *augment* the data – link other records, pull a related field, bring in an external source that plausibly explains the gaps and shifts a suspected MNAR problem onto observed ground where you can handle it. That is often exactly the right move, and worth real effort. But it has a limit, and past it sits a judgement call no dataset can make for you: at some point you have to ask the people who know the service what the silence most likely means, and write down the answer as an assumption. Metadata, data managers, and the regulatory context – is submission mandatory, and what follows from not submitting? – are what turn a guess about the mechanism into a defensible judgement. The discipline of writing that judgement down, with its reasons, is part of the quality assurance that any proper analysis owes its readers.</span>
+<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>What the four movements give you is not a verdict the data has signed off on, but an honest, evidence-backed reading of the mechanism – and a reading is often enough to choose proportionately what to do next.</span>
+<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a><span class="fu">## Deciding What to Do</span></span>
+<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a>The mechanism you have argued for, together with how much is missing and how high the stakes are, points to one of a small number of responses. They escalate, from the light-touch default to the move that reframes the whole analysis. The table sets them side by side; the prose that follows walks the escalation.</span>
+<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Strategy <span class="pp">|</span> When it is reasonable <span class="pp">|</span> What it costs or risks <span class="pp">|</span></span>
+<span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Complete case analysis** (listwise deletion) <span class="pp">|</span> The missing slice is small and plausibly MCAR; complete cases resemble the full set on everything you can see <span class="pp">|</span> Loses precision; introduces bias under MAR or MNAR; silently changes the sample behind each table unless you report it <span class="pp">|</span></span>
+<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Single imputation** (mean, median, mode, or last value carried forward) <span class="pp">|</span> A trivial gap, or a rough exploratory pass you will not act on <span class="pp">|</span> Treats a guess as a fact: shrinks the standard error, overstates confidence, and distorts the distribution and the relationships between variables <span class="pp">|</span></span>
+<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Stratify, adjust, or weight** on observed variables <span class="pp">|</span> Missingness looks MAR and the variables it leans on are ones you hold and can put in the model <span class="pp">|</span> Only as good as the MAR assumption and the variables you chose; any residual MNAR bias survives untouched <span class="pp">|</span></span>
+<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Multiple imputation** <span class="pp">|</span> MAR with useful auxiliary information; a high-stakes estimate worth doing properly <span class="pp">|</span> Needs the right model and care; done casually it misleads as confidently as single imputation; computational – see the methods chapter and reach out to the Guild <span class="pp">|</span></span>
+<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Maximum likelihood** (model-based) <span class="pp">|</span> The same MAR territory; a principled alternative to imputation <span class="pp">|</span> Specialist tooling; tied to a specific model of the data <span class="pp">|</span></span>
+<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Sensitivity analysis** / treat the pattern as the finding <span class="pp">|</span> Substantial or MNAR missingness; whenever the mechanism cannot be settled <span class="pp">|</span> Yields a range or a referral rather than one tidy number – and that honesty is the point <span class="pp">|</span></span>
+<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a>When the missingness is **minor and plausibly MCAR** – a few per cent, scattered, with the missing and complete cases indistinguishable on everything you observed – the honest response is usually the simplest. **Complete case analysis** – also called **listwise deletion** – means working only with the records that have no gaps, and under MCAR it is unbiased: you lose a little precision and nothing else. The price of admission is transparency. Report the sample size before and after exclusion, state why you judge the missingness benign, and check quickly that the complete cases really do resemble the full set on the characteristics you can see. Done openly, this is not a fudge; it is the right tool for a small, well-behaved problem. What it is *not* is a default to apply silently, which is how it usually gets used: the most common failing in published work is not a bad imputation but a complete-case analysis nobody mentioned (and the fact that most statistical packages have this behaviour implemented as a default for certain analyses also does not help).</span>
+<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a>When the missingness is **moderate and looks MAR** – patterned, but through variables you hold – the task is to *use* those variables so the pattern stops biasing the result. You might analyse the affected groups separately and combine them, include the variables the missingness leans on as adjustments in your model, weight the complete cases to stand in for the missing ones, or impute the gaps with a method that draws on the observed information. The first three are within reach of routine analysis; the fourth, **multiple imputation** done properly, is the substance of the <span class="co">[</span><span class="ot">computational methods chapter</span><span class="co">](17-missing-data-methods.qmd)</span> and, for a high-stakes result, a good moment to involve the Guild or the Practice Lead. Whatever you choose rests on the assumption that the missingness really is MAR – that the variables you adjusted for were the ones that mattered. State that assumption plainly, because if the truth is MNAR the bias survives every one of these methods.</span>
+<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a>One thing this stage rarely makes obvious is that the *same* missingness, left unhandled, can do very different damage depending on the method you feed the data into. A handful of gaps that barely shift a simple average can pull hard on a model that leans on the joint behaviour of many variables at once – a regression with several predictors, a latent-variable or item-response model, a time series. As analysis moves onto that more advanced terrain, do not reach for a general rule of thumb; check instead whether the specialist literature has studied your particular combination of method and missingness, because for many of them it has, and the findings rarely transfer. Beyond the few standard cases, there is no substitute for patience, domain expertise, and a serious attempt at sensitivity analysis.</span>
+<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a>When the missingness is **substantial, or tangled up with the outcome itself** – a large fraction gone, concentrated among providers you have other reasons to worry about – the right response is to stop reaching for a statistical patch. There is no method that recovers an unbiased estimate from MNAR data without assumptions you cannot check, and pretending otherwise launders a serious problem into a clean-looking number. The honest path forks. You can bound the answer with a **sensitivity analysis**, asking what your conclusion would be under the best and worst plausible stories about the missing values, and reporting the range rather than a false point. And you can take the step that, in regulation, is often the most important of all: stop treating the missingness as an obstacle to the finding, and recognise that *it is the finding*.</span>
+<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🤔 Rethinking: in regulation, who doesn't report is often the point</span></span>
+<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a>Statistics textbooks present missing data as an obstacle: a nuisance standing between you and the unbiased estimate you wanted. In a regulatory setting that framing is frequently backwards.</span>
+<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a>A researcher estimating average blood pressure has no interest in the missingness for its own sake; the gaps are noise to be overcome. But CQC is often not trying to estimate a typical value at all – it is trying to find the providers that warrant attention. And when the providers least likely to submit are the ones most likely to be failing, the *pattern of non-reporting carries the very signal the analysis exists to detect*. Forty per cent of providers not returning incident data is not merely a hole in your denominator; it is forty per cent of providers failing a reporting requirement, concentrated – your investigation showed – among those with open complaints and prior enforcement. The estimate you could squeeze from the sixty per cent who did report is the *less* important number on the page.</span>
+<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a>So the question flips. Not "how do I get around the missing data to estimate performance?" but "what does the pattern of who is missing tell me about provider behaviour?" The non-reporters become a list to investigate in their own right, not because their imputed incident rate looks high, but because the silence itself is a finding – a possible failure of governance, of compliance, or of candour. A missing value, after all, is still an observation; it simply has a very special value, and in a system built to find exceptions that value can be more revealing than any number it conceals. The statistical handling still matters for whatever estimate you do report, and you should caveat it honestly. But read the gap before you fill it: the absence may be the answer.</span>
+<span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a>Across all four responses runs one constant: document what you found and what you did. For any analysis that will be acted on, record how much was missing and where, what mechanism you judged most likely and on what evidence, which handling you chose and why, and – the part most often skipped – what it all means for the confidence a reader should place in your conclusions. That record is not bureaucratic overhead; it is what lets the next person see the choices you made and trust, or challenge, the result. Missing data is one of the clearest places where a defensible analysis and an indefensible one differ not in their methods but in their honesty about the gaps.</span>
+<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a><span class="fu">## Where Missing Data Leads</span></span>
+<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a>This chapter has stayed deliberately conceptual: it offers a way of *thinking* about absent values, not a procedure to run. The frame – read the gap before filling it, tell the three mechanisms apart while remembering they summarise a richer process, separate bias from lost precision, investigate before handling, and in regulation treat systematic absence as a finding – is the foundation the rest of the book builds the machinery on.</span>
+<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a>It sits where it does for a reason. The <span class="co">[</span><span class="ot">inference</span><span class="co">](07-statistical-inference.qmd)</span> chapter taught you to estimate a quantity from a sample and to carry honest uncertainty alongside it; this chapter took away the comfortable assumption underneath that work, that the sample was the one you meant to collect. The two ideas combine in the warning that runs through everything above: a single filled-in guess quietly lies about your uncertainty, shrinking the very <span class="co">[</span><span class="ot">confidence interval</span><span class="co">](07-statistical-inference.qmd)</span> that was supposed to tell the reader how much to trust the number. That is why imputation has to be done carefully rather than casually, and why the honest goal is a valid estimate with honest error bars, not an accurate prediction of values that are gone for good.</span>
+<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a>The machinery is next door, in the chapter on <span class="co">[</span><span class="ot">computational methods for missing data</span><span class="co">](17-missing-data-methods.qmd)</span>, which turns these ideas into reproducible work: making disguised missingness visible, drawing the maps and patterns at scale, and carrying out the multiple imputation and sensitivity analyses sketched here in R and Python. The discipline of recording the assumptions and choices that missing-data handling forces on you belongs to <span class="co">[</span><span class="ot">QA principles</span><span class="co">](09-qa-principles.qmd)</span>, the next chapter, which makes the documentation this chapter keeps asking for into a standard you can hold an analysis to. And the habit underneath all of it is one this part of the book keeps returning to, whether the subject is an <span class="co">[</span><span class="ot">unusual value</span><span class="co">](06-unusual-observations.qmd)</span> or an absent one: look at what the data is doing, ask why it is doing it, and decide on the evidence – never reach for the convenient fix because a gap is inconvenient.</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

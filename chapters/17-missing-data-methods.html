@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>17&nbsp; Missing Data: Computational Methods – CQC Statistical Guidance</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../examples/README.html" rel="next">
+<link href="../chapters/16-outlier-methods.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5c568ff3620675dfea6bfa6c73bdaad4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../custom.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/12-z-scoring.html">Part II: Core Methods</a></li><li class="breadcrumb-item"><a href="../chapters/17-missing-data-methods.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Missing Data: Computational Methods</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">CQC Statistical Guidance</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CQC Statistical Guidance</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to Use This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quick-reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quick Reference</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Types &amp; Implications</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-data-visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualising Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Central Tendency and Position</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-variation-uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measuring Variation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-distribution-shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distribution Shape</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-unusual-observations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unusual Observations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-statistical-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Statistical Inference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-missing-data-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Handling Missing Data: Foundations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-qa-principles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Quality Assurance Principles</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-tooling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Analytical Tooling at CQC</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-generative-ai.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Generative AI in Analytical Work</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Core Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-z-scoring.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparing Provider Performance: Z-scoring</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-spc-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Monitoring Trends Over Time: SPC Basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-t-tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparing Two Groups: t-tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-correlation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Exploring Relationships: Correlation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-outlier-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Outlier Detection Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-missing-data-methods.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Missing Data: Computational Methods</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Part III: Worked Examples</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Worked Examples Library</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-01-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Example 1: GP Access Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-02-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Example 2: Care Home Falls Monitoring</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-03-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Example 3: Mental Health Wait Times</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-04-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Example 4: Medication Safety Pilot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-05-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Example 5: Regional A&amp;E Performance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-06-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Example 6: Ambulance Handover Delays</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-07-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Example 7: Infection Rates in Care Homes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-08-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Example 8: DoLS Application Trends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-09-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Example 9: Staffing and Quality Outcomes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-10-outliers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Example 10: Care Home Staffing Investigation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">References &amp; Resources</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-missing-data-handling" id="toc-sec-missing-data-handling" class="nav-link active" data-scroll-target="#sec-missing-data-handling"><span class="header-section-number">17.1</span> From Reading Gaps to Handling Them</a></li>
+  <li><a href="#before-you-start" id="toc-before-you-start" class="nav-link" data-scroll-target="#before-you-start"><span class="header-section-number">17.2</span> Before You Start</a></li>
+  <li><a href="#step-1-never-trust-0-missing" id="toc-step-1-never-trust-0-missing" class="nav-link" data-scroll-target="#step-1-never-trust-0-missing"><span class="header-section-number">17.3</span> Step 1: Never Trust “0% Missing”</a></li>
+  <li><a href="#worked-example-care-home-quality-returns" id="toc-worked-example-care-home-quality-returns" class="nav-link" data-scroll-target="#worked-example-care-home-quality-returns"><span class="header-section-number">17.4</span> Worked Example: Care Home Quality Returns</a>
+  <ul class="collapse">
+  <li><a href="#set-up-the-data" id="toc-set-up-the-data" class="nav-link" data-scroll-target="#set-up-the-data">Set up the data</a></li>
+  <li><a href="#map-the-structure" id="toc-map-the-structure" class="nav-link" data-scroll-target="#map-the-structure">Map the structure</a></li>
+  <li><a href="#interrogate-the-mechanism" id="toc-interrogate-the-mechanism" class="nav-link" data-scroll-target="#interrogate-the-mechanism">Interrogate the mechanism</a></li>
+  <li><a href="#three-ways-to-handle-it-marked-against-the-truth" id="toc-three-ways-to-handle-it-marked-against-the-truth" class="nav-link" data-scroll-target="#three-ways-to-handle-it-marked-against-the-truth">Three ways to handle it, marked against the truth</a></li>
+  <li><a href="#stress-test-the-conclusion" id="toc-stress-test-the-conclusion" class="nav-link" data-scroll-target="#stress-test-the-conclusion">Stress-test the conclusion</a></li>
+  </ul></li>
+  <li><a href="#documenting-your-analysis" id="toc-documenting-your-analysis" class="nav-link" data-scroll-target="#documenting-your-analysis"><span class="header-section-number">17.5</span> Documenting Your Analysis</a></li>
+  <li><a href="#related-approaches" id="toc-related-approaches" class="nav-link" data-scroll-target="#related-approaches"><span class="header-section-number">17.6</span> Related Approaches</a></li>
+  <li><a href="#when-to-seek-support-from-the-guild" id="toc-when-to-seek-support-from-the-guild" class="nav-link" data-scroll-target="#when-to-seek-support-from-the-guild"><span class="header-section-number">17.7</span> When to Seek Support from the Guild</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">17.8</span> Further Reading</a>
+  <ul class="collapse">
+  <li><a href="#internal-cqc-resources" id="toc-internal-cqc-resources" class="nav-link" data-scroll-target="#internal-cqc-resources">Internal CQC resources</a></li>
+  <li><a href="#the-standard-references" id="toc-the-standard-references" class="nav-link" data-scroll-target="#the-standard-references">The standard references</a></li>
+  <li><a href="#official-statistics-practice" id="toc-official-statistics-practice" class="nav-link" data-scroll-target="#official-statistics-practice">Official-statistics practice</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/12-z-scoring.html">Part II: Core Methods</a></li><li class="breadcrumb-item"><a href="../chapters/17-missing-data-methods.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Missing Data: Computational Methods</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Missing Data: Computational Methods</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What this is for
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You have gaps in your data and a decision to make about them – and you need the tools that turn the <a href="../chapters/08-missing-data-foundations.html">conceptual framework for missing data</a> into reproducible work. For example:</p>
+<ul>
+<li>How much is actually missing in this provider return, once the disguised gaps are counted?</li>
+<li>Which variables go missing together, and in which providers?</li>
+<li>What does the analysis conclude under complete cases, under imputation, and under honest worst cases – and do those conclusions agree?</li>
+</ul>
+<p>This chapter is the machinery: making missingness visible, mapping its structure, handling it in ways that keep the uncertainty honest, and stress-testing whatever you conclude.</p>
+</div>
+</div>
+<section id="sec-missing-data-handling" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="sec-missing-data-handling"><span class="header-section-number">17.1</span> From Reading Gaps to Handling Them</h2>
+<p>The <a href="../chapters/08-missing-data-foundations.html">foundations chapter</a> did the thinking, and this chapter assumes all of it: the three mechanisms and the caution that they are a summary rather than a verdict; the two distinct harms, lost precision and bias; the hard fact that MAR versus MNAR cannot be settled from the data, only argued from evidence; and the regulatory inversion – that in CQC’s work the pattern of who is missing is often a finding in its own right, not an obstacle. What remains is the practical question that chapter deliberately deferred: <em>how</em>, concretely, in code, with the uncertainty kept honest.</p>
+<p>One sentence from the foundations bears repeating before any code runs, because every mistake in this chapter’s territory traces back to forgetting it: the goal of handling missing data is <strong>valid estimates with honest uncertainty, not accurate predictions of the values that are gone</strong>. Lost data is lost. Nothing below recovers it; the methods differ only in how openly they admit that.</p>
+</section>
+<section id="before-you-start" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="before-you-start"><span class="header-section-number">17.2</span> Before You Start</h2>
+<p><strong>Read the foundations first.</strong> The methods here are easy to run and dangerously easy to run on autopilot; <a href="../chapters/08-missing-data-foundations.html">the foundations chapter</a> supplies the questions – above all <em>why is this missing?</em> – that decide which method is even admissible.</p>
+<p><strong>Data requirements.</strong> Any dataset with gaps, which is to say any real dataset. The structured methods (imputation especially) additionally need observed variables that plausibly relate to the missing ones – auxiliary information is the fuel they run on, and without it they idle convincingly.</p>
+<p><strong>When these methods are not the point.</strong> When missingness is substantial and plausibly tied to the missing values themselves – the struggling providers not reporting – no computation below fixes that; the honest outputs are a sensitivity range and an investigation list, and <a href="../chapters/08-missing-data-foundations.html">the foundations chapter’s regulatory inversion</a> is the frame to reach for.</p>
+<p><strong>QA framework alignment.</strong> Missing-data handling most directly supports QA question 1 (Data – is the data fit for the analysis?) and question 5 (Fitness for Purpose – are limitations declared?). The documentation this chapter ends with is a Code of Practice expectation, not a courtesy.</p>
+<p><strong>Worked examples for this chapter.</strong> <a href="../examples/example-01-complete.html">Example 1: GP Access Analysis</a> handles survey missingness inside a z-scoring workflow; the missing-data steps of every other worked example follow the pattern set here.</p>
+<p><em>The code below uses pseudo-randomly generated data. The Python tabs read the R-generated dataset via <code>r.care_homes</code> so both languages show identical numbers; commented-out code shows how to generate the data in Python independently.</em></p>
+</section>
+<section id="step-1-never-trust-0-missing" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="step-1-never-trust-0-missing"><span class="header-section-number">17.3</span> Step 1: Never Trust “0% Missing”</h2>
+<p>Before counting gaps, make sure the gaps are visible at all. Real datasets disguise missingness as values: a <code>9999</code> where a count should be, a <code>0</code> that means “not recorded” rather than “none”, an <code>"Unknown"</code> or <code>"N/A"</code> string, a date of <code>1900-01-01</code>, a blank that one system exports as an empty string and another as the word <code>NULL</code>. A column that reports itself complete may simply have its gaps in costume – and every summary statistic computed over sentinel codes is corrupted in proportion.</p>
+<p>The discipline is short and pays for itself every time: check the data dictionary for declared missing-value codes; tabulate each variable’s most frequent values and inspect anything suspiciously round, repeated, or out of range; check types (numbers arriving as text usually mean stowaway strings); and convert everything that <em>means</em> missing into an explicit <code>NA</code>/<code>NaN</code> before any counting starts. Only then does “how much is missing?” have a trustworthy answer.</p>
+</section>
+<section id="worked-example-care-home-quality-returns" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="worked-example-care-home-quality-returns"><span class="header-section-number">17.4</span> Worked Example: Care Home Quality Returns</h2>
+<p><em>Scenario</em>: 450 care homes should each have submitted three figures – a staffing rate, a resident satisfaction score, and their latest inspection score – alongside their size and region, which you hold for all of them. The returns have gaps. You need to map the missingness, judge its mechanism, and estimate national mean satisfaction without fooling yourself.</p>
+<p>Because the data are simulated, the truth is planted and known: satisfaction genuinely rises with home size, and <em>small homes are far more likely to fail to submit</em> their satisfaction and staffing figures (with a little background missingness everywhere). That combination is the trap this chapter exists for – the missing homes differ systematically from the reporting ones, on a variable that also drives the outcome. We also know the true national mean satisfaction across all 450 homes, so every method below can be marked against it.</p>
+<section id="set-up-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="set-up-the-data">Set up the data</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulated returns (seed for reproducibility).</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Planted truth: satisfaction rises with size; small homes (&lt; 40 beds) are</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># much more likely to fail to submit satisfaction and staffing.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">450</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">20</span><span class="sc">:</span><span class="dv">100</span>, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>satisfaction_full <span class="ot">&lt;-</span> <span class="dv">60</span> <span class="sc">+</span> <span class="fl">0.25</span> <span class="sc">*</span> size <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>true_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(satisfaction_full)   <span class="co"># the answer the methods must recover</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>miss_sat   <span class="ot">&lt;-</span> (size <span class="sc">&lt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.45</span>) <span class="sc">|</span> (<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>miss_staff <span class="ot">&lt;-</span> (size <span class="sc">&lt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.35</span>) <span class="sc">|</span> (<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.04</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>miss_insp  <span class="ot">&lt;-</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.06</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>care_homes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">home_id       =</span> <span class="fu">sprintf</span>(<span class="st">"CH%03d"</span>, <span class="dv">1</span><span class="sc">:</span>n),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">size          =</span> size,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">region        =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"North"</span>, <span class="st">"Central"</span>, <span class="st">"London"</span>, <span class="st">"South"</span>), n,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                         <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">staffing_rate =</span> <span class="fu">ifelse</span>(miss_staff, <span class="cn">NA</span>, <span class="fu">rnorm</span>(n, <span class="fl">3.2</span>, <span class="fl">0.5</span>)),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">satisfaction  =</span> <span class="fu">ifelse</span>(miss_sat, <span class="cn">NA</span>, satisfaction_full),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">inspection    =</span> <span class="fu">ifelse</span>(miss_insp, <span class="cn">NA</span>, <span class="fu">rnorm</span>(n, <span class="dv">78</span>, <span class="dv">7</span>))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(<span class="fu">is.na</span>(care_homes[, <span class="fu">c</span>(<span class="st">"staffing_rate"</span>, <span class="st">"satisfaction"</span>, <span class="st">"inspection"</span>)]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>staffing_rate  satisfaction    inspection 
+   0.12222222    0.13777778    0.06444444 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"True mean satisfaction (all 450 homes):"</span>, <span class="fu">round</span>(true_mean, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>True mean satisfaction (all 450 homes): 74.47 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the R-generated data so both tabs show identical numbers</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>care_homes <span class="op">=</span> r.care_homes</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>true_mean <span class="op">=</span> r.true_mean</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># To generate independently in Python instead:</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># rng = np.random.default_rng(123)</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># size = rng.integers(20, 101, 450)</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># satisfaction_full = 60 + 0.25 * size + rng.normal(0, 8, 450)</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># true_mean = satisfaction_full.mean()</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># miss_sat = ((size &lt; 40) &amp; (rng.random(450) &lt; 0.45)) | (rng.random(450) &lt; 0.05)</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># ... and so on, mirroring the R construction above.</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(care_homes[[<span class="st">"staffing_rate"</span>, <span class="st">"satisfaction"</span>, <span class="st">"inspection"</span>]]</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>      .isna().mean().<span class="bu">round</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>staffing_rate    0.122
+satisfaction     0.138
+inspection       0.064
+dtype: float64</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"True mean satisfaction (all 450 homes): </span><span class="sc">{</span>true_mean<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>True mean satisfaction (all 450 homes): 74.47</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>About 14 per cent of satisfaction scores are gone – enough to matter, not enough to be obviously fatal. The percentage alone, though, settles nothing: the next two steps ask <em>where</em> the gaps are and <em>why</em>.</p>
+</section>
+<section id="map-the-structure" class="level3">
+<h3 class="anchored" data-anchor-id="map-the-structure">Map the structure</h3>
+<p>Counting per variable hides the most useful information: which gaps travel together. An <strong>upset plot</strong> shows, for each <em>combination</em> of missing variables, how many records carry exactly that combination – the natural picture when several variables can each be present or absent.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(UpSetR)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>missing_flags <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">staffing     =</span> <span class="fu">as.integer</span>(<span class="fu">is.na</span>(care_homes<span class="sc">$</span>staffing_rate)),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">satisfaction =</span> <span class="fu">as.integer</span>(<span class="fu">is.na</span>(care_homes<span class="sc">$</span>satisfaction)),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">inspection   =</span> <span class="fu">as.integer</span>(<span class="fu">is.na</span>(care_homes<span class="sc">$</span>inspection))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">upset</span>(missing_flags,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">sets =</span> <span class="fu">c</span>(<span class="st">"staffing"</span>, <span class="st">"satisfaction"</span>, <span class="st">"inspection"</span>),</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">order.by =</span> <span class="st">"freq"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">main.bar.color =</span> <span class="st">"#007EF5"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">sets.bar.color =</span> <span class="st">"#375071"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">matrix.color =</span> <span class="st">"#293241"</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">text.scale =</span> <span class="fl">1.1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-missing-upset-r" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Upset plot of missing-data combinations across three variables: staffing rate, satisfaction, and inspection score. The set-size bars on the left show satisfaction missing most often, then staffing, then inspection. The intersection bars show sizeable groups missing only satisfaction (39 homes), only staffing (33), or only inspection (25), a clear group of 20 homes missing staffing and satisfaction together, and only tiny groups for the other combinations. The joint staffing-and-satisfaction gap stands out as larger than chance overlap would suggest.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-missing-upset-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="17-missing-data-methods_files/figure-html/fig-missing-upset-r-1.png" class="img-fluid figure-img" alt="Upset plot of missing-data combinations across three variables: staffing rate, satisfaction, and inspection score. The set-size bars on the left show satisfaction missing most often, then staffing, then inspection. The intersection bars show sizeable groups missing only satisfaction (39 homes), only staffing (33), or only inspection (25), a clear group of 20 homes missing staffing and satisfaction together, and only tiny groups for the other combinations. The joint staffing-and-satisfaction gap stands out as larger than chance overlap would suggest." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-missing-upset-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.1: The gaps travel together. The tallest bars are single-variable gaps – but twenty homes are missing staffing and satisfaction at the same time, nearly three times what independent accidents would produce, which is the signature of a shared cause rather than scattered accidents. The mechanism investigation starts with that cluster.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> upsetplot <span class="im">import</span> from_indicators, UpSet</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">FutureWarning</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>missing_flags <span class="op">=</span> care_homes[</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"staffing_rate"</span>, <span class="st">"satisfaction"</span>, <span class="st">"inspection"</span>]</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>].isna()</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>missing_flags.columns <span class="op">=</span> [<span class="st">"staffing"</span>, <span class="st">"satisfaction"</span>, <span class="st">"inspection"</span>]</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>upset <span class="op">=</span> UpSet(from_indicators(missing_flags), subset_size<span class="op">=</span><span class="st">"count"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>              show_counts<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> upset.plot()</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> container <span class="kw">in</span> axes[<span class="st">"intersections"</span>].containers:</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    axes[<span class="st">"intersections"</span>].bar_label(container, fmt<span class="op">=</span><span class="st">"</span><span class="sc">%d</span><span class="st">"</span>, padding<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-missing-upset-py" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Upset plot of missing-data combinations across three variables: staffing rate, satisfaction, and inspection score. The set-size bars on the left show satisfaction missing most often, then staffing, then inspection. The intersection bars show sizeable groups missing only satisfaction (39 homes), only staffing (33), or only inspection (25), a clear group of 20 homes missing staffing and satisfaction together, and only tiny groups for the other combinations. The joint staffing-and-satisfaction gap stands out as larger than chance overlap would suggest.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-missing-upset-py-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="17-missing-data-methods_files/figure-html/fig-missing-upset-py-1.png" class="img-fluid figure-img" alt="Upset plot of missing-data combinations across three variables: staffing rate, satisfaction, and inspection score. The set-size bars on the left show satisfaction missing most often, then staffing, then inspection. The intersection bars show sizeable groups missing only satisfaction (39 homes), only staffing (33), or only inspection (25), a clear group of 20 homes missing staffing and satisfaction together, and only tiny groups for the other combinations. The joint staffing-and-satisfaction gap stands out as larger than chance overlap would suggest." width="554">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-missing-upset-py-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.2: The gaps travel together. The tallest bars are single-variable gaps – but twenty homes are missing staffing and satisfaction at the same time, nearly three times what independent accidents would produce, which is the signature of a shared cause rather than scattered accidents. The mechanism investigation starts with that cluster.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>A scatter of independent accidents would make joint gaps rare; here the staffing-and-satisfaction-together bar is far too tall for coincidence. Some common circumstance is suppressing both returns in the same homes – the map cannot say what, but it says exactly where to dig. (For a record-by-record view, the <a href="../chapters/08-missing-data-foundations.html">missingness map from the foundations chapter</a> is the companion picture; the upset plot summarises what that map shows in detail.)</p>
+</section>
+<section id="interrogate-the-mechanism" class="level3">
+<h3 class="anchored" data-anchor-id="interrogate-the-mechanism">Interrogate the mechanism</h3>
+<p>The gaps cluster; the question is whether they cluster along variables you <em>hold</em>. Compare what you know about the missing homes with the complete ones:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>miss <span class="ot">&lt;-</span> <span class="fu">is.na</span>(care_homes<span class="sc">$</span>satisfaction)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(size <span class="sc">~</span> miss, <span class="at">data =</span> <span class="fu">transform</span>(care_homes, <span class="at">miss =</span> miss), mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   miss     size
+1 FALSE 63.29897
+2  TRUE 42.50000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Welch two-sample comparison of home size by missingness status</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(care_homes<span class="sc">$</span>size[miss], care_homes<span class="sc">$</span>size[<span class="sc">!</span>miss])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  care_homes$size[miss] and care_homes$size[!miss]
+t = -6.5292, df = 77.978, p-value = 6.113e-09
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -27.14090 -14.45704
+sample estimates:
+mean of x mean of y 
+ 42.50000  63.29897 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>miss <span class="op">=</span> care_homes[<span class="st">"satisfaction"</span>].isna()</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(care_homes.groupby(miss)[<span class="st">"size"</span>].agg([<span class="st">"mean"</span>, <span class="st">"count"</span>]).<span class="bu">round</span>(<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              mean  count
+satisfaction             
+False         63.3    388
+True          42.5     62</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Welch two-sample comparison of home size by missingness status</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> stats.ttest_ind(care_homes.loc[miss, <span class="st">"size"</span>],</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                      care_homes.loc[<span class="op">~</span>miss, <span class="st">"size"</span>], equal_var<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"t = </span><span class="sc">{</span>res<span class="sc">.</span>statistic<span class="sc">:.2f}</span><span class="ss">, p = </span><span class="sc">{</span>res<span class="sc">.</span>pvalue<span class="sc">:.2e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>t = -6.53, p = 6.11e-09</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>The non-reporting homes average around 42 beds against 63 for the reporters – a difference far beyond chance. So the missingness is emphatically not MCAR: it leans on size, a variable we hold, which is the MAR signature. The <a href="../chapters/08-missing-data-foundations.html">untestable caveat</a> still applies in full: nothing here rules out the gaps <em>also</em> leaning on satisfaction itself (the unhappy small homes staying silent), and that residual doubt is exactly what the sensitivity analysis at the end is for. For now, the working judgement – declared, not hidden – is MAR through size.</p>
+</section>
+<section id="three-ways-to-handle-it-marked-against-the-truth" class="level3">
+<h3 class="anchored" data-anchor-id="three-ways-to-handle-it-marked-against-the-truth">Three ways to handle it, marked against the truth</h3>
+<p><strong>Complete case analysis</strong> – analyse the reporters, drop the rest – is the default everyone reaches for and most software performs silently. Under the mechanism we just diagnosed it is <em>predictably biased</em>: the missing homes are small, small homes score lower, so the surviving sample is too cheerful.</p>
+<p><strong>Single imputation by the mean</strong> – fill every gap with the observed mean – is the classic worse-than-nothing move. It cannot fix the bias (the filled values inherit the cheerful mean), and it actively damages the uncertainty: the sample swells back to 450 with 62 manufactured “observations” of zero variance, so the standard error <em>shrinks</em> while the estimate stays wrong. Confidence rises as validity falls.</p>
+<p><strong>Multiple imputation</strong> does what single imputation pretends to. Rather than one filled-in guess, it draws <em>many</em> plausible completed datasets – each gap filled from a model of the observed relationships (here, satisfaction’s dependence on size) <em>plus</em> random noise reflecting what the model cannot know – analyses each one, and pools the results so the spread <em>between</em> imputations feeds honestly into the final uncertainty. The version below is hand-rolled in a dozen lines so the machinery is visible; the Overthinking box covers the pooling rules and the production-grade tools.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> care_homes<span class="sc">$</span>satisfaction[<span class="sc">!</span>miss]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Complete case analysis</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>cc_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(obs)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>cc_se   <span class="ot">&lt;-</span> <span class="fu">sd</span>(obs) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(obs))</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Single imputation by the mean</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>filled  <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(miss, <span class="fu">mean</span>(obs), care_homes<span class="sc">$</span>satisfaction)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>si_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(filled)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>si_se   <span class="ot">&lt;-</span> <span class="fu">sd</span>(filled) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Multiple imputation (m = 20), using the observed satisfaction-size</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">#    relationship. Each round: bootstrap the reporters (parameter</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co">#    uncertainty), fit satisfaction ~ size, fill the gaps with prediction</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co">#    + residual noise, and record the completed-data estimate.</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>est <span class="ot">&lt;-</span> vr <span class="ot">&lt;-</span> <span class="fu">numeric</span>(m)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>reporters <span class="ot">&lt;-</span> care_homes[<span class="sc">!</span>miss, ]</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>m) {</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  boot  <span class="ot">&lt;-</span> reporters[<span class="fu">sample</span>(<span class="fu">nrow</span>(reporters), <span class="at">replace =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>  fit   <span class="ot">&lt;-</span> <span class="fu">lm</span>(satisfaction <span class="sc">~</span> size, <span class="at">data =</span> boot)</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>  sigma <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>sigma</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  completed <span class="ot">&lt;-</span> care_homes<span class="sc">$</span>satisfaction</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>  completed[miss] <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, <span class="at">newdata =</span> care_homes[miss, ]) <span class="sc">+</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(<span class="fu">sum</span>(miss), <span class="dv">0</span>, sigma)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  est[k] <span class="ot">&lt;-</span> <span class="fu">mean</span>(completed)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>  vr[k]  <span class="ot">&lt;-</span> <span class="fu">var</span>(completed) <span class="sc">/</span> n</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Rubin's rules: total variance = within + (1 + 1/m) * between</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>mi_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(est)</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>mi_se   <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(vr) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> m) <span class="sc">*</span> <span class="fu">var</span>(est))</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">approach =</span> <span class="fu">c</span>(<span class="st">"Complete case"</span>, <span class="st">"Mean imputation"</span>, <span class="st">"Multiple imputation"</span>),</span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate =</span> <span class="fu">round</span>(<span class="fu">c</span>(cc_mean, si_mean, mi_mean), <span class="dv">2</span>),</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">std_error =</span> <span class="fu">round</span>(<span class="fu">c</span>(cc_se, si_se, mi_se), <span class="dv">3</span>)</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             approach estimate std_error
+1       Complete case    75.41     0.486
+2     Mean imputation    75.41     0.419
+3 Multiple imputation    74.67     0.487</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"True mean:"</span>, <span class="fu">round</span>(true_mean, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>True mean: 74.47 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">7</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> care_homes.loc[<span class="op">~</span>miss, <span class="st">"satisfaction"</span>]</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(care_homes)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Complete case analysis</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>cc_mean, cc_se <span class="op">=</span> obs.mean(), obs.std(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">/</span> np.sqrt(<span class="bu">len</span>(obs))</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Single imputation by the mean</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>filled <span class="op">=</span> care_homes[<span class="st">"satisfaction"</span>].fillna(obs.mean())</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>si_mean, si_se <span class="op">=</span> filled.mean(), filled.std(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">/</span> np.sqrt(n)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Multiple imputation (m = 20), using the observed satisfaction-size</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co">#    relationship: bootstrap the reporters, fit satisfaction ~ size, fill</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co">#    the gaps with prediction + residual noise, record each estimate.</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>reporters <span class="op">=</span> care_homes.loc[<span class="op">~</span>miss, [<span class="st">"size"</span>, <span class="st">"satisfaction"</span>]]</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>est, vr <span class="op">=</span> np.empty(m), np.empty(m)</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(m):</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    boot <span class="op">=</span> reporters.sample(<span class="bu">len</span>(reporters), replace<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span>k)</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    slope, intercept <span class="op">=</span> np.polyfit(boot[<span class="st">"size"</span>], boot[<span class="st">"satisfaction"</span>], <span class="dv">1</span>)</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    resid <span class="op">=</span> boot[<span class="st">"satisfaction"</span>] <span class="op">-</span> (intercept <span class="op">+</span> slope <span class="op">*</span> boot[<span class="st">"size"</span>])</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> resid.std(ddof<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    completed <span class="op">=</span> care_homes[<span class="st">"satisfaction"</span>].copy()</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    pred <span class="op">=</span> intercept <span class="op">+</span> slope <span class="op">*</span> care_homes.loc[miss, <span class="st">"size"</span>]</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>    completed[miss] <span class="op">=</span> pred <span class="op">+</span> rng.normal(<span class="dv">0</span>, sigma, miss.<span class="bu">sum</span>())</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>    est[k] <span class="op">=</span> completed.mean()</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>    vr[k] <span class="op">=</span> completed.var(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">/</span> n</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Rubin's rules: total variance = within + (1 + 1/m) * between</span></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>mi_mean <span class="op">=</span> est.mean()</span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>mi_se <span class="op">=</span> np.sqrt(vr.mean() <span class="op">+</span> (<span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span> <span class="op">/</span> m) <span class="op">*</span> est.var(ddof<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.DataFrame({</span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"approach"</span>: [<span class="st">"Complete case"</span>, <span class="st">"Mean imputation"</span>, <span class="st">"Multiple imputation"</span>],</span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"estimate"</span>: np.<span class="bu">round</span>([cc_mean, si_mean, mi_mean], <span class="dv">2</span>),</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"std_error"</span>: np.<span class="bu">round</span>([cc_se, si_se, mi_se], <span class="dv">3</span>),</span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>}).to_string(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           approach  estimate  std_error
+      Complete case     75.41      0.486
+    Mean imputation     75.41      0.419
+Multiple imputation     74.61      0.492</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"True mean: </span><span class="sc">{</span>true_mean<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>True mean: 74.47</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-missing-compare" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Dot-and-interval chart comparing three estimates of mean satisfaction against a dashed vertical line at the true value of 74.5. Complete case: point near 75.4 with an interval whose lower end just touches the dashed line. Mean imputation: the same point near 75.4 but a visibly narrower interval that sits entirely to the right of the dashed line, excluding the truth. Multiple imputation: point near 74.7 with an interval similar in width to the complete-case one, comfortably covering the dashed line.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-missing-compare-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="17-missing-data-methods_files/figure-html/fig-missing-compare-1.png" class="img-fluid figure-img" alt="Dot-and-interval chart comparing three estimates of mean satisfaction against a dashed vertical line at the true value of 74.5. Complete case: point near 75.4 with an interval whose lower end just touches the dashed line. Mean imputation: the same point near 75.4 but a visibly narrower interval that sits entirely to the right of the dashed line, excluding the truth. Multiple imputation: point near 74.7 with an interval similar in width to the complete-case one, comfortably covering the dashed line." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-missing-compare-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.3: The method that claims the most certainty is the one that misses. All three approaches are shown with 95% intervals against the true mean (dashed). Complete-case analysis lands a point too high and its interval only just reaches the truth. Mean imputation keeps the same biased estimate and shrinks the interval until it excludes the true value entirely – confidently wrong. Multiple imputation, using the size relationship the mechanism investigation found, recovers the truth with an honestly sized interval.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Read the comparison the way a reviewer would. Complete-case analysis is biased upward by about a point, exactly as the mechanism predicted – and with this much data its interval barely stretches to the truth. Mean imputation keeps the bias and adds false precision; it is the only approach whose interval <em>excludes</em> the right answer, which is the quiet scandal of a method still common in practice. Multiple imputation, fuelled by the size relationship the investigation surfaced, comes within a fifth of a point of the truth with an interval that owns up to the remaining uncertainty. None of this is luck: each result follows from what each method does with information and with doubt.</p>
+</section>
+<section id="stress-test-the-conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="stress-test-the-conclusion">Stress-test the conclusion</h3>
+<p>The MAR judgement was an argument, not a proof, so the last step bounds what the unverifiable part could do. Suppose the silent homes are not merely small but <em>unhappy</em> – that their satisfaction runs a full residual standard deviation (8 points) below what the size model predicts; or, in the other direction, that they run 8 points above. Recomputing the national mean under both stories spans roughly 74.3 to 76.5 – about a two-point band. If the decision the estimate feeds would change anywhere inside that band, the missingness genuinely matters and the honest report says so; if not, the conclusion is robust to the assumption you could not test. Either way, the <em>tipping point</em> framing – how bad would the silent homes have to be before the conclusion flips? – converts an untestable assumption into a question a domain expert can actually answer.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🤔 Rethinking: imputation is not prediction
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The word “imputation” invites a misunderstanding that quietly wrecks analyses: that the job is to <em>predict the missing values</em>, and that a better predictor therefore means better handling. It is not, and it does not.</p>
+<p>If prediction were the goal, the ideal imputation would fill each gap with its single most likely value – and that is precisely what single imputation does, and precisely why it fails. Filling every gap with the best guess produces a dataset that is individually plausible and collectively false: too smooth, too certain, its variability flattened and its standard errors shrunk, as the worked example shows. The deliberately <em>noisy</em> fills of multiple imputation – each one a worse prediction than the model’s best guess – produce the estimate that is actually right, with uncertainty that is actually honest. Worse predictions, better statistics: that is not a paradox, it is the whole point. The target was never the individual values (lost data is lost); it was valid estimates of the quantities the analysis is about, with intervals a reader can trust.</p>
+<p>The regulatory translation is direct. An imputed satisfaction score for a silent care home is not evidence about that home – it would be indefensible in any conversation about that provider, and no imputation output should ever appear in a provider-level judgement. Imputation exists to stop the <em>national</em> picture being distorted by the silence; what the silence means for the silent home is <a href="../chapters/08-missing-data-foundations.html">the other question, and often the more important one</a>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>⚙️ Overthinking: Rubin’s rules, m, and the production tools
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Why the pooling works.</strong> Each completed dataset yields an estimate <span class="math inline">\(\hat{q}_k\)</span> and its ordinary variance <span class="math inline">\(W_k\)</span>. Rubin’s rules pool them as <span class="math inline">\(\bar{q} = \frac{1}{m}\sum \hat{q}_k\)</span> with total variance <span class="math inline">\(T = \bar{W} + (1 + \tfrac{1}{m})B\)</span>, where <span class="math inline">\(\bar{W}\)</span> is the mean within-imputation variance and <span class="math inline">\(B\)</span> the variance <em>between</em> the <span class="math inline">\(m\)</span> estimates. <span class="math inline">\(B\)</span> is the term single imputation throws away: it measures how much the answer moves when the unknowable values are re-drawn, which is exactly the uncertainty the gaps created. (Significance tests on pooled estimates use a t reference with degrees of freedom that depend on <span class="math inline">\(B/\bar{W}\)</span> – software handles this.)</p>
+<p><strong>Proper imputation needs parameter uncertainty too.</strong> Filling gaps with “prediction plus residual noise” from one fitted model still understates <span class="math inline">\(B\)</span>, because it treats the model’s coefficients as known. The bootstrap step in the worked example – refitting the model on a resample before each imputation – is one standard fix; fully Bayesian draws are the other. Library implementations do this correctly by default, which is a reason to prefer them in production.</p>
+<p><strong>How many imputations.</strong> The old advice of <span class="math inline">\(m = 5\)</span> dates from when computation was expensive; modern practice scales <span class="math inline">\(m\)</span> with the fraction of missing information – 20 is a reasonable floor, 50 or more for heavily incomplete data or when the analysis reports variances. The cost is trivial; the stability is not.</p>
+<p><strong>The production tools.</strong> The hand-rolled loop above is for understanding, not for service. In R, the <code>mice</code> package (van Buuren’s <em>multiple imputation by chained equations</em>) handles many incomplete variables at once, mixed types, and diagnostics; in Python, <code>statsmodels</code>’ MICE implementation and scikit-learn’s <code>IterativeImputer</code> cover similar ground (the latter does not pool – you still own Rubin’s rules). <em>Maximum likelihood</em> (full-information ML) is the equally principled alternative that skips imputation entirely, estimating parameters directly from the observed-data likelihood; for many models it and MI give near-identical answers, and the choice is one of convenience. Chained-equations modelling has real settings to get right – which variables to include (generously: auxiliaries help), how many iterations, convergence checks – so for a high-stakes analysis, involve the Guild rather than accepting defaults.</p>
+<p><strong>What none of this touches.</strong> Every method in this box assumes MAR given the model’s variables. If the silence depends on the missing values themselves after all that conditioning, MI will be confidently, smoothly wrong – which is why the sensitivity analysis is not an optional extra. Formal MNAR machinery exists (selection models, pattern-mixture models) and rests on assumptions as unverifiable as the problem it addresses; it is Guild territory, and its main practical use is disciplined sensitivity analysis rather than rescue. Survey-style <em>non-response weighting</em> (Laaksonen’s territory) is the other principled MAR route – reweight the reporters to stand for the population – and shares both the strengths and the assumption.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="documenting-your-analysis" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="documenting-your-analysis"><span class="header-section-number">17.5</span> Documenting Your Analysis</h2>
+<p>For QA purposes, record: how much was missing, per variable and overall, <em>after</em> sentinel codes were converted; the structure (the upset plot or missingness map, retained as evidence); the mechanism judgement and the evidence behind it – including the comparisons of missing versus complete cases on observed variables, and an honest statement of what could not be tested; the handling chosen, with the model and settings if imputation was used (and the software’s version – defaults change); the sensitivity analysis and the band it produced; and what the missingness means for confidence in the conclusions, in words a non-specialist reader can weigh. This record is what the Code of Practice’s quality pillar looks like in practice – and for any consequential analysis, it is the difference between a result that survives challenge and one that does not.</p>
+</section>
+<section id="related-approaches" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="related-approaches"><span class="header-section-number">17.6</span> Related Approaches</h2>
+<ul>
+<li>The thinking behind every choice here → <a href="../chapters/08-missing-data-foundations.html">missing data foundations</a>: mechanisms, bias versus precision, and the missingness-as-finding inversion.</li>
+<li>Estimation and honest intervals, which imputation exists to protect → <a href="../chapters/07-statistical-inference.html">statistical inference</a>.</li>
+<li>Non-submission as a provider behaviour to investigate → <a href="../chapters/06-unusual-observations.html">unusual observations</a> for the investigation discipline.</li>
+<li>The documentation standard the record above feeds → <a href="../chapters/09-qa-principles.html">QA principles</a>.</li>
+<li>Complete workflow with missingness handled in context → <a href="../examples/example-01-complete.html">Example 1: GP Access Analysis</a>.</li>
+</ul>
+</section>
+<section id="when-to-seek-support-from-the-guild" class="level2" data-number="17.7">
+<h2 data-number="17.7" class="anchored" data-anchor-id="when-to-seek-support-from-the-guild"><span class="header-section-number">17.7</span> When to Seek Support from the Guild</h2>
+<p>Raise your analysis with the Quantitative Analytics and Statistics Guild (the Guild) at a Quant Clinic session when: the missingness is substantial and plausibly MNAR – especially when non-submission correlates with risk; a multiple-imputation model is needed in production (variable selection, chained-equations settings, diagnostics); several variables are incomplete at once with structure between them; weighting and imputation are both candidates and the choice matters; the analysis model is complex enough (multilevel, time series, latent variables) that missingness interacts with it in non-obvious ways; or a published or actioned conclusion would move within the sensitivity band.</p>
+</section>
+<section id="further-reading" class="level2" data-number="17.8">
+<h2 data-number="17.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">17.8</span> Further Reading</h2>
+<section id="internal-cqc-resources" class="level3">
+<h3 class="anchored" data-anchor-id="internal-cqc-resources">Internal CQC resources</h3>
+<ul>
+<li>The QA Framework sets the documentation standards for data limitations and caveats; see <a href="../getting-started.html">How to Use This Book</a> for how to access support.</li>
+</ul>
+</section>
+<section id="the-standard-references" class="level3">
+<h3 class="anchored" data-anchor-id="the-standard-references">The standard references</h3>
+<ul>
+<li>Little, R.J.A. &amp; Rubin, D.B. (2019). <em>Statistical Analysis with Missing Data</em> (3rd ed.). Wiley. (The canonical theory, from the authors of the mechanism taxonomy.)</li>
+<li>van Buuren, S. (2018). <em>Flexible Imputation of Missing Data</em> (2nd ed.). CRC Press. (The practitioner’s reference for multiple imputation and <code>mice</code>; freely readable online.)</li>
+<li>Sterne, J.A.C. et al.&nbsp;(2009). “Multiple imputation for missing data in epidemiological and clinical research: potential and pitfalls.” <em>BMJ</em>, 338, b2393. (The best single healthcare treatment, with a reporting checklist.)</li>
+<li>Schafer, J.L. &amp; Graham, J.W. (2002). “Missing data: our view of the state of the art.” <em>Psychological Methods</em>, 7(2), 147–177. (Why MI and maximum likelihood are the principled pair; the MAR-name caveat.)</li>
+</ul>
+</section>
+<section id="official-statistics-practice" class="level3">
+<h3 class="anchored" data-anchor-id="official-statistics-practice">Official-statistics practice</h3>
+<ul>
+<li>Office for National Statistics, Methodological Research Hub (2024). <a href="https://analysisfunction.civilservice.gov.uk/blog/how-do-you-solve-a-problem-like-missing-data/">“How do you solve a problem like missing data?”</a> UK Government Analysis Function. (The official-statistics stance: principled imputation over discarding, contingent on data quality.)</li>
+<li>Laaksonen, S. (2018). <em>Survey Methodology and Missing Data</em>. Springer. (Unit versus item non-response and the weighting tradition.)</li>
+</ul>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+(function () {
+  'use strict';
+
+  function init() {
+    var sidebar = document.getElementById('quarto-margin-sidebar');
+    if (!sidebar) return;
+
+    var tocLinks = Array.from(sidebar.querySelectorAll('a[href^="#"]'));
+    if (!tocLinks.length) return;
+
+    var sectionIds = tocLinks
+      .map(function (a) { return a.getAttribute('href').slice(1); })
+      .filter(Boolean);
+
+    var sections = sectionIds
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+
+    if (!sections.length) return;
+
+    function setActive(id) {
+      tocLinks.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+
+    // Track the topmost visible section
+    var visible = new Set();
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            visible.add(e.target.id);
+          } else {
+            visible.delete(e.target.id);
+          }
+        });
+        // Activate the first section in document order that is visible
+        for (var i = 0; i < sections.length; i++) {
+          if (visible.has(sections[i].id)) {
+            setActive(sections[i].id);
+            return;
+          }
+        }
+      },
+      { rootMargin: '0px 0px -70% 0px', threshold: 0 }
+    );
+
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/16-outlier-methods.html" class="pagination-link" aria-label="Outlier Detection Methods">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Outlier Detection Methods</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../examples/README.html" class="pagination-link" aria-label="Worked Examples Library">
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Worked Examples Library</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Missing Data: Computational Methods"</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the Python tabs through reticulate so both languages share one dataset</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## What this is for</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>You have gaps in your data and a decision to make about them – and you need the tools that turn the <span class="co">[</span><span class="ot">conceptual framework for missing data</span><span class="co">](08-missing-data-foundations.qmd)</span> into reproducible work. For example:</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>How much is actually missing in this provider return, once the disguised gaps are counted?</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Which variables go missing together, and in which providers?</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What does the analysis conclude under complete cases, under imputation, and under honest worst cases – and do those conclusions agree?</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>This chapter is the machinery: making missingness visible, mapping its structure, handling it in ways that keep the uncertainty honest, and stress-testing whatever you conclude.</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## From Reading Gaps to Handling Them {#sec-missing-data-handling}</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>The <span class="co">[</span><span class="ot">foundations chapter</span><span class="co">](08-missing-data-foundations.qmd)</span> did the thinking, and this chapter assumes all of it: the three mechanisms and the caution that they are a summary rather than a verdict; the two distinct harms, lost precision and bias; the hard fact that MAR versus MNAR cannot be settled from the data, only argued from evidence; and the regulatory inversion – that in CQC's work the pattern of who is missing is often a finding in its own right, not an obstacle. What remains is the practical question that chapter deliberately deferred: *how*, concretely, in code, with the uncertainty kept honest.</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>One sentence from the foundations bears repeating before any code runs, because every mistake in this chapter's territory traces back to forgetting it: the goal of handling missing data is **valid estimates with honest uncertainty, not accurate predictions of the values that are gone**. Lost data is lost. Nothing below recovers it; the methods differ only in how openly they admit that.</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Before You Start</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>**Read the foundations first.** The methods here are easy to run and dangerously easy to run on autopilot; <span class="co">[</span><span class="ot">the foundations chapter</span><span class="co">](08-missing-data-foundations.qmd)</span> supplies the questions – above all *why is this missing?* – that decide which method is even admissible.</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>**Data requirements.** Any dataset with gaps, which is to say any real dataset. The structured methods (imputation especially) additionally need observed variables that plausibly relate to the missing ones – auxiliary information is the fuel they run on, and without it they idle convincingly.</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>**When these methods are not the point.** When missingness is substantial and plausibly tied to the missing values themselves – the struggling providers not reporting – no computation below fixes that; the honest outputs are a sensitivity range and an investigation list, and <span class="co">[</span><span class="ot">the foundations chapter's regulatory inversion</span><span class="co">](08-missing-data-foundations.qmd)</span> is the frame to reach for.</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>**QA framework alignment.** Missing-data handling most directly supports QA question 1 (Data – is the data fit for the analysis?) and question 5 (Fitness for Purpose – are limitations declared?). The documentation this chapter ends with is a Code of Practice expectation, not a courtesy.</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>**Worked examples for this chapter.** <span class="co">[</span><span class="ot">Example 1: GP Access Analysis</span><span class="co">](../examples/example-01-complete.qmd)</span> handles survey missingness inside a z-scoring workflow; the missing-data steps of every other worked example follow the pattern set here.</span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>*The code below uses pseudo-randomly generated data. The Python tabs read the R-generated dataset via `r.care_homes` so both languages show identical numbers; commented-out code shows how to generate the data in Python independently.*</span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 1: Never Trust "0% Missing"</span></span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a>Before counting gaps, make sure the gaps are visible at all. Real datasets disguise missingness as values: a <span class="in">`9999`</span> where a count should be, a <span class="in">`0`</span> that means "not recorded" rather than "none", an <span class="in">`"Unknown"`</span> or <span class="in">`"N/A"`</span> string, a date of <span class="in">`1900-01-01`</span>, a blank that one system exports as an empty string and another as the word <span class="in">`NULL`</span>. A column that reports itself complete may simply have its gaps in costume – and every summary statistic computed over sentinel codes is corrupted in proportion.</span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a>The discipline is short and pays for itself every time: check the data dictionary for declared missing-value codes; tabulate each variable's most frequent values and inspect anything suspiciously round, repeated, or out of range; check types (numbers arriving as text usually mean stowaway strings); and convert everything that *means* missing into an explicit <span class="in">`NA`</span>/<span class="in">`NaN`</span> before any counting starts. Only then does "how much is missing?" have a trustworthy answer.</span>
+<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-51"><a href="#cb27-51" aria-hidden="true" tabindex="-1"></a><span class="fu">## Worked Example: Care Home Quality Returns</span></span>
+<span id="cb27-52"><a href="#cb27-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-53"><a href="#cb27-53" aria-hidden="true" tabindex="-1"></a>*Scenario*: 450 care homes should each have submitted three figures – a staffing rate, a resident satisfaction score, and their latest inspection score – alongside their size and region, which you hold for all of them. The returns have gaps. You need to map the missingness, judge its mechanism, and estimate national mean satisfaction without fooling yourself.</span>
+<span id="cb27-54"><a href="#cb27-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-55"><a href="#cb27-55" aria-hidden="true" tabindex="-1"></a>Because the data are simulated, the truth is planted and known: satisfaction genuinely rises with home size, and *small homes are far more likely to fail to submit* their satisfaction and staffing figures (with a little background missingness everywhere). That combination is the trap this chapter exists for – the missing homes differ systematically from the reporting ones, on a variable that also drives the outcome. We also know the true national mean satisfaction across all 450 homes, so every method below can be marked against it.</span>
+<span id="cb27-56"><a href="#cb27-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-57"><a href="#cb27-57" aria-hidden="true" tabindex="-1"></a><span class="fu">### Set up the data</span></span>
+<span id="cb27-58"><a href="#cb27-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-59"><a href="#cb27-59" aria-hidden="true" tabindex="-1"></a>:::: {.panel-tabset group="language"}</span>
+<span id="cb27-60"><a href="#cb27-60" aria-hidden="true" tabindex="-1"></a><span class="fu">## R</span></span>
+<span id="cb27-63"><a href="#cb27-63" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-64"><a href="#cb27-64" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: missing-data-setup</span></span>
+<span id="cb27-65"><a href="#cb27-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulated returns (seed for reproducibility).</span></span>
+<span id="cb27-66"><a href="#cb27-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Planted truth: satisfaction rises with size; small homes (&lt; 40 beds) are</span></span>
+<span id="cb27-67"><a href="#cb27-67" aria-hidden="true" tabindex="-1"></a><span class="co"># much more likely to fail to submit satisfaction and staffing.</span></span>
+<span id="cb27-68"><a href="#cb27-68" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb27-69"><a href="#cb27-69" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">450</span></span>
+<span id="cb27-70"><a href="#cb27-70" aria-hidden="true" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">20</span><span class="sc">:</span><span class="dv">100</span>, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-71"><a href="#cb27-71" aria-hidden="true" tabindex="-1"></a>satisfaction_full <span class="ot">&lt;-</span> <span class="dv">60</span> <span class="sc">+</span> <span class="fl">0.25</span> <span class="sc">*</span> size <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
+<span id="cb27-72"><a href="#cb27-72" aria-hidden="true" tabindex="-1"></a>true_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(satisfaction_full)   <span class="co"># the answer the methods must recover</span></span>
+<span id="cb27-73"><a href="#cb27-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-74"><a href="#cb27-74" aria-hidden="true" tabindex="-1"></a>miss_sat   <span class="ot">&lt;-</span> (size <span class="sc">&lt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.45</span>) <span class="sc">|</span> (<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb27-75"><a href="#cb27-75" aria-hidden="true" tabindex="-1"></a>miss_staff <span class="ot">&lt;-</span> (size <span class="sc">&lt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.35</span>) <span class="sc">|</span> (<span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.04</span>)</span>
+<span id="cb27-76"><a href="#cb27-76" aria-hidden="true" tabindex="-1"></a>miss_insp  <span class="ot">&lt;-</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> <span class="fl">0.06</span></span>
+<span id="cb27-77"><a href="#cb27-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-78"><a href="#cb27-78" aria-hidden="true" tabindex="-1"></a>care_homes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb27-79"><a href="#cb27-79" aria-hidden="true" tabindex="-1"></a>  <span class="at">home_id       =</span> <span class="fu">sprintf</span>(<span class="st">"CH%03d"</span>, <span class="dv">1</span><span class="sc">:</span>n),</span>
+<span id="cb27-80"><a href="#cb27-80" aria-hidden="true" tabindex="-1"></a>  <span class="at">size          =</span> size,</span>
+<span id="cb27-81"><a href="#cb27-81" aria-hidden="true" tabindex="-1"></a>  <span class="at">region        =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"North"</span>, <span class="st">"Central"</span>, <span class="st">"London"</span>, <span class="st">"South"</span>), n,</span>
+<span id="cb27-82"><a href="#cb27-82" aria-hidden="true" tabindex="-1"></a>                         <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-83"><a href="#cb27-83" aria-hidden="true" tabindex="-1"></a>  <span class="at">staffing_rate =</span> <span class="fu">ifelse</span>(miss_staff, <span class="cn">NA</span>, <span class="fu">rnorm</span>(n, <span class="fl">3.2</span>, <span class="fl">0.5</span>)),</span>
+<span id="cb27-84"><a href="#cb27-84" aria-hidden="true" tabindex="-1"></a>  <span class="at">satisfaction  =</span> <span class="fu">ifelse</span>(miss_sat, <span class="cn">NA</span>, satisfaction_full),</span>
+<span id="cb27-85"><a href="#cb27-85" aria-hidden="true" tabindex="-1"></a>  <span class="at">inspection    =</span> <span class="fu">ifelse</span>(miss_insp, <span class="cn">NA</span>, <span class="fu">rnorm</span>(n, <span class="dv">78</span>, <span class="dv">7</span>))</span>
+<span id="cb27-86"><a href="#cb27-86" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-87"><a href="#cb27-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-88"><a href="#cb27-88" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(<span class="fu">is.na</span>(care_homes[, <span class="fu">c</span>(<span class="st">"staffing_rate"</span>, <span class="st">"satisfaction"</span>, <span class="st">"inspection"</span>)]))</span>
+<span id="cb27-89"><a href="#cb27-89" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"True mean satisfaction (all 450 homes):"</span>, <span class="fu">round</span>(true_mean, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb27-90"><a href="#cb27-90" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-91"><a href="#cb27-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-92"><a href="#cb27-92" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
+<span id="cb27-95"><a href="#cb27-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb27-96"><a href="#cb27-96" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: missing-data-setup-py</span></span>
+<span id="cb27-97"><a href="#cb27-97" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb27-98"><a href="#cb27-98" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb27-99"><a href="#cb27-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-100"><a href="#cb27-100" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the R-generated data so both tabs show identical numbers</span></span>
+<span id="cb27-101"><a href="#cb27-101" aria-hidden="true" tabindex="-1"></a>care_homes <span class="op">=</span> r.care_homes</span>
+<span id="cb27-102"><a href="#cb27-102" aria-hidden="true" tabindex="-1"></a>true_mean <span class="op">=</span> r.true_mean</span>
+<span id="cb27-103"><a href="#cb27-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-104"><a href="#cb27-104" aria-hidden="true" tabindex="-1"></a><span class="co"># To generate independently in Python instead:</span></span>
+<span id="cb27-105"><a href="#cb27-105" aria-hidden="true" tabindex="-1"></a><span class="co"># rng = np.random.default_rng(123)</span></span>
+<span id="cb27-106"><a href="#cb27-106" aria-hidden="true" tabindex="-1"></a><span class="co"># size = rng.integers(20, 101, 450)</span></span>
+<span id="cb27-107"><a href="#cb27-107" aria-hidden="true" tabindex="-1"></a><span class="co"># satisfaction_full = 60 + 0.25 * size + rng.normal(0, 8, 450)</span></span>
+<span id="cb27-108"><a href="#cb27-108" aria-hidden="true" tabindex="-1"></a><span class="co"># true_mean = satisfaction_full.mean()</span></span>
+<span id="cb27-109"><a href="#cb27-109" aria-hidden="true" tabindex="-1"></a><span class="co"># miss_sat = ((size &lt; 40) &amp; (rng.random(450) &lt; 0.45)) | (rng.random(450) &lt; 0.05)</span></span>
+<span id="cb27-110"><a href="#cb27-110" aria-hidden="true" tabindex="-1"></a><span class="co"># ... and so on, mirroring the R construction above.</span></span>
+<span id="cb27-111"><a href="#cb27-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-112"><a href="#cb27-112" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(care_homes[[<span class="st">"staffing_rate"</span>, <span class="st">"satisfaction"</span>, <span class="st">"inspection"</span>]]</span>
+<span id="cb27-113"><a href="#cb27-113" aria-hidden="true" tabindex="-1"></a>      .isna().mean().<span class="bu">round</span>(<span class="dv">3</span>))</span>
+<span id="cb27-114"><a href="#cb27-114" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"True mean satisfaction (all 450 homes): </span><span class="sc">{</span>true_mean<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb27-115"><a href="#cb27-115" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-116"><a href="#cb27-116" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb27-117"><a href="#cb27-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-118"><a href="#cb27-118" aria-hidden="true" tabindex="-1"></a>About 14 per cent of satisfaction scores are gone – enough to matter, not enough to be obviously fatal. The percentage alone, though, settles nothing: the next two steps ask *where* the gaps are and *why*.</span>
+<span id="cb27-119"><a href="#cb27-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-120"><a href="#cb27-120" aria-hidden="true" tabindex="-1"></a><span class="fu">### Map the structure</span></span>
+<span id="cb27-121"><a href="#cb27-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-122"><a href="#cb27-122" aria-hidden="true" tabindex="-1"></a>Counting per variable hides the most useful information: which gaps travel together. An **upset plot** shows, for each *combination* of missing variables, how many records carry exactly that combination – the natural picture when several variables can each be present or absent.</span>
+<span id="cb27-123"><a href="#cb27-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-124"><a href="#cb27-124" aria-hidden="true" tabindex="-1"></a>:::: {.panel-tabset group="language"}</span>
+<span id="cb27-125"><a href="#cb27-125" aria-hidden="true" tabindex="-1"></a><span class="fu">## R</span></span>
+<span id="cb27-128"><a href="#cb27-128" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-129"><a href="#cb27-129" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-missing-upset-r</span></span>
+<span id="cb27-130"><a href="#cb27-130" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "The gaps travel together. The tallest bars are single-variable gaps – but twenty homes are missing staffing and satisfaction at the same time, nearly three times what independent accidents would produce, which is the signature of a shared cause rather than scattered accidents. The mechanism investigation starts with that cluster."</span></span>
+<span id="cb27-131"><a href="#cb27-131" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "Upset plot of missing-data combinations across three variables: staffing rate, satisfaction, and inspection score. The set-size bars on the left show satisfaction missing most often, then staffing, then inspection. The intersection bars show sizeable groups missing only satisfaction (39 homes), only staffing (33), or only inspection (25), a clear group of 20 homes missing staffing and satisfaction together, and only tiny groups for the other combinations. The joint staffing-and-satisfaction gap stands out as larger than chance overlap would suggest."</span></span>
+<span id="cb27-132"><a href="#cb27-132" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 8</span></span>
+<span id="cb27-133"><a href="#cb27-133" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 4.5</span></span>
+<span id="cb27-134"><a href="#cb27-134" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb27-135"><a href="#cb27-135" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb27-136"><a href="#cb27-136" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(UpSetR)</span>
+<span id="cb27-137"><a href="#cb27-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-138"><a href="#cb27-138" aria-hidden="true" tabindex="-1"></a>missing_flags <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb27-139"><a href="#cb27-139" aria-hidden="true" tabindex="-1"></a>  <span class="at">staffing     =</span> <span class="fu">as.integer</span>(<span class="fu">is.na</span>(care_homes<span class="sc">$</span>staffing_rate)),</span>
+<span id="cb27-140"><a href="#cb27-140" aria-hidden="true" tabindex="-1"></a>  <span class="at">satisfaction =</span> <span class="fu">as.integer</span>(<span class="fu">is.na</span>(care_homes<span class="sc">$</span>satisfaction)),</span>
+<span id="cb27-141"><a href="#cb27-141" aria-hidden="true" tabindex="-1"></a>  <span class="at">inspection   =</span> <span class="fu">as.integer</span>(<span class="fu">is.na</span>(care_homes<span class="sc">$</span>inspection))</span>
+<span id="cb27-142"><a href="#cb27-142" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-143"><a href="#cb27-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-144"><a href="#cb27-144" aria-hidden="true" tabindex="-1"></a><span class="fu">upset</span>(missing_flags,</span>
+<span id="cb27-145"><a href="#cb27-145" aria-hidden="true" tabindex="-1"></a>      <span class="at">sets =</span> <span class="fu">c</span>(<span class="st">"staffing"</span>, <span class="st">"satisfaction"</span>, <span class="st">"inspection"</span>),</span>
+<span id="cb27-146"><a href="#cb27-146" aria-hidden="true" tabindex="-1"></a>      <span class="at">order.by =</span> <span class="st">"freq"</span>,</span>
+<span id="cb27-147"><a href="#cb27-147" aria-hidden="true" tabindex="-1"></a>      <span class="at">main.bar.color =</span> <span class="st">"#007EF5"</span>,</span>
+<span id="cb27-148"><a href="#cb27-148" aria-hidden="true" tabindex="-1"></a>      <span class="at">sets.bar.color =</span> <span class="st">"#375071"</span>,</span>
+<span id="cb27-149"><a href="#cb27-149" aria-hidden="true" tabindex="-1"></a>      <span class="at">matrix.color =</span> <span class="st">"#293241"</span>,</span>
+<span id="cb27-150"><a href="#cb27-150" aria-hidden="true" tabindex="-1"></a>      <span class="at">text.scale =</span> <span class="fl">1.1</span>)</span>
+<span id="cb27-151"><a href="#cb27-151" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-152"><a href="#cb27-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-153"><a href="#cb27-153" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
+<span id="cb27-156"><a href="#cb27-156" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb27-157"><a href="#cb27-157" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-missing-upset-py</span></span>
+<span id="cb27-158"><a href="#cb27-158" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "The gaps travel together. The tallest bars are single-variable gaps – but twenty homes are missing staffing and satisfaction at the same time, nearly three times what independent accidents would produce, which is the signature of a shared cause rather than scattered accidents. The mechanism investigation starts with that cluster."</span></span>
+<span id="cb27-159"><a href="#cb27-159" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "Upset plot of missing-data combinations across three variables: staffing rate, satisfaction, and inspection score. The set-size bars on the left show satisfaction missing most often, then staffing, then inspection. The intersection bars show sizeable groups missing only satisfaction (39 homes), only staffing (33), or only inspection (25), a clear group of 20 homes missing staffing and satisfaction together, and only tiny groups for the other combinations. The joint staffing-and-satisfaction gap stands out as larger than chance overlap would suggest."</span></span>
+<span id="cb27-160"><a href="#cb27-160" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 8</span></span>
+<span id="cb27-161"><a href="#cb27-161" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 4.5</span></span>
+<span id="cb27-162"><a href="#cb27-162" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb27-163"><a href="#cb27-163" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb27-164"><a href="#cb27-164" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> upsetplot <span class="im">import</span> from_indicators, UpSet</span>
+<span id="cb27-165"><a href="#cb27-165" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb27-166"><a href="#cb27-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-167"><a href="#cb27-167" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">FutureWarning</span>)</span>
+<span id="cb27-168"><a href="#cb27-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-169"><a href="#cb27-169" aria-hidden="true" tabindex="-1"></a>missing_flags <span class="op">=</span> care_homes[</span>
+<span id="cb27-170"><a href="#cb27-170" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"staffing_rate"</span>, <span class="st">"satisfaction"</span>, <span class="st">"inspection"</span>]</span>
+<span id="cb27-171"><a href="#cb27-171" aria-hidden="true" tabindex="-1"></a>].isna()</span>
+<span id="cb27-172"><a href="#cb27-172" aria-hidden="true" tabindex="-1"></a>missing_flags.columns <span class="op">=</span> [<span class="st">"staffing"</span>, <span class="st">"satisfaction"</span>, <span class="st">"inspection"</span>]</span>
+<span id="cb27-173"><a href="#cb27-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-174"><a href="#cb27-174" aria-hidden="true" tabindex="-1"></a>upset <span class="op">=</span> UpSet(from_indicators(missing_flags), subset_size<span class="op">=</span><span class="st">"count"</span>,</span>
+<span id="cb27-175"><a href="#cb27-175" aria-hidden="true" tabindex="-1"></a>              show_counts<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb27-176"><a href="#cb27-176" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> upset.plot()</span>
+<span id="cb27-177"><a href="#cb27-177" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> container <span class="kw">in</span> axes[<span class="st">"intersections"</span>].containers:</span>
+<span id="cb27-178"><a href="#cb27-178" aria-hidden="true" tabindex="-1"></a>    axes[<span class="st">"intersections"</span>].bar_label(container, fmt<span class="op">=</span><span class="st">"</span><span class="sc">%d</span><span class="st">"</span>, padding<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb27-179"><a href="#cb27-179" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb27-180"><a href="#cb27-180" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-181"><a href="#cb27-181" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb27-182"><a href="#cb27-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-183"><a href="#cb27-183" aria-hidden="true" tabindex="-1"></a>A scatter of independent accidents would make joint gaps rare; here the staffing-and-satisfaction-together bar is far too tall for coincidence. Some common circumstance is suppressing both returns in the same homes – the map cannot say what, but it says exactly where to dig. (For a record-by-record view, the <span class="co">[</span><span class="ot">missingness map from the foundations chapter</span><span class="co">](08-missing-data-foundations.qmd)</span> is the companion picture; the upset plot summarises what that map shows in detail.)</span>
+<span id="cb27-184"><a href="#cb27-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-185"><a href="#cb27-185" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interrogate the mechanism</span></span>
+<span id="cb27-186"><a href="#cb27-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-187"><a href="#cb27-187" aria-hidden="true" tabindex="-1"></a>The gaps cluster; the question is whether they cluster along variables you *hold*. Compare what you know about the missing homes with the complete ones:</span>
+<span id="cb27-188"><a href="#cb27-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-189"><a href="#cb27-189" aria-hidden="true" tabindex="-1"></a>:::: {.panel-tabset group="language"}</span>
+<span id="cb27-190"><a href="#cb27-190" aria-hidden="true" tabindex="-1"></a><span class="fu">## R</span></span>
+<span id="cb27-193"><a href="#cb27-193" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-194"><a href="#cb27-194" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: missing-mechanism</span></span>
+<span id="cb27-195"><a href="#cb27-195" aria-hidden="true" tabindex="-1"></a>miss <span class="ot">&lt;-</span> <span class="fu">is.na</span>(care_homes<span class="sc">$</span>satisfaction)</span>
+<span id="cb27-196"><a href="#cb27-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-197"><a href="#cb27-197" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(size <span class="sc">~</span> miss, <span class="at">data =</span> <span class="fu">transform</span>(care_homes, <span class="at">miss =</span> miss), mean)</span>
+<span id="cb27-198"><a href="#cb27-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-199"><a href="#cb27-199" aria-hidden="true" tabindex="-1"></a><span class="co"># Welch two-sample comparison of home size by missingness status</span></span>
+<span id="cb27-200"><a href="#cb27-200" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(care_homes<span class="sc">$</span>size[miss], care_homes<span class="sc">$</span>size[<span class="sc">!</span>miss])</span>
+<span id="cb27-201"><a href="#cb27-201" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-202"><a href="#cb27-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-203"><a href="#cb27-203" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
+<span id="cb27-206"><a href="#cb27-206" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb27-207"><a href="#cb27-207" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: missing-mechanism-py</span></span>
+<span id="cb27-208"><a href="#cb27-208" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb27-209"><a href="#cb27-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-210"><a href="#cb27-210" aria-hidden="true" tabindex="-1"></a>miss <span class="op">=</span> care_homes[<span class="st">"satisfaction"</span>].isna()</span>
+<span id="cb27-211"><a href="#cb27-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-212"><a href="#cb27-212" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(care_homes.groupby(miss)[<span class="st">"size"</span>].agg([<span class="st">"mean"</span>, <span class="st">"count"</span>]).<span class="bu">round</span>(<span class="dv">1</span>))</span>
+<span id="cb27-213"><a href="#cb27-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-214"><a href="#cb27-214" aria-hidden="true" tabindex="-1"></a><span class="co"># Welch two-sample comparison of home size by missingness status</span></span>
+<span id="cb27-215"><a href="#cb27-215" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> stats.ttest_ind(care_homes.loc[miss, <span class="st">"size"</span>],</span>
+<span id="cb27-216"><a href="#cb27-216" aria-hidden="true" tabindex="-1"></a>                      care_homes.loc[<span class="op">~</span>miss, <span class="st">"size"</span>], equal_var<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb27-217"><a href="#cb27-217" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"t = </span><span class="sc">{</span>res<span class="sc">.</span>statistic<span class="sc">:.2f}</span><span class="ss">, p = </span><span class="sc">{</span>res<span class="sc">.</span>pvalue<span class="sc">:.2e}</span><span class="ss">"</span>)</span>
+<span id="cb27-218"><a href="#cb27-218" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-219"><a href="#cb27-219" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb27-220"><a href="#cb27-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-221"><a href="#cb27-221" aria-hidden="true" tabindex="-1"></a>The non-reporting homes average around 42 beds against 63 for the reporters – a difference far beyond chance. So the missingness is emphatically not MCAR: it leans on size, a variable we hold, which is the MAR signature. The <span class="co">[</span><span class="ot">untestable caveat</span><span class="co">](08-missing-data-foundations.qmd)</span> still applies in full: nothing here rules out the gaps *also* leaning on satisfaction itself (the unhappy small homes staying silent), and that residual doubt is exactly what the sensitivity analysis at the end is for. For now, the working judgement – declared, not hidden – is MAR through size.</span>
+<span id="cb27-222"><a href="#cb27-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-223"><a href="#cb27-223" aria-hidden="true" tabindex="-1"></a><span class="fu">### Three ways to handle it, marked against the truth</span></span>
+<span id="cb27-224"><a href="#cb27-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-225"><a href="#cb27-225" aria-hidden="true" tabindex="-1"></a>**Complete case analysis** – analyse the reporters, drop the rest – is the default everyone reaches for and most software performs silently. Under the mechanism we just diagnosed it is *predictably biased*: the missing homes are small, small homes score lower, so the surviving sample is too cheerful.</span>
+<span id="cb27-226"><a href="#cb27-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-227"><a href="#cb27-227" aria-hidden="true" tabindex="-1"></a>**Single imputation by the mean** – fill every gap with the observed mean – is the classic worse-than-nothing move. It cannot fix the bias (the filled values inherit the cheerful mean), and it actively damages the uncertainty: the sample swells back to 450 with 62 manufactured "observations" of zero variance, so the standard error *shrinks* while the estimate stays wrong. Confidence rises as validity falls.</span>
+<span id="cb27-228"><a href="#cb27-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-229"><a href="#cb27-229" aria-hidden="true" tabindex="-1"></a>**Multiple imputation** does what single imputation pretends to. Rather than one filled-in guess, it draws *many* plausible completed datasets – each gap filled from a model of the observed relationships (here, satisfaction's dependence on size) *plus* random noise reflecting what the model cannot know – analyses each one, and pools the results so the spread *between* imputations feeds honestly into the final uncertainty. The version below is hand-rolled in a dozen lines so the machinery is visible; the Overthinking box covers the pooling rules and the production-grade tools.</span>
+<span id="cb27-230"><a href="#cb27-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-231"><a href="#cb27-231" aria-hidden="true" tabindex="-1"></a>:::: {.panel-tabset group="language"}</span>
+<span id="cb27-232"><a href="#cb27-232" aria-hidden="true" tabindex="-1"></a><span class="fu">## R</span></span>
+<span id="cb27-235"><a href="#cb27-235" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-236"><a href="#cb27-236" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: missing-handle</span></span>
+<span id="cb27-237"><a href="#cb27-237" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> care_homes<span class="sc">$</span>satisfaction[<span class="sc">!</span>miss]</span>
+<span id="cb27-238"><a href="#cb27-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-239"><a href="#cb27-239" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Complete case analysis</span></span>
+<span id="cb27-240"><a href="#cb27-240" aria-hidden="true" tabindex="-1"></a>cc_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(obs)</span>
+<span id="cb27-241"><a href="#cb27-241" aria-hidden="true" tabindex="-1"></a>cc_se   <span class="ot">&lt;-</span> <span class="fu">sd</span>(obs) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(obs))</span>
+<span id="cb27-242"><a href="#cb27-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-243"><a href="#cb27-243" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Single imputation by the mean</span></span>
+<span id="cb27-244"><a href="#cb27-244" aria-hidden="true" tabindex="-1"></a>filled  <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(miss, <span class="fu">mean</span>(obs), care_homes<span class="sc">$</span>satisfaction)</span>
+<span id="cb27-245"><a href="#cb27-245" aria-hidden="true" tabindex="-1"></a>si_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(filled)</span>
+<span id="cb27-246"><a href="#cb27-246" aria-hidden="true" tabindex="-1"></a>si_se   <span class="ot">&lt;-</span> <span class="fu">sd</span>(filled) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb27-247"><a href="#cb27-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-248"><a href="#cb27-248" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Multiple imputation (m = 20), using the observed satisfaction-size</span></span>
+<span id="cb27-249"><a href="#cb27-249" aria-hidden="true" tabindex="-1"></a><span class="co">#    relationship. Each round: bootstrap the reporters (parameter</span></span>
+<span id="cb27-250"><a href="#cb27-250" aria-hidden="true" tabindex="-1"></a><span class="co">#    uncertainty), fit satisfaction ~ size, fill the gaps with prediction</span></span>
+<span id="cb27-251"><a href="#cb27-251" aria-hidden="true" tabindex="-1"></a><span class="co">#    + residual noise, and record the completed-data estimate.</span></span>
+<span id="cb27-252"><a href="#cb27-252" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb27-253"><a href="#cb27-253" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb27-254"><a href="#cb27-254" aria-hidden="true" tabindex="-1"></a>est <span class="ot">&lt;-</span> vr <span class="ot">&lt;-</span> <span class="fu">numeric</span>(m)</span>
+<span id="cb27-255"><a href="#cb27-255" aria-hidden="true" tabindex="-1"></a>reporters <span class="ot">&lt;-</span> care_homes[<span class="sc">!</span>miss, ]</span>
+<span id="cb27-256"><a href="#cb27-256" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>m) {</span>
+<span id="cb27-257"><a href="#cb27-257" aria-hidden="true" tabindex="-1"></a>  boot  <span class="ot">&lt;-</span> reporters[<span class="fu">sample</span>(<span class="fu">nrow</span>(reporters), <span class="at">replace =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb27-258"><a href="#cb27-258" aria-hidden="true" tabindex="-1"></a>  fit   <span class="ot">&lt;-</span> <span class="fu">lm</span>(satisfaction <span class="sc">~</span> size, <span class="at">data =</span> boot)</span>
+<span id="cb27-259"><a href="#cb27-259" aria-hidden="true" tabindex="-1"></a>  sigma <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>sigma</span>
+<span id="cb27-260"><a href="#cb27-260" aria-hidden="true" tabindex="-1"></a>  completed <span class="ot">&lt;-</span> care_homes<span class="sc">$</span>satisfaction</span>
+<span id="cb27-261"><a href="#cb27-261" aria-hidden="true" tabindex="-1"></a>  completed[miss] <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, <span class="at">newdata =</span> care_homes[miss, ]) <span class="sc">+</span></span>
+<span id="cb27-262"><a href="#cb27-262" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(<span class="fu">sum</span>(miss), <span class="dv">0</span>, sigma)</span>
+<span id="cb27-263"><a href="#cb27-263" aria-hidden="true" tabindex="-1"></a>  est[k] <span class="ot">&lt;-</span> <span class="fu">mean</span>(completed)</span>
+<span id="cb27-264"><a href="#cb27-264" aria-hidden="true" tabindex="-1"></a>  vr[k]  <span class="ot">&lt;-</span> <span class="fu">var</span>(completed) <span class="sc">/</span> n</span>
+<span id="cb27-265"><a href="#cb27-265" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-266"><a href="#cb27-266" aria-hidden="true" tabindex="-1"></a><span class="co"># Rubin's rules: total variance = within + (1 + 1/m) * between</span></span>
+<span id="cb27-267"><a href="#cb27-267" aria-hidden="true" tabindex="-1"></a>mi_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(est)</span>
+<span id="cb27-268"><a href="#cb27-268" aria-hidden="true" tabindex="-1"></a>mi_se   <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(vr) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> m) <span class="sc">*</span> <span class="fu">var</span>(est))</span>
+<span id="cb27-269"><a href="#cb27-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-270"><a href="#cb27-270" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb27-271"><a href="#cb27-271" aria-hidden="true" tabindex="-1"></a>  <span class="at">approach =</span> <span class="fu">c</span>(<span class="st">"Complete case"</span>, <span class="st">"Mean imputation"</span>, <span class="st">"Multiple imputation"</span>),</span>
+<span id="cb27-272"><a href="#cb27-272" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate =</span> <span class="fu">round</span>(<span class="fu">c</span>(cc_mean, si_mean, mi_mean), <span class="dv">2</span>),</span>
+<span id="cb27-273"><a href="#cb27-273" aria-hidden="true" tabindex="-1"></a>  <span class="at">std_error =</span> <span class="fu">round</span>(<span class="fu">c</span>(cc_se, si_se, mi_se), <span class="dv">3</span>)</span>
+<span id="cb27-274"><a href="#cb27-274" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-275"><a href="#cb27-275" aria-hidden="true" tabindex="-1"></a>results</span>
+<span id="cb27-276"><a href="#cb27-276" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"True mean:"</span>, <span class="fu">round</span>(true_mean, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb27-277"><a href="#cb27-277" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-278"><a href="#cb27-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-279"><a href="#cb27-279" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
+<span id="cb27-282"><a href="#cb27-282" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb27-283"><a href="#cb27-283" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: missing-handle-py</span></span>
+<span id="cb27-284"><a href="#cb27-284" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">7</span>)</span>
+<span id="cb27-285"><a href="#cb27-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-286"><a href="#cb27-286" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> care_homes.loc[<span class="op">~</span>miss, <span class="st">"satisfaction"</span>]</span>
+<span id="cb27-287"><a href="#cb27-287" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(care_homes)</span>
+<span id="cb27-288"><a href="#cb27-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-289"><a href="#cb27-289" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Complete case analysis</span></span>
+<span id="cb27-290"><a href="#cb27-290" aria-hidden="true" tabindex="-1"></a>cc_mean, cc_se <span class="op">=</span> obs.mean(), obs.std(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">/</span> np.sqrt(<span class="bu">len</span>(obs))</span>
+<span id="cb27-291"><a href="#cb27-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-292"><a href="#cb27-292" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Single imputation by the mean</span></span>
+<span id="cb27-293"><a href="#cb27-293" aria-hidden="true" tabindex="-1"></a>filled <span class="op">=</span> care_homes[<span class="st">"satisfaction"</span>].fillna(obs.mean())</span>
+<span id="cb27-294"><a href="#cb27-294" aria-hidden="true" tabindex="-1"></a>si_mean, si_se <span class="op">=</span> filled.mean(), filled.std(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">/</span> np.sqrt(n)</span>
+<span id="cb27-295"><a href="#cb27-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-296"><a href="#cb27-296" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Multiple imputation (m = 20), using the observed satisfaction-size</span></span>
+<span id="cb27-297"><a href="#cb27-297" aria-hidden="true" tabindex="-1"></a><span class="co">#    relationship: bootstrap the reporters, fit satisfaction ~ size, fill</span></span>
+<span id="cb27-298"><a href="#cb27-298" aria-hidden="true" tabindex="-1"></a><span class="co">#    the gaps with prediction + residual noise, record each estimate.</span></span>
+<span id="cb27-299"><a href="#cb27-299" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb27-300"><a href="#cb27-300" aria-hidden="true" tabindex="-1"></a>reporters <span class="op">=</span> care_homes.loc[<span class="op">~</span>miss, [<span class="st">"size"</span>, <span class="st">"satisfaction"</span>]]</span>
+<span id="cb27-301"><a href="#cb27-301" aria-hidden="true" tabindex="-1"></a>est, vr <span class="op">=</span> np.empty(m), np.empty(m)</span>
+<span id="cb27-302"><a href="#cb27-302" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(m):</span>
+<span id="cb27-303"><a href="#cb27-303" aria-hidden="true" tabindex="-1"></a>    boot <span class="op">=</span> reporters.sample(<span class="bu">len</span>(reporters), replace<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span>k)</span>
+<span id="cb27-304"><a href="#cb27-304" aria-hidden="true" tabindex="-1"></a>    slope, intercept <span class="op">=</span> np.polyfit(boot[<span class="st">"size"</span>], boot[<span class="st">"satisfaction"</span>], <span class="dv">1</span>)</span>
+<span id="cb27-305"><a href="#cb27-305" aria-hidden="true" tabindex="-1"></a>    resid <span class="op">=</span> boot[<span class="st">"satisfaction"</span>] <span class="op">-</span> (intercept <span class="op">+</span> slope <span class="op">*</span> boot[<span class="st">"size"</span>])</span>
+<span id="cb27-306"><a href="#cb27-306" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> resid.std(ddof<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb27-307"><a href="#cb27-307" aria-hidden="true" tabindex="-1"></a>    completed <span class="op">=</span> care_homes[<span class="st">"satisfaction"</span>].copy()</span>
+<span id="cb27-308"><a href="#cb27-308" aria-hidden="true" tabindex="-1"></a>    pred <span class="op">=</span> intercept <span class="op">+</span> slope <span class="op">*</span> care_homes.loc[miss, <span class="st">"size"</span>]</span>
+<span id="cb27-309"><a href="#cb27-309" aria-hidden="true" tabindex="-1"></a>    completed[miss] <span class="op">=</span> pred <span class="op">+</span> rng.normal(<span class="dv">0</span>, sigma, miss.<span class="bu">sum</span>())</span>
+<span id="cb27-310"><a href="#cb27-310" aria-hidden="true" tabindex="-1"></a>    est[k] <span class="op">=</span> completed.mean()</span>
+<span id="cb27-311"><a href="#cb27-311" aria-hidden="true" tabindex="-1"></a>    vr[k] <span class="op">=</span> completed.var(ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">/</span> n</span>
+<span id="cb27-312"><a href="#cb27-312" aria-hidden="true" tabindex="-1"></a><span class="co"># Rubin's rules: total variance = within + (1 + 1/m) * between</span></span>
+<span id="cb27-313"><a href="#cb27-313" aria-hidden="true" tabindex="-1"></a>mi_mean <span class="op">=</span> est.mean()</span>
+<span id="cb27-314"><a href="#cb27-314" aria-hidden="true" tabindex="-1"></a>mi_se <span class="op">=</span> np.sqrt(vr.mean() <span class="op">+</span> (<span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span> <span class="op">/</span> m) <span class="op">*</span> est.var(ddof<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb27-315"><a href="#cb27-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-316"><a href="#cb27-316" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.DataFrame({</span>
+<span id="cb27-317"><a href="#cb27-317" aria-hidden="true" tabindex="-1"></a>    <span class="st">"approach"</span>: [<span class="st">"Complete case"</span>, <span class="st">"Mean imputation"</span>, <span class="st">"Multiple imputation"</span>],</span>
+<span id="cb27-318"><a href="#cb27-318" aria-hidden="true" tabindex="-1"></a>    <span class="st">"estimate"</span>: np.<span class="bu">round</span>([cc_mean, si_mean, mi_mean], <span class="dv">2</span>),</span>
+<span id="cb27-319"><a href="#cb27-319" aria-hidden="true" tabindex="-1"></a>    <span class="st">"std_error"</span>: np.<span class="bu">round</span>([cc_se, si_se, mi_se], <span class="dv">3</span>),</span>
+<span id="cb27-320"><a href="#cb27-320" aria-hidden="true" tabindex="-1"></a>}).to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb27-321"><a href="#cb27-321" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"True mean: </span><span class="sc">{</span>true_mean<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb27-322"><a href="#cb27-322" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-323"><a href="#cb27-323" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb27-324"><a href="#cb27-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-327"><a href="#cb27-327" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-328"><a href="#cb27-328" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-missing-compare</span></span>
+<span id="cb27-329"><a href="#cb27-329" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "The method that claims the most certainty is the one that misses. All three approaches are shown with 95% intervals against the true mean (dashed). Complete-case analysis lands a point too high and its interval only just reaches the truth. Mean imputation keeps the same biased estimate and shrinks the interval until it excludes the true value entirely – confidently wrong. Multiple imputation, using the size relationship the mechanism investigation found, recovers the truth with an honestly sized interval."</span></span>
+<span id="cb27-330"><a href="#cb27-330" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "Dot-and-interval chart comparing three estimates of mean satisfaction against a dashed vertical line at the true value of 74.5. Complete case: point near 75.4 with an interval whose lower end just touches the dashed line. Mean imputation: the same point near 75.4 but a visibly narrower interval that sits entirely to the right of the dashed line, excluding the truth. Multiple imputation: point near 74.7 with an interval similar in width to the complete-case one, comfortably covering the dashed line."</span></span>
+<span id="cb27-331"><a href="#cb27-331" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb27-332"><a href="#cb27-332" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb27-333"><a href="#cb27-333" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb27-334"><a href="#cb27-334" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 7</span></span>
+<span id="cb27-335"><a href="#cb27-335" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.8</span></span>
+<span id="cb27-336"><a href="#cb27-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-337"><a href="#cb27-337" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/theme_cqc.R"</span>)</span>
+<span id="cb27-338"><a href="#cb27-338" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb27-339"><a href="#cb27-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-340"><a href="#cb27-340" aria-hidden="true" tabindex="-1"></a>comp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb27-341"><a href="#cb27-341" aria-hidden="true" tabindex="-1"></a>  <span class="at">approach =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"Complete case"</span>, <span class="st">"Mean imputation"</span>,</span>
+<span id="cb27-342"><a href="#cb27-342" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Multiple imputation"</span>),</span>
+<span id="cb27-343"><a href="#cb27-343" aria-hidden="true" tabindex="-1"></a>                    <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">c</span>(<span class="st">"Complete case"</span>, <span class="st">"Mean imputation"</span>,</span>
+<span id="cb27-344"><a href="#cb27-344" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Multiple imputation"</span>))),</span>
+<span id="cb27-345"><a href="#cb27-345" aria-hidden="true" tabindex="-1"></a>  <span class="at">est =</span> <span class="fu">c</span>(cc_mean, si_mean, mi_mean),</span>
+<span id="cb27-346"><a href="#cb27-346" aria-hidden="true" tabindex="-1"></a>  <span class="at">se  =</span> <span class="fu">c</span>(cc_se, si_se, mi_se)</span>
+<span id="cb27-347"><a href="#cb27-347" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-348"><a href="#cb27-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-349"><a href="#cb27-349" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(comp, <span class="fu">aes</span>(est, approach)) <span class="sc">+</span></span>
+<span id="cb27-350"><a href="#cb27-350" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> true_mean, <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb27-351"><a href="#cb27-351" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> cqc_ink, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb27-352"><a href="#cb27-352" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> est <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se, <span class="at">xmax =</span> est <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se),</span>
+<span id="cb27-353"><a href="#cb27-353" aria-hidden="true" tabindex="-1"></a>                 <span class="at">height =</span> <span class="fl">0.15</span>, <span class="at">colour =</span> <span class="st">"#007EF5"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb27-354"><a href="#cb27-354" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.6</span>, <span class="at">colour =</span> <span class="st">"#007EF5"</span>) <span class="sc">+</span></span>
+<span id="cb27-355"><a href="#cb27-355" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> true_mean, <span class="at">y =</span> <span class="fl">3.45</span>, <span class="at">label =</span> <span class="st">"true mean"</span>,</span>
+<span id="cb27-356"><a href="#cb27-356" aria-hidden="true" tabindex="-1"></a>           <span class="at">colour =</span> cqc_ink, <span class="at">size =</span> <span class="fl">3.1</span>, <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb27-357"><a href="#cb27-357" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">3.5</span>)) <span class="sc">+</span></span>
+<span id="cb27-358"><a href="#cb27-358" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Estimated mean satisfaction (95% interval)"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb27-359"><a href="#cb27-359" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cqc</span>()</span>
+<span id="cb27-360"><a href="#cb27-360" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-361"><a href="#cb27-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-362"><a href="#cb27-362" aria-hidden="true" tabindex="-1"></a>Read the comparison the way a reviewer would. Complete-case analysis is biased upward by about a point, exactly as the mechanism predicted – and with this much data its interval barely stretches to the truth. Mean imputation keeps the bias and adds false precision; it is the only approach whose interval *excludes* the right answer, which is the quiet scandal of a method still common in practice. Multiple imputation, fuelled by the size relationship the investigation surfaced, comes within a fifth of a point of the truth with an interval that owns up to the remaining uncertainty. None of this is luck: each result follows from what each method does with information and with doubt.</span>
+<span id="cb27-363"><a href="#cb27-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-364"><a href="#cb27-364" aria-hidden="true" tabindex="-1"></a><span class="fu">### Stress-test the conclusion</span></span>
+<span id="cb27-365"><a href="#cb27-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-366"><a href="#cb27-366" aria-hidden="true" tabindex="-1"></a>The MAR judgement was an argument, not a proof, so the last step bounds what the unverifiable part could do. Suppose the silent homes are not merely small but *unhappy* – that their satisfaction runs a full residual standard deviation (8 points) below what the size model predicts; or, in the other direction, that they run 8 points above. Recomputing the national mean under both stories spans roughly 74.3 to 76.5 – about a two-point band. If the decision the estimate feeds would change anywhere inside that band, the missingness genuinely matters and the honest report says so; if not, the conclusion is robust to the assumption you could not test. Either way, the *tipping point* framing – how bad would the silent homes have to be before the conclusion flips? – converts an untestable assumption into a question a domain expert can actually answer.</span>
+<span id="cb27-367"><a href="#cb27-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-368"><a href="#cb27-368" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb27-369"><a href="#cb27-369" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🤔 Rethinking: imputation is not prediction</span></span>
+<span id="cb27-370"><a href="#cb27-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-371"><a href="#cb27-371" aria-hidden="true" tabindex="-1"></a>The word "imputation" invites a misunderstanding that quietly wrecks analyses: that the job is to *predict the missing values*, and that a better predictor therefore means better handling. It is not, and it does not.</span>
+<span id="cb27-372"><a href="#cb27-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-373"><a href="#cb27-373" aria-hidden="true" tabindex="-1"></a>If prediction were the goal, the ideal imputation would fill each gap with its single most likely value – and that is precisely what single imputation does, and precisely why it fails. Filling every gap with the best guess produces a dataset that is individually plausible and collectively false: too smooth, too certain, its variability flattened and its standard errors shrunk, as the worked example shows. The deliberately *noisy* fills of multiple imputation – each one a worse prediction than the model's best guess – produce the estimate that is actually right, with uncertainty that is actually honest. Worse predictions, better statistics: that is not a paradox, it is the whole point. The target was never the individual values (lost data is lost); it was valid estimates of the quantities the analysis is about, with intervals a reader can trust.</span>
+<span id="cb27-374"><a href="#cb27-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-375"><a href="#cb27-375" aria-hidden="true" tabindex="-1"></a>The regulatory translation is direct. An imputed satisfaction score for a silent care home is not evidence about that home – it would be indefensible in any conversation about that provider, and no imputation output should ever appear in a provider-level judgement. Imputation exists to stop the *national* picture being distorted by the silence; what the silence means for the silent home is <span class="co">[</span><span class="ot">the other question, and often the more important one</span><span class="co">](08-missing-data-foundations.qmd)</span>.</span>
+<span id="cb27-376"><a href="#cb27-376" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb27-377"><a href="#cb27-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-378"><a href="#cb27-378" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning icon=false}</span>
+<span id="cb27-379"><a href="#cb27-379" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚙️ Overthinking: Rubin's rules, m, and the production tools</span></span>
+<span id="cb27-380"><a href="#cb27-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-381"><a href="#cb27-381" aria-hidden="true" tabindex="-1"></a>**Why the pooling works.** Each completed dataset yields an estimate $\hat{q}_k$ and its ordinary variance $W_k$. Rubin's rules pool them as $\bar{q} = \frac{1}{m}\sum \hat{q}_k$ with total variance $T = \bar{W} + (1 + \tfrac{1}{m})B$, where $\bar{W}$ is the mean within-imputation variance and $B$ the variance *between* the $m$ estimates. $B$ is the term single imputation throws away: it measures how much the answer moves when the unknowable values are re-drawn, which is exactly the uncertainty the gaps created. (Significance tests on pooled estimates use a t reference with degrees of freedom that depend on $B/\bar{W}$ – software handles this.)</span>
+<span id="cb27-382"><a href="#cb27-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-383"><a href="#cb27-383" aria-hidden="true" tabindex="-1"></a>**Proper imputation needs parameter uncertainty too.** Filling gaps with "prediction plus residual noise" from one fitted model still understates $B$, because it treats the model's coefficients as known. The bootstrap step in the worked example – refitting the model on a resample before each imputation – is one standard fix; fully Bayesian draws are the other. Library implementations do this correctly by default, which is a reason to prefer them in production.</span>
+<span id="cb27-384"><a href="#cb27-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-385"><a href="#cb27-385" aria-hidden="true" tabindex="-1"></a>**How many imputations.** The old advice of $m = 5$ dates from when computation was expensive; modern practice scales $m$ with the fraction of missing information – 20 is a reasonable floor, 50 or more for heavily incomplete data or when the analysis reports variances. The cost is trivial; the stability is not.</span>
+<span id="cb27-386"><a href="#cb27-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-387"><a href="#cb27-387" aria-hidden="true" tabindex="-1"></a>**The production tools.** The hand-rolled loop above is for understanding, not for service. In R, the <span class="in">`mice`</span> package (van Buuren's *multiple imputation by chained equations*) handles many incomplete variables at once, mixed types, and diagnostics; in Python, `statsmodels`' MICE implementation and scikit-learn's `IterativeImputer` cover similar ground (the latter does not pool – you still own Rubin's rules). *Maximum likelihood* (full-information ML) is the equally principled alternative that skips imputation entirely, estimating parameters directly from the observed-data likelihood; for many models it and MI give near-identical answers, and the choice is one of convenience. Chained-equations modelling has real settings to get right – which variables to include (generously: auxiliaries help), how many iterations, convergence checks – so for a high-stakes analysis, involve the Guild rather than accepting defaults.</span>
+<span id="cb27-388"><a href="#cb27-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-389"><a href="#cb27-389" aria-hidden="true" tabindex="-1"></a>**What none of this touches.** Every method in this box assumes MAR given the model's variables. If the silence depends on the missing values themselves after all that conditioning, MI will be confidently, smoothly wrong – which is why the sensitivity analysis is not an optional extra. Formal MNAR machinery exists (selection models, pattern-mixture models) and rests on assumptions as unverifiable as the problem it addresses; it is Guild territory, and its main practical use is disciplined sensitivity analysis rather than rescue. Survey-style *non-response weighting* (Laaksonen's territory) is the other principled MAR route – reweight the reporters to stand for the population – and shares both the strengths and the assumption.</span>
+<span id="cb27-390"><a href="#cb27-390" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb27-391"><a href="#cb27-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-392"><a href="#cb27-392" aria-hidden="true" tabindex="-1"></a><span class="fu">## Documenting Your Analysis</span></span>
+<span id="cb27-393"><a href="#cb27-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-394"><a href="#cb27-394" aria-hidden="true" tabindex="-1"></a>For QA purposes, record: how much was missing, per variable and overall, *after* sentinel codes were converted; the structure (the upset plot or missingness map, retained as evidence); the mechanism judgement and the evidence behind it – including the comparisons of missing versus complete cases on observed variables, and an honest statement of what could not be tested; the handling chosen, with the model and settings if imputation was used (and the software's version – defaults change); the sensitivity analysis and the band it produced; and what the missingness means for confidence in the conclusions, in words a non-specialist reader can weigh. This record is what the Code of Practice's quality pillar looks like in practice – and for any consequential analysis, it is the difference between a result that survives challenge and one that does not.</span>
+<span id="cb27-395"><a href="#cb27-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-396"><a href="#cb27-396" aria-hidden="true" tabindex="-1"></a><span class="fu">## Related Approaches</span></span>
+<span id="cb27-397"><a href="#cb27-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-398"><a href="#cb27-398" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The thinking behind every choice here → <span class="co">[</span><span class="ot">missing data foundations</span><span class="co">](08-missing-data-foundations.qmd)</span>: mechanisms, bias versus precision, and the missingness-as-finding inversion.</span>
+<span id="cb27-399"><a href="#cb27-399" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Estimation and honest intervals, which imputation exists to protect → <span class="co">[</span><span class="ot">statistical inference</span><span class="co">](07-statistical-inference.qmd)</span>.</span>
+<span id="cb27-400"><a href="#cb27-400" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Non-submission as a provider behaviour to investigate → <span class="co">[</span><span class="ot">unusual observations</span><span class="co">](06-unusual-observations.qmd)</span> for the investigation discipline.</span>
+<span id="cb27-401"><a href="#cb27-401" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The documentation standard the record above feeds → <span class="co">[</span><span class="ot">QA principles</span><span class="co">](09-qa-principles.qmd)</span>.</span>
+<span id="cb27-402"><a href="#cb27-402" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Complete workflow with missingness handled in context → <span class="co">[</span><span class="ot">Example 1: GP Access Analysis</span><span class="co">](../examples/example-01-complete.qmd)</span>.</span>
+<span id="cb27-403"><a href="#cb27-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-404"><a href="#cb27-404" aria-hidden="true" tabindex="-1"></a><span class="fu">## When to Seek Support from the Guild</span></span>
+<span id="cb27-405"><a href="#cb27-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-406"><a href="#cb27-406" aria-hidden="true" tabindex="-1"></a>Raise your analysis with the Quantitative Analytics and Statistics Guild (the Guild) at a Quant Clinic session when: the missingness is substantial and plausibly MNAR – especially when non-submission correlates with risk; a multiple-imputation model is needed in production (variable selection, chained-equations settings, diagnostics); several variables are incomplete at once with structure between them; weighting and imputation are both candidates and the choice matters; the analysis model is complex enough (multilevel, time series, latent variables) that missingness interacts with it in non-obvious ways; or a published or actioned conclusion would move within the sensitivity band.</span>
+<span id="cb27-407"><a href="#cb27-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-408"><a href="#cb27-408" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further Reading</span></span>
+<span id="cb27-409"><a href="#cb27-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-410"><a href="#cb27-410" aria-hidden="true" tabindex="-1"></a><span class="fu">### Internal CQC resources</span></span>
+<span id="cb27-411"><a href="#cb27-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-412"><a href="#cb27-412" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The QA Framework sets the documentation standards for data limitations and caveats; see <span class="co">[</span><span class="ot">How to Use This Book</span><span class="co">](../getting-started.qmd)</span> for how to access support.</span>
+<span id="cb27-413"><a href="#cb27-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-414"><a href="#cb27-414" aria-hidden="true" tabindex="-1"></a><span class="fu">### The standard references</span></span>
+<span id="cb27-415"><a href="#cb27-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-416"><a href="#cb27-416" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Little, R.J.A. &amp; Rubin, D.B. (2019). *Statistical Analysis with Missing Data* (3rd ed.). Wiley. (The canonical theory, from the authors of the mechanism taxonomy.)</span>
+<span id="cb27-417"><a href="#cb27-417" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>van Buuren, S. (2018). *Flexible Imputation of Missing Data* (2nd ed.). CRC Press. (The practitioner's reference for multiple imputation and <span class="in">`mice`</span>; freely readable online.)</span>
+<span id="cb27-418"><a href="#cb27-418" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sterne, J.A.C. et al. (2009). "Multiple imputation for missing data in epidemiological and clinical research: potential and pitfalls." *BMJ*, 338, b2393. (The best single healthcare treatment, with a reporting checklist.)</span>
+<span id="cb27-419"><a href="#cb27-419" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Schafer, J.L. &amp; Graham, J.W. (2002). "Missing data: our view of the state of the art." *Psychological Methods*, 7(2), 147–177. (Why MI and maximum likelihood are the principled pair; the MAR-name caveat.)</span>
+<span id="cb27-420"><a href="#cb27-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-421"><a href="#cb27-421" aria-hidden="true" tabindex="-1"></a><span class="fu">### Official-statistics practice</span></span>
+<span id="cb27-422"><a href="#cb27-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-423"><a href="#cb27-423" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Office for National Statistics, Methodological Research Hub (2024). <span class="co">[</span><span class="ot">"How do you solve a problem like missing data?"</span><span class="co">](https://analysisfunction.civilservice.gov.uk/blog/how-do-you-solve-a-problem-like-missing-data/)</span> UK Government Analysis Function. (The official-statistics stance: principled imputation over discarding, contingent on data quality.)</span>
+<span id="cb27-424"><a href="#cb27-424" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Laaksonen, S. (2018). *Survey Methodology and Missing Data*. Springer. (Unit versus item non-response and the weighting tradition.)</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Central Tendency and Position – CQC Statistical Guidance</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/04-variation-uncertainty.html" rel="next">
+<link href="../chapters/02-data-visualisation.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5c568ff3620675dfea6bfa6c73bdaad4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../custom.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/01-data-types.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="../chapters/03-describing-data.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Central Tendency and Position</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">CQC Statistical Guidance</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CQC Statistical Guidance</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to Use This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quick-reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quick Reference</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Types &amp; Implications</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-data-visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualising Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-describing-data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Central Tendency and Position</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-variation-uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measuring Variation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-distribution-shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distribution Shape</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-unusual-observations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unusual Observations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-statistical-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Statistical Inference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-missing-data-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Handling Missing Data: Foundations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-qa-principles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Quality Assurance Principles</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-tooling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Analytical Tooling at CQC</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-generative-ai.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Generative AI in Analytical Work</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Part II: Core Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-z-scoring.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparing Provider Performance: Z-scoring</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-spc-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Monitoring Trends Over Time: SPC Basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-t-tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparing Two Groups: t-tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-correlation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Exploring Relationships: Correlation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-outlier-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Outlier Detection Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-missing-data-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Missing Data: Computational Methods</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Part III: Worked Examples</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Worked Examples Library</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-01-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Example 1: GP Access Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-02-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Example 2: Care Home Falls Monitoring</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-03-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Example 3: Mental Health Wait Times</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-04-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Example 4: Medication Safety Pilot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-05-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Example 5: Regional A&amp;E Performance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-06-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Example 6: Ambulance Handover Delays</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-07-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Example 7: Infection Rates in Care Homes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-08-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Example 8: DoLS Application Trends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-09-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Example 9: Staffing and Quality Outcomes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-10-outliers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Example 10: Care Home Staffing Investigation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">References &amp; Resources</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-describing-data" id="toc-sec-describing-data" class="nav-link active" data-scroll-target="#sec-describing-data"><span class="header-section-number">3.1</span> Where Is the Middle?</a></li>
+  <li><a href="#counting-the-mode" id="toc-counting-the-mode" class="nav-link" data-scroll-target="#counting-the-mode"><span class="header-section-number">3.2</span> Counting: The Mode</a></li>
+  <li><a href="#sec-quantiles" id="toc-sec-quantiles" class="nav-link" data-scroll-target="#sec-quantiles"><span class="header-section-number">3.3</span> Ordering: The Median and Quantiles</a></li>
+  <li><a href="#arithmetic-the-mean" id="toc-arithmetic-the-mean" class="nav-link" data-scroll-target="#arithmetic-the-mean"><span class="header-section-number">3.4</span> Arithmetic: The Mean</a>
+  <ul class="collapse">
+  <li><a href="#whose-mean-weighting-and-why-it-matters" id="toc-whose-mean-weighting-and-why-it-matters" class="nav-link" data-scroll-target="#whose-mean-weighting-and-why-it-matters">Whose mean? Weighting and why it matters</a></li>
+  <li><a href="#when-the-mean-is-fragile-robust-alternatives" id="toc-when-the-mean-is-fragile-robust-alternatives" class="nav-link" data-scroll-target="#when-the-mean-is-fragile-robust-alternatives">When the mean is fragile: robust alternatives</a></li>
+  </ul></li>
+  <li><a href="#choosing-the-right-measure" id="toc-choosing-the-right-measure" class="nav-link" data-scroll-target="#choosing-the-right-measure"><span class="header-section-number">3.5</span> Choosing the Right Measure</a></li>
+  <li><a href="#position-isnt-everything" id="toc-position-isnt-everything" class="nav-link" data-scroll-target="#position-isnt-everything"><span class="header-section-number">3.6</span> Position Isn’t Everything</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/01-data-types.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="../chapters/03-describing-data.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Central Tendency and Position</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Central Tendency and Position</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Learning outcomes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After reading this chapter you will be able to:</p>
+<ul>
+<li>read the <strong>level of measurement</strong> a variable sits at, and tell which summaries are valid for it;</li>
+<li>compute and interpret the <strong>mode</strong>, the <strong>median</strong> and <strong>quantiles</strong>, and the <strong>mean</strong>;</li>
+<li>choose the right kind of mean – arithmetic, geometric, harmonic, weighted – for additive data, rates, and growth;</li>
+<li>choose a measure by the question rather than by habit, judge when a robust summary serves better, and remember that location always needs pairing with spread.</li>
+</ul>
+</div>
+</div>
+<section id="sec-describing-data" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-describing-data"><span class="header-section-number">3.1</span> Where Is the Middle?</h2>
+<p>Before you can compare providers or flag an outlier, you have to boil a variable down to a number or two: where does it sit, what is typical? Is the typical waiting time 2 hours or 20? Is the average incident rate 5 a month or 50? That looks like one question with one answer. It is not.</p>
+<p>How much you can say depends on how high your data sits on the <a href="../chapters/01-data-types.html">ladder of measurement</a>. On the bottom rung you can only say what is <em>most common</em>; add ordering and you can speak of a <em>middle</em>; add arithmetic and you can take a <em>mean</em>. So this chapter climbs the ladder rung by rung – the mode, then the median and its quantile family, then the mean – defining each measure and working it through on a handful of real numbers along the way. The arithmetic stays light; the code and the heavier methods come in Part II.</p>
+<p>One word needs pinning down first, because everyday speech blurs it. An <strong>average</strong> is any single value standing in for the typical one – and there are several, so the mode, the median, and the mean are <em>all</em> averages, one for each rung. A <strong>mean</strong> is one particular kind (and even “the mean” is a small family: arithmetic, geometric, harmonic, …). In conversation “the average” almost always means the arithmetic mean, but this book keeps the words apart: <em>mean</em> for that calculation, <em>median</em> and <em>mode</em> for the other two, and <em>average</em> only as the umbrella over all three.</p>
+<p>A note on symbols, while we are pinning down words. When the numbers in front of you <em>are</em> the whole story – every provider in a region this month – you are simply describing them, and this book writes such descriptions with Greek letters: <span class="math inline">\(\mu\)</span> (mu) for a mean, and <span class="math inline">\(\sigma\)</span> (sigma, in the next chapter) for a standard deviation. When instead the data is only a <strong>sample</strong> standing in for a larger <strong>population</strong> you cannot see in full, the convention switches to Roman letters – <span class="math inline">\(\bar{x}\)</span> for the sample mean, <span class="math inline">\(s\)</span> for its standard deviation – and a small correction enters the arithmetic. Throughout the foundations we take the first view, describing the data in hand; the switch to samples, and why it changes the sums, is the business of <a href="../chapters/07-statistical-inference.html">Statistical Inference</a>. (The count stays <span class="math inline">\(n\)</span> throughout.)</p>
+</section>
+<section id="counting-the-mode" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="counting-the-mode"><span class="header-section-number">3.2</span> Counting: The Mode</h2>
+<p>The one summary you can always compute is the plainest: which value turns up most often. The <strong>mode</strong> asks <em>what is most common?</em>, and it asks nothing of the data but the ability to tell categories apart – so it is the only location measure that works on <a href="../chapters/01-data-types.html">nominal</a> data, where there is no order to exploit and no arithmetic to do. There is nothing to calculate: you count how often each value occurs and report the most frequent one. Take last month’s incident counts at five care homes – 2, 3, 3, 4, 18 – and the mode is <strong>3</strong>, the only value that occurs more than once. The most common CQC rating (“Good”) is a mode too.</p>
+<p>Its limits are real: the mode need not be unique (a dataset can be bimodal or multimodal, with two or more values tied), it uses little of the data, and for continuous measurements it depends on how you <em>bin</em> (group) the values. For quantitative metrics it rarely leads. But for qualitative outcomes – ratings, compliance status, risk category – it is often the only honest summary of “typical”, and it has one trick the grander measures lack.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🤔 Rethinking: When the average describes no one
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ask for the centre of a two-humped distribution and the mean will dutifully hand back a single number sitting in the valley between the humps – an “average” that matches no actual case. Picture provider staffing ratios that fall into two clusters, small rural homes and large urban ones: the mean ratio describes a provider that does not exist, and the median is little better. The mode – modes, plural – is the one summary that says <em>there are two populations here, stop averaging them</em>.</p>
+<p>That is why the mode earns a place of its own rather than trailing along behind the mean and median: it is the measure that can tell you the centre is the wrong question. When you find two modes, the usual next move is to split the data and describe each group on its own terms.</p>
+</div>
+</div>
+</section>
+<section id="sec-quantiles" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-quantiles"><span class="header-section-number">3.3</span> Ordering: The Median and Quantiles</h2>
+<p>Climb one rung – to data you can put in order – and a richer summary unlocks. A <strong>quantile</strong> names a <em>position</em> in the sorted data: the value with a given fraction of the data below it. Because that needs only ordering and no arithmetic, quantiles reach onto the <a href="../chapters/01-data-types.html">ordinal</a> rung, where means cannot follow. You can read the median CQC rating (Inadequate &lt; Requires Improvement &lt; Good &lt; Outstanding) even though a “mean rating” is meaningless.</p>
+<p>The <strong>median</strong> is the most-used quantile of all – the value with half the data below and half above. To find it, sort the values and take the middle one. With an odd number of values that is a single observation; with an even number it is the arithmetic mean of the two middle ones. Return to the five homes – 2, 3, 3, 4, 18, already in order – and with five values the middle one is the third: the median is <strong>3</strong>.</p>
+<p>The wider family is just the same idea at different resolutions: divide the sorted data into equal-sized groups. Percentiles make 100 groups, vigintiles 20, deciles 10, quintiles 5, quartiles 4 (Q1, Q2, Q3 at the 25th, 50th, and 75th). The median is simply the 50th percentile, the second quartile, the fifth decile – the same point named at different resolutions.</p>
+<p>The median earns its keep because it is <strong>robust</strong>: one monstrous value barely moves it, so when a few values lie far from the rest it often describes the typical experience better than the mean. “Half of providers have shorter waits, half longer” is also easy to say and hard to misread.</p>
+<p>Beyond the median, the wider family is what lets you rank and set thresholds. “This provider is in the top 10% for incident rates” lands with a non-technical audience far better than “1.5 standard deviations above the mean”, and “inspect everyone above the 95th percentile” is a clear, defensible rule. Because quantiles assume nothing about the shape of the distribution, they stay meaningful whether the data is normal, lopsided, or lumpy – and, again, they work on ordinal data where means cannot go.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🤔 Rethinking: Percentiles aren’t percentages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“This provider is at the 90th percentile” does <em>not</em> mean 90% of their patients experience some outcome. It means the provider ranks above 90% of <em>other providers</em>. The percentile is a position in the distribution of providers, not a rate within any one of them.</p>
+<p>A provider at the 90th percentile for waiting times might have a mean wait of 4 hours – the percentile says 90% of providers have shorter mean waits, and tells you nothing about the spread of waits inside that provider, where some patients wait 2 hours and some 6. For regulatory communication, spell it out: “this provider’s incident rate is higher than 90% of similar providers,” not “this provider is at the 90th percentile.”</p>
+</div>
+</div>
+</section>
+<section id="arithmetic-the-mean" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="arithmetic-the-mean"><span class="header-section-number">3.4</span> Arithmetic: The Mean</h2>
+<p>At the top rung, where the gaps between values are real numbers, arithmetic unlocks the most powerful summaries in the book – and the most demanding. The <strong>mean</strong> uses every value, which is what makes it informative and also what makes it fragile: a single extreme value drags it, and it needs genuinely <a href="../chapters/01-data-types.html">quantitative</a> data beneath it.</p>
+<p>And the mean itself is not one thing – several calculations share the name, each combining numbers differently to suit a different kind of data. Write the values as <span class="math inline">\(x_1, x_2, \dots, x_n\)</span>, where <span class="math inline">\(n\)</span> is how many there are, and give each value a weight <span class="math inline">\(w_i\)</span> when some should count for more than others. The symbol <span class="math inline">\(\sum\)</span> means “add up over all the values” and <span class="math inline">\(\prod\)</span> “multiply them all together”. Then:</p>
+<ul>
+<li><strong>Arithmetic mean</strong> <span class="math inline">\(\displaystyle \mu = \frac{1}{n}\sum_{i=1}^{n} x_i\)</span> – add the values up and divide by the count.</li>
+<li><strong>Geometric mean</strong> <span class="math inline">\(\displaystyle \left(\prod_{i=1}^{n} x_i\right)^{1/n}\)</span> – multiply the values together and take the <span class="math inline">\(n\)</span>th root (it needs positive values).</li>
+<li><strong>Harmonic mean</strong> <span class="math inline">\(\displaystyle \frac{n}{\sum_{i=1}^{n} 1/x_i}\)</span> – divide the count by the sum of the reciprocals.</li>
+<li><strong>Weighted (arithmetic) mean</strong> <span class="math inline">\(\displaystyle \frac{\sum_{i=1}^{n} w_i x_i}{\sum_{i=1}^{n} w_i}\)</span> – multiply each value by its weight, add those up, and divide by the total weight.</li>
+</ul>
+<p>On the five homes – 2, 3, 3, 4, 18 – the arithmetic mean is <span class="math inline">\((2+3+3+4+18)/5 = 6\)</span>. Notice that the mean (6) sits well above the mode and median (both 3): the single home with 18 incidents has pulled it up, while the median has not budged. That one comparison is the whole case for robustness, and it takes no special vocabulary to see.</p>
+<p>The other means are for data the arithmetic mean handles badly. Three annual growth factors of 1.05, 1.10 and 1.03 multiply to 1.189, whose cube root, 1.059, is the growth rate that compounds correctly across the three years – the arithmetic mean would overstate it. And for rates built on different denominators – incidents per bed-day across a 100-bed and a 5-bed home – the harmonic mean respects those denominators, where a plain mean of the two rates would not. The table says which to reach for:</p>
+<table class="caption-top table">
+<caption>Which mean to reach for</caption>
+<colgroup>
+<col style="width: 24%">
+<col style="width: 40%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Mean</th>
+<th>Best for</th>
+<th>CQC example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Arithmetic</strong></td>
+<td>Additive quantities, roughly symmetric data</td>
+<td>Mean waiting time, incident counts</td>
+</tr>
+<tr class="even">
+<td><strong>Geometric</strong></td>
+<td>Multiplicative processes, growth rates, ratios</td>
+<td>Year-on-year percentage changes</td>
+</tr>
+<tr class="odd">
+<td><strong>Harmonic</strong></td>
+<td>Rates whose denominators vary</td>
+<td>Incidents per 1,000 bed-days across providers of different sizes</td>
+</tr>
+<tr class="even">
+<td><strong>Weighted arithmetic</strong></td>
+<td>Aggregating across different sizes or precisions</td>
+<td>National benchmark weighted by provider size</td>
+</tr>
+</tbody>
+</table>
+<section id="whose-mean-weighting-and-why-it-matters" class="level3">
+<h3 class="anchored" data-anchor-id="whose-mean-weighting-and-why-it-matters">Whose mean? Weighting and why it matters</h3>
+<p>Any mean can be <strong>weighted</strong> so some observations count for more than others, and the choice is rarely neutral. An <em>unweighted</em> national mean treats every provider the same and answers “what is typical for a provider?” – the right lens for fairness across providers. Weighting <em>by size</em> lets a 100-bed home count for ten times a 10-bed home and answers a different question, “what is typical for a patient?” – the right lens for system-level and resource questions. (Weights can also reflect precision, so more reliable estimates count for more, or recency, so newer data counts for more.) Neither is more correct; they answer different questions, so pick the one that matches your purpose and say which you used.</p>
+<p>This matters most where providers differ wildly in size. A hospital with 10,000 admissions and 500 readmissions (5%) carries far more information than a unit with 20 admissions and 2 readmissions (10%); the plain arithmetic mean of the two rates is 7.5%, but that treats them as equals, where a weighted or harmonic mean respects how much each one actually tells you. A good habit is to compute more than one: if the arithmetic and harmonic means diverge sharply, that is itself a finding – your denominators are heterogeneous, and you must decide, deliberately, which mean answers your question.</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>⚙️ Overthinking: The generalised mean
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The arithmetic, geometric, and harmonic means are not three unrelated tricks; they are one formula seen at three settings. The <strong>generalised mean</strong> (or power mean) is</p>
+<p><span class="math display">\[M_p(x_1, \dots, x_n) = \left( \frac{1}{n} \sum_{i=1}^{n} x_i^{\,p} \right)^{1/p}\]</span></p>
+<p>that is: raise each value to a power <em>p</em>, take the ordinary mean, then take the <em>p</em>th root. The familiar means are particular values of <em>p</em>: <span class="math inline">\(p = 1\)</span> gives the arithmetic mean, <span class="math inline">\(p \to 0\)</span> the geometric, <span class="math inline">\(p = -1\)</span> the harmonic, and <span class="math inline">\(p = 2\)</span> the quadratic mean (root mean square). Larger <em>p</em> leans towards the big values, smaller <em>p</em> towards the small ones.</p>
+<p>Weighting is a <em>separate</em> dial layered on top: replace the simple mean with a weighted one (<span class="math inline">\(w_i\)</span> on each <span class="math inline">\(x_i\)</span>) and you can have a weighted arithmetic, geometric, or harmonic mean. Every mean you have ever used is some choice of these two dials – a combination rule (<em>p</em>) and an importance rule (<em>w</em>). For CQC work you almost never touch <em>p</em> directly: additive data wants arithmetic, multiplicative data geometric, rates with varying denominators harmonic. A power mean with <em>p</em> outside {−1, 0, 1, 2}, or a weighted geometric or harmonic mean, is worth raising with the Quantitative Analytics and Statistics Guild (the Guild) – valid, but in need of justifying.</p>
+</div>
+</div>
+</section>
+<section id="when-the-mean-is-fragile-robust-alternatives" class="level3">
+<h3 class="anchored" data-anchor-id="when-the-mean-is-fragile-robust-alternatives">When the mean is fragile: robust alternatives</h3>
+<p>The mean’s habit of using every value is also its weakness: a single extreme case drags it, as the 18 just did. When that worries you, three robust options keep the description honest:</p>
+<ul>
+<li>the <strong>median</strong> you have already met – it cares only how <em>many</em> values lie on each side, not how <em>far</em> the extremes reach;</li>
+<li>a <strong>trimmed mean</strong> drops a fixed fraction from each end before averaging – a 10% trimmed mean discards the lowest and highest 10% of values, then takes the arithmetic mean of what remains;</li>
+<li>a <strong>winsorised mean</strong> keeps every observation but caps the extremes, replacing the lowest and highest few with the nearest surviving value before averaging.</li>
+</ul>
+<p>For most CQC work, reporting the mean and the median together and explaining any gap between them is clearer than reaching for these – and a large gap is a finding worth stating plainly (the formal language for that lopsidedness, <em>skew</em>, comes in <a href="../chapters/05-distribution-shape.html">Distribution Shape</a>). For a high-stakes output, or when extreme values need investigating rather than taming, take it to the Guild and to <a href="../chapters/16-outlier-methods.html">Outlier Methods</a>.</p>
+</section>
+</section>
+<section id="choosing-the-right-measure" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="choosing-the-right-measure"><span class="header-section-number">3.5</span> Choosing the Right Measure</h2>
+<p>It is tempting to read the ladder as “always climb as high as you can”. That is the wrong lesson. The ladder is a <strong>gate, not a ranking</strong>: it tells you which measures are <em>valid</em> – you cannot take a mean of nominal categories – not which is <em>best</em>. Once a measure is permitted, the question decides, and a lower-rung measure can be the better choice on higher-rung data.</p>
+<table class="caption-top table">
+<caption>What each rung makes available</caption>
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>If your data is…</th>
+<th>the valid summaries are…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Nominal</strong> (categories)</td>
+<td>the mode</td>
+</tr>
+<tr class="even">
+<td><strong>Ordinal</strong> (ordered)</td>
+<td>the mode, plus the median and quantiles</td>
+</tr>
+<tr class="odd">
+<td><strong>Quantitative</strong> (numbers)</td>
+<td>the mode, the median and quantiles, plus the mean</td>
+</tr>
+</tbody>
+</table>
+<p>For quantitative data – the top rung – all three are on the table, and which serves you best depends on the question. Reach for the <strong>mean</strong> when every value should count and when the result will feed further arithmetic (standard deviations, z-scores, tests). Reach for the <strong>median</strong> when extremes would distort the mean, or when “half are above, half below” communicates more honestly. Reach for the <strong>mode</strong> when the single most common value is the point – the typical rating, the usual length of stay. Often the right answer is <em>more than one</em>: reporting the mean alongside the median says more than either alone, precisely because the gap between them is informative.</p>
+<p>Audience nudges you along the same lines: technical readers are comfortable with means, standard deviations, and confidence intervals; non-technical readers follow medians and percentiles more easily; and regulatory communication often shows both – the median for the typical experience, the mean for the system-level picture.</p>
+</section>
+<section id="position-isnt-everything" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="position-isnt-everything"><span class="header-section-number">3.6</span> Position Isn’t Everything</h2>
+<p>Everything so far describes <em>where</em> the data sits. But location is only half a description. Two providers can share a mean incident rate of 10 a month while one runs steadily at 9–11 and the other lurches between 0 and 20 – same centre, completely different stories. The missing half is <strong>spread</strong>, and it is the essential complement to location: turn to <a href="../chapters/04-variation-uncertainty.html">Variation and Uncertainty</a> next, and to <a href="../chapters/05-distribution-shape.html">Distribution Shape</a> to see how the shape of a distribution decides whether the mean or the median tells the truth.</p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script>
+(function () {
+  'use strict';
+
+  function init() {
+    var sidebar = document.getElementById('quarto-margin-sidebar');
+    if (!sidebar) return;
+
+    var tocLinks = Array.from(sidebar.querySelectorAll('a[href^="#"]'));
+    if (!tocLinks.length) return;
+
+    var sectionIds = tocLinks
+      .map(function (a) { return a.getAttribute('href').slice(1); })
+      .filter(Boolean);
+
+    var sections = sectionIds
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+
+    if (!sections.length) return;
+
+    function setActive(id) {
+      tocLinks.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+
+    // Track the topmost visible section
+    var visible = new Set();
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            visible.add(e.target.id);
+          } else {
+            visible.delete(e.target.id);
+          }
+        });
+        // Activate the first section in document order that is visible
+        for (var i = 0; i < sections.length; i++) {
+          if (visible.has(sections[i].id)) {
+            setActive(sections[i].id);
+            return;
+          }
+        }
+      },
+      { rootMargin: '0px 0px -70% 0px', threshold: 0 }
+    );
+
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/02-data-visualisation.html" class="pagination-link" aria-label="Visualising Data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualising Data</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/04-variation-uncertainty.html" class="pagination-link" aria-label="Measuring Variation">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measuring Variation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Central Tendency and Position"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning outcomes</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>After reading this chapter you will be able to:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>read the **level of measurement** a variable sits at, and tell which summaries are valid for it;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>compute and interpret the **mode**, the **median** and **quantiles**, and the **mean**;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>choose the right kind of mean – arithmetic, geometric, harmonic, weighted – for additive data, rates, and growth;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>choose a measure by the question rather than by habit, judge when a robust summary serves better, and remember that location always needs pairing with spread.</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Where Is the Middle? {#sec-describing-data}</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Before you can compare providers or flag an outlier, you have to boil a variable down to a number or two: where does it sit, what is typical? Is the typical waiting time 2 hours or 20? Is the average incident rate 5 a month or 50? That looks like one question with one answer. It is not.</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>How much you can say depends on how high your data sits on the <span class="co">[</span><span class="ot">ladder of measurement</span><span class="co">](01-data-types.qmd)</span>. On the bottom rung you can only say what is *most common*; add ordering and you can speak of a *middle*; add arithmetic and you can take a *mean*. So this chapter climbs the ladder rung by rung – the mode, then the median and its quantile family, then the mean – defining each measure and working it through on a handful of real numbers along the way. The arithmetic stays light; the code and the heavier methods come in Part II.</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>One word needs pinning down first, because everyday speech blurs it. An **average** is any single value standing in for the typical one – and there are several, so the mode, the median, and the mean are *all* averages, one for each rung. A **mean** is one particular kind (and even "the mean" is a small family: arithmetic, geometric, harmonic, ...). In conversation "the average" almost always means the arithmetic mean, but this book keeps the words apart: *mean* for that calculation, *median* and *mode* for the other two, and *average* only as the umbrella over all three.</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>A note on symbols, while we are pinning down words. When the numbers in front of you *are* the whole story – every provider in a region this month – you are simply describing them, and this book writes such descriptions with Greek letters: $\mu$ (mu) for a mean, and $\sigma$ (sigma, in the next chapter) for a standard deviation. When instead the data is only a **sample** standing in for a larger **population** you cannot see in full, the convention switches to Roman letters – $\bar{x}$ for the sample mean, $s$ for its standard deviation – and a small correction enters the arithmetic. Throughout the foundations we take the first view, describing the data in hand; the switch to samples, and why it changes the sums, is the business of <span class="co">[</span><span class="ot">Statistical Inference</span><span class="co">](07-statistical-inference.qmd)</span>. (The count stays $n$ throughout.)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## Counting: The Mode</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>The one summary you can always compute is the plainest: which value turns up most often. The **mode** asks *what is most common?*, and it asks nothing of the data but the ability to tell categories apart – so it is the only location measure that works on [nominal](01-data-types.qmd) data, where there is no order to exploit and no arithmetic to do. There is nothing to calculate: you count how often each value occurs and report the most frequent one. Take last month's incident counts at five care homes – 2, 3, 3, 4, 18 – and the mode is **3**, the only value that occurs more than once. The most common CQC rating ("Good") is a mode too.</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>Its limits are real: the mode need not be unique (a dataset can be bimodal or multimodal, with two or more values tied), it uses little of the data, and for continuous measurements it depends on how you *bin* (group) the values. For quantitative metrics it rarely leads. But for qualitative outcomes – ratings, compliance status, risk category – it is often the only honest summary of "typical", and it has one trick the grander measures lack.</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🤔 Rethinking: When the average describes no one</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>Ask for the centre of a two-humped distribution and the mean will dutifully hand back a single number sitting in the valley between the humps – an "average" that matches no actual case. Picture provider staffing ratios that fall into two clusters, small rural homes and large urban ones: the mean ratio describes a provider that does not exist, and the median is little better. The mode – modes, plural – is the one summary that says *there are two populations here, stop averaging them*.</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>That is why the mode earns a place of its own rather than trailing along behind the mean and median: it is the measure that can tell you the centre is the wrong question. When you find two modes, the usual next move is to split the data and describe each group on its own terms.</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## Ordering: The Median and Quantiles {#sec-quantiles}</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>Climb one rung – to data you can put in order – and a richer summary unlocks. A **quantile** names a *position* in the sorted data: the value with a given fraction of the data below it. Because that needs only ordering and no arithmetic, quantiles reach onto the <span class="co">[</span><span class="ot">ordinal</span><span class="co">](01-data-types.qmd)</span> rung, where means cannot follow. You can read the median CQC rating (Inadequate &lt; Requires Improvement &lt; Good &lt; Outstanding) even though a "mean rating" is meaningless.</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>The **median** is the most-used quantile of all – the value with half the data below and half above. To find it, sort the values and take the middle one. With an odd number of values that is a single observation; with an even number it is the arithmetic mean of the two middle ones. Return to the five homes – 2, 3, 3, 4, 18, already in order – and with five values the middle one is the third: the median is **3**.</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>The wider family is just the same idea at different resolutions: divide the sorted data into equal-sized groups. Percentiles make 100 groups, vigintiles 20, deciles 10, quintiles 5, quartiles 4 (Q1, Q2, Q3 at the 25th, 50th, and 75th). The median is simply the 50th percentile, the second quartile, the fifth decile – the same point named at different resolutions.</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>The median earns its keep because it is **robust**: one monstrous value barely moves it, so when a few values lie far from the rest it often describes the typical experience better than the mean. "Half of providers have shorter waits, half longer" is also easy to say and hard to misread.</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>Beyond the median, the wider family is what lets you rank and set thresholds. "This provider is in the top 10% for incident rates" lands with a non-technical audience far better than "1.5 standard deviations above the mean", and "inspect everyone above the 95th percentile" is a clear, defensible rule. Because quantiles assume nothing about the shape of the distribution, they stay meaningful whether the data is normal, lopsided, or lumpy – and, again, they work on ordinal data where means cannot go.</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🤔 Rethinking: Percentiles aren't percentages</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>"This provider is at the 90th percentile" does *not* mean 90% of their patients experience some outcome. It means the provider ranks above 90% of *other providers*. The percentile is a position in the distribution of providers, not a rate within any one of them.</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>A provider at the 90th percentile for waiting times might have a mean wait of 4 hours – the percentile says 90% of providers have shorter mean waits, and tells you nothing about the spread of waits inside that provider, where some patients wait 2 hours and some 6. For regulatory communication, spell it out: "this provider's incident rate is higher than 90% of similar providers," not "this provider is at the 90th percentile."</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## Arithmetic: The Mean</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>At the top rung, where the gaps between values are real numbers, arithmetic unlocks the most powerful summaries in the book – and the most demanding. The **mean** uses every value, which is what makes it informative and also what makes it fragile: a single extreme value drags it, and it needs genuinely <span class="co">[</span><span class="ot">quantitative</span><span class="co">](01-data-types.qmd)</span> data beneath it.</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>And the mean itself is not one thing – several calculations share the name, each combining numbers differently to suit a different kind of data. Write the values as $x_1, x_2, \dots, x_n$, where $n$ is how many there are, and give each value a weight $w_i$ when some should count for more than others. The symbol $\sum$ means "add up over all the values" and $\prod$ "multiply them all together". Then:</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Arithmetic mean** $\displaystyle \mu = \frac{1}{n}\sum_{i=1}^{n} x_i$ – add the values up and divide by the count.</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Geometric mean** $\displaystyle \left(\prod_{i=1}^{n} x_i\right)^{1/n}$ – multiply the values together and take the $n$th root (it needs positive values).</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Harmonic mean** $\displaystyle \frac{n}{\sum_{i=1}^{n} 1/x_i}$ – divide the count by the sum of the reciprocals.</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Weighted (arithmetic) mean** $\displaystyle \frac{\sum_{i=1}^{n} w_i x_i}{\sum_{i=1}^{n} w_i}$ – multiply each value by its weight, add those up, and divide by the total weight.</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>On the five homes – 2, 3, 3, 4, 18 – the arithmetic mean is $(2+3+3+4+18)/5 = 6$. Notice that the mean (6) sits well above the mode and median (both 3): the single home with 18 incidents has pulled it up, while the median has not budged. That one comparison is the whole case for robustness, and it takes no special vocabulary to see.</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>The other means are for data the arithmetic mean handles badly. Three annual growth factors of 1.05, 1.10 and 1.03 multiply to 1.189, whose cube root, 1.059, is the growth rate that compounds correctly across the three years – the arithmetic mean would overstate it. And for rates built on different denominators – incidents per bed-day across a 100-bed and a 5-bed home – the harmonic mean respects those denominators, where a plain mean of the two rates would not. The table says which to reach for:</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Mean <span class="pp">|</span> Best for <span class="pp">|</span> CQC example <span class="pp">|</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Arithmetic** <span class="pp">|</span> Additive quantities, roughly symmetric data <span class="pp">|</span> Mean waiting time, incident counts <span class="pp">|</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Geometric** <span class="pp">|</span> Multiplicative processes, growth rates, ratios <span class="pp">|</span> Year-on-year percentage changes <span class="pp">|</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Harmonic** <span class="pp">|</span> Rates whose denominators vary <span class="pp">|</span> Incidents per 1,000 bed-days across providers of different sizes <span class="pp">|</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Weighted arithmetic** <span class="pp">|</span> Aggregating across different sizes or precisions <span class="pp">|</span> National benchmark weighted by provider size <span class="pp">|</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>: Which mean to reach for {tbl-colwidths="<span class="co">[</span><span class="ot">24,40,36</span><span class="co">]</span>"}</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="fu">### Whose mean? Weighting and why it matters</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>Any mean can be **weighted** so some observations count for more than others, and the choice is rarely neutral. An *unweighted* national mean treats every provider the same and answers "what is typical for a provider?" – the right lens for fairness across providers. Weighting *by size* lets a 100-bed home count for ten times a 10-bed home and answers a different question, "what is typical for a patient?" – the right lens for system-level and resource questions. (Weights can also reflect precision, so more reliable estimates count for more, or recency, so newer data counts for more.) Neither is more correct; they answer different questions, so pick the one that matches your purpose and say which you used.</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>This matters most where providers differ wildly in size. A hospital with 10,000 admissions and 500 readmissions (5%) carries far more information than a unit with 20 admissions and 2 readmissions (10%); the plain arithmetic mean of the two rates is 7.5%, but that treats them as equals, where a weighted or harmonic mean respects how much each one actually tells you. A good habit is to compute more than one: if the arithmetic and harmonic means diverge sharply, that is itself a finding – your denominators are heterogeneous, and you must decide, deliberately, which mean answers your question.</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning icon=false}</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚙️ Overthinking: The generalised mean</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>The arithmetic, geometric, and harmonic means are not three unrelated tricks; they are one formula seen at three settings. The **generalised mean** (or power mean) is</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>$$M_p(x_1, \dots, x_n) = \left( \frac{1}{n} \sum_{i=1}^{n} x_i^{\,p} \right)^{1/p}$$</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>that is: raise each value to a power *p*, take the ordinary mean, then take the *p*th root. The familiar means are particular values of *p*: $p = 1$ gives the arithmetic mean, $p \to 0$ the geometric, $p = -1$ the harmonic, and $p = 2$ the quadratic mean (root mean square). Larger *p* leans towards the big values, smaller *p* towards the small ones.</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>Weighting is a *separate* dial layered on top: replace the simple mean with a weighted one ($w_i$ on each $x_i$) and you can have a weighted arithmetic, geometric, or harmonic mean. Every mean you have ever used is some choice of these two dials – a combination rule (*p*) and an importance rule (*w*). For CQC work you almost never touch *p* directly: additive data wants arithmetic, multiplicative data geometric, rates with varying denominators harmonic. A power mean with *p* outside {−1, 0, 1, 2}, or a weighted geometric or harmonic mean, is worth raising with the Quantitative Analytics and Statistics Guild (the Guild) – valid, but in need of justifying.</span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="fu">### When the mean is fragile: robust alternatives</span></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>The mean's habit of using every value is also its weakness: a single extreme case drags it, as the 18 just did. When that worries you, three robust options keep the description honest:</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>the **median** you have already met – it cares only how *many* values lie on each side, not how *far* the extremes reach;</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>a **trimmed mean** drops a fixed fraction from each end before averaging – a 10% trimmed mean discards the lowest and highest 10% of values, then takes the arithmetic mean of what remains;</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>a **winsorised mean** keeps every observation but caps the extremes, replacing the lowest and highest few with the nearest surviving value before averaging.</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>For most CQC work, reporting the mean and the median together and explaining any gap between them is clearer than reaching for these – and a large gap is a finding worth stating plainly (the formal language for that lopsidedness, *skew*, comes in <span class="co">[</span><span class="ot">Distribution Shape</span><span class="co">](05-distribution-shape.qmd)</span>). For a high-stakes output, or when extreme values need investigating rather than taming, take it to the Guild and to <span class="co">[</span><span class="ot">Outlier Methods</span><span class="co">](16-outlier-methods.qmd)</span>.</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## Choosing the Right Measure</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>It is tempting to read the ladder as "always climb as high as you can". That is the wrong lesson. The ladder is a **gate, not a ranking**: it tells you which measures are *valid* – you cannot take a mean of nominal categories – not which is *best*. Once a measure is permitted, the question decides, and a lower-rung measure can be the better choice on higher-rung data.</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> If your data is… <span class="pp">|</span> the valid summaries are… <span class="pp">|</span></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Nominal** (categories) <span class="pp">|</span> the mode <span class="pp">|</span></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Ordinal** (ordered) <span class="pp">|</span> the mode, plus the median and quantiles <span class="pp">|</span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Quantitative** (numbers) <span class="pp">|</span> the mode, the median and quantiles, plus the mean <span class="pp">|</span></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>: What each rung makes available {tbl-colwidths="<span class="co">[</span><span class="ot">42,58</span><span class="co">]</span>"}</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>For quantitative data – the top rung – all three are on the table, and which serves you best depends on the question. Reach for the **mean** when every value should count and when the result will feed further arithmetic (standard deviations, z-scores, tests). Reach for the **median** when extremes would distort the mean, or when "half are above, half below" communicates more honestly. Reach for the **mode** when the single most common value is the point – the typical rating, the usual length of stay. Often the right answer is *more than one*: reporting the mean alongside the median says more than either alone, precisely because the gap between them is informative.</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>Audience nudges you along the same lines: technical readers are comfortable with means, standard deviations, and confidence intervals; non-technical readers follow medians and percentiles more easily; and regulatory communication often shows both – the median for the typical experience, the mean for the system-level picture.</span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="fu">## Position Isn't Everything</span></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>Everything so far describes *where* the data sits. But location is only half a description. Two providers can share a mean incident rate of 10 a month while one runs steadily at 9–11 and the other lurches between 0 and 20 – same centre, completely different stories. The missing half is **spread**, and it is the essential complement to location: turn to <span class="co">[</span><span class="ot">Variation and Uncertainty</span><span class="co">](04-variation-uncertainty.qmd)</span> next, and to <span class="co">[</span><span class="ot">Distribution Shape</span><span class="co">](05-distribution-shape.qmd)</span> to see how the shape of a distribution decides whether the mean or the median tells the truth.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

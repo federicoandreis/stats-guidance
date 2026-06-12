@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>4&nbsp; Measuring Variation – CQC Statistical Guidance</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/05-distribution-shape.html" rel="next">
+<link href="../chapters/03-describing-data.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5c568ff3620675dfea6bfa6c73bdaad4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../custom.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/01-data-types.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="../chapters/04-variation-uncertainty.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measuring Variation</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">CQC Statistical Guidance</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CQC Statistical Guidance</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to Use This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quick-reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quick Reference</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Types &amp; Implications</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-data-visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualising Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Central Tendency and Position</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-variation-uncertainty.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measuring Variation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-distribution-shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distribution Shape</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-unusual-observations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unusual Observations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-statistical-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Statistical Inference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-missing-data-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Handling Missing Data: Foundations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-qa-principles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Quality Assurance Principles</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-tooling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Analytical Tooling at CQC</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-generative-ai.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Generative AI in Analytical Work</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Part II: Core Methods</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-z-scoring.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparing Provider Performance: Z-scoring</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-spc-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Monitoring Trends Over Time: SPC Basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-t-tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparing Two Groups: t-tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-correlation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Exploring Relationships: Correlation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-outlier-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Outlier Detection Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-missing-data-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Missing Data: Computational Methods</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Part III: Worked Examples</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Worked Examples Library</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-01-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Example 1: GP Access Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-02-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Example 2: Care Home Falls Monitoring</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-03-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Example 3: Mental Health Wait Times</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-04-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Example 4: Medication Safety Pilot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-05-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Example 5: Regional A&amp;E Performance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-06-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Example 6: Ambulance Handover Delays</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-07-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Example 7: Infection Rates in Care Homes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-08-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Example 8: DoLS Application Trends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-09-complete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Example 9: Staffing and Quality Outcomes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../examples/example-10-outliers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Example 10: Care Home Staffing Investigation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">References &amp; Resources</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-variation-uncertainty" id="toc-sec-variation-uncertainty" class="nav-link active" data-scroll-target="#sec-variation-uncertainty"><span class="header-section-number">4.1</span> How Spread Out Is Your Data?</a></li>
+  <li><a href="#spread-without-order-diversity" id="toc-spread-without-order-diversity" class="nav-link" data-scroll-target="#spread-without-order-diversity"><span class="header-section-number">4.2</span> Spread Without Order: Diversity</a></li>
+  <li><a href="#spread-you-can-order-range-and-the-iqr" id="toc-spread-you-can-order-range-and-the-iqr" class="nav-link" data-scroll-target="#spread-you-can-order-range-and-the-iqr"><span class="header-section-number">4.3</span> Spread You Can Order: Range and the IQR</a></li>
+  <li><a href="#spread-you-can-compute-variance-standard-deviation-and-cv" id="toc-spread-you-can-compute-variance-standard-deviation-and-cv" class="nav-link" data-scroll-target="#spread-you-can-compute-variance-standard-deviation-and-cv"><span class="header-section-number">4.4</span> Spread You Can Compute: Variance, Standard Deviation, and CV</a></li>
+  <li><a href="#seeing-the-spread" id="toc-seeing-the-spread" class="nav-link" data-scroll-target="#seeing-the-spread"><span class="header-section-number">4.5</span> Seeing the Spread</a></li>
+  <li><a href="#choosing-the-right-measure" id="toc-choosing-the-right-measure" class="nav-link" data-scroll-target="#choosing-the-right-measure"><span class="header-section-number">4.6</span> Choosing the Right Measure</a></li>
+  <li><a href="#spread-isnt-the-whole-story" id="toc-spread-isnt-the-whole-story" class="nav-link" data-scroll-target="#spread-isnt-the-whole-story"><span class="header-section-number">4.7</span> Spread Isn’t the Whole Story</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/01-data-types.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="../chapters/04-variation-uncertainty.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measuring Variation</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measuring Variation</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Learning outcomes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After reading this chapter you will be able to:</p>
+<ul>
+<li>measure spread at every rung of the ladder – <strong>diversity</strong> for categories, <strong>range</strong> and <strong>IQR</strong> for ordered data, <strong>variance</strong> and <strong>standard deviation</strong> for numbers;</li>
+<li>compute and interpret each, and read the standard deviation against the more robust IQR;</li>
+<li>use the <strong>coefficient of variation</strong> to compare spread across different scales;</li>
+<li>choose a spread measure by the data type and the question, and pair every location summary with one.</li>
+</ul>
+</div>
+</div>
+<section id="sec-variation-uncertainty" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-variation-uncertainty"><span class="header-section-number">4.1</span> How Spread Out Is Your Data?</h2>
+<p>The <a href="../chapters/03-describing-data.html">previous chapter</a> found the middle; this one asks how far the data spreads around it. The two questions are inseparable, because the middle on its own can hide everything that matters.</p>
+<p>Two providers might both average 10 incidents a month. One records 9, 10, 11, 10, 10 – steady, predictable. The other records 0, 2, 18, 20, 10 – the same mean, a completely different operation. Location alone cannot tell them apart; spread can. And spread is what makes a single value <em>unusual</em>: a provider five incidents above the mean is barely worth a glance where the typical swing is ±10, but a klaxon where it is ±2.</p>
+<p>Spread, like location, climbs the <a href="../chapters/01-data-types.html">ladder of measurement</a>. Each rung unlocks a richer way to describe it: at the bottom you can say only how <em>diverse</em> the categories are; add ordering and you can measure a <em>range</em>; add arithmetic and you can measure the typical <em>distance</em> from the mean. This chapter climbs those rungs, working a single scenario as it goes – one region’s providers, looked at three ways: their <strong>type</strong> (nominal), their <strong>rating</strong> (ordinal), and their monthly <strong>incident counts</strong> (quantitative).</p>
+</section>
+<section id="spread-without-order-diversity" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="spread-without-order-diversity"><span class="header-section-number">4.2</span> Spread Without Order: Diversity</h2>
+<p>Even where you cannot order the values or do arithmetic on them, data still varies – it can pile into one category or scatter across many. That is <strong>diversity</strong> (or heterogeneity), and it is the only kind of spread <a href="../chapters/01-data-types.html">nominal</a> data admits.</p>
+<p>The plainest measure is the <strong>proportion in the largest category</strong>: if 90% of providers are one type, the mix is homogeneous; if no category dominates, it is diverse. Two summaries make this precise. Writing <span class="math inline">\(p_i\)</span> for the proportion in category <span class="math inline">\(i\)</span> and <span class="math inline">\(k\)</span> for the number of categories (and <span class="math inline">\(\sum\)</span> for “add up over all the categories”):</p>
+<ul>
+<li><strong>Gini’s heterogeneity index</strong> <span class="math inline">\(\displaystyle D = 1 - \sum_{i=1}^{k} p_i^{\,2}\)</span> – the chance that two cases picked at random fall in <em>different</em> categories. <span class="math inline">\(D = 0\)</span> when everything is in one category; it rises towards <span class="math inline">\((k-1)/k\)</span> as the categories even out. (The same quantity travels under several names: the <em>Gini–Simpson index</em>, or <em>Simpson’s diversity index</em>. They are one formula.)</li>
+<li><strong>Shannon’s entropy</strong> <span class="math inline">\(\displaystyle H = -\sum_{i=1}^{k} p_i \log_2 p_i\)</span> – a measure from information theory, in <em>bits</em>. <span class="math inline">\(H = 0\)</span> for one category, rising to <span class="math inline">\(\log_2 k\)</span> for a perfectly even split. It is more sensitive to rare categories than Gini’s index.</li>
+</ul>
+<p>Take the region’s ten providers: seven care homes, two GP practices, one hospital. Gini’s index works out at <span class="math inline">\(D = 1 - (0.7^2 + 0.2^2 + 0.1^2) = 1 - 0.54 = 0.46\)</span>, Shannon’s entropy at <span class="math inline">\(H = 1.16\)</span> bits.</p>
+<p>Two numbers are hard to feel in the abstract, so it helps to <em>see</em> the scale they sit on. The panels below hold the same ten providers but vary the mix – all in one type, the region’s actual spread, and as even a split as three types allow. Diversity is, quite literally, how level the bars are: one tall bar means a single type dominates and both indices collapse to zero; bars of equal height push both indices to their maximum.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-diversity-extremes" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three bar-chart panels side by side, each counting providers across three categories – care home, GP practice, hospital. Left panel, Concentrated: one bar of ten care homes, the other two categories empty; Gini index 0 and Shannon entropy 0. Middle panel, the region's mix: care home seven, GP practice two, hospital one; Gini index 0.46, Shannon entropy 1.16 bits. Right panel, Even mix: care home four, GP practice three, hospital three; Gini index 0.66, Shannon entropy 1.57 bits. The bar heights grow steadily more equal from left to right as both indices rise.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-diversity-extremes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-variation-uncertainty_files/figure-html/fig-diversity-extremes-1.png" class="img-fluid figure-img" alt="Three bar-chart panels side by side, each counting providers across three categories – care home, GP practice, hospital. Left panel, Concentrated: one bar of ten care homes, the other two categories empty; Gini index 0 and Shannon entropy 0. Middle panel, the region's mix: care home seven, GP practice two, hospital one; Gini index 0.46, Shannon entropy 1.16 bits. Right panel, Even mix: care home four, GP practice three, hospital three; Gini index 0.66, Shannon entropy 1.57 bits. The bar heights grow steadily more equal from left to right as both indices rise." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diversity-extremes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: The same ten providers sorted into three types, shown at three points on the diversity scale. Left: all ten share one type, so there is no diversity and both indices are zero. Middle: the region’s actual mix (seven care homes, two GP practices, one hospital), giving Gini D = 0.46 and Shannon H = 1.16 bits. Right: as even a three-way split as ten providers allow, close to the maxima (D = 0.67, H = 1.58 bits). The more level the bars, the higher both indices climb.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Only the first of those two numbers speaks for itself. Gini’s index <em>is</em> a probability: <span class="math inline">\(D = 0.46\)</span> means that if you pick two of these providers at random, there is a 46% chance they are different types – a statement anyone can act on. Shannon’s <span class="math inline">\(1.16\)</span> bits, by contrast, tells you almost nothing on its own. Bits of what, measured against what? The figure becomes interpretable only beside a yardstick, and the natural yardstick is the most diverse this mix <em>could</em> be: with three categories, the perfectly even split, worth <span class="math inline">\(\log_2 3 \approx 1.58\)</span> bits. Now <span class="math inline">\(1.16 / 1.58 \approx 0.73\)</span> says something real – this region is about <strong>three-quarters of the way</strong> to a perfectly even spread of provider types.</p>
+<p>That same yardstick sharpens even the readable Gini index. Is <span class="math inline">\(0.46\)</span> “a lot” of diversity? Set against its own maximum of <span class="math inline">\((k-1)/k = 0.67\)</span> for three categories, it sits about <strong>two-thirds</strong> of the way to maximal – aligned with the verdict the entropy gave, as it should be. The lesson is general: a diversity index read in isolation is hard to judge, so always pin it to something. Report it either <strong>normalised</strong> to its 0–1 maximum (the dedicated Overthinking box in this chapter gives the recipe for both indices) or as a <strong>comparison</strong> – this region against another, or this month against last.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>🤔 Rethinking: Why diversity matters for regulation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Heterogeneity is not just bookkeeping – it changes what a finding means.</p>
+<p>A region’s <strong>incident categories</strong> are a case in point. If 90% of incidents are medication errors, the problem is concentrated and targetable; if they spread evenly across ten categories, that points to a systemic quality issue with no single lever to pull. The same logic reads <strong>provider types</strong> in a region (a homogeneous mix is simpler to benchmark; a diverse one needs stratified, like-for-like comparison) and <strong>ratings over time</strong> (rising diversity means the system is pulling apart, some improving while others slip; falling diversity means it is converging). Measuring diversity tells you whether variation is concentrated where you can act on it, or diffuse in a way that signals something structural.</p>
+</div>
+</div>
+</section>
+<section id="spread-you-can-order-range-and-the-iqr" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="spread-you-can-order-range-and-the-iqr"><span class="header-section-number">4.3</span> Spread You Can Order: Range and the IQR</h2>
+<p>Add an ordering and a new idea becomes available: you can mark off <em>where the data starts and ends</em>. Two measures matter here, and both carry a subtlety worth stating plainly – the difference between naming an <strong>interval</strong> and measuring its <strong>length</strong>.</p>
+<p>Start with the <strong>range</strong>. The word does double duty. It can mean the <em>interval</em> the data covers – “ratings run from Requires Improvement to Outstanding”, “waits run from 1 to 19 hours” – which needs only an ordering: name the smallest and largest values and you are done. Or it can mean the <em>length</em> of that interval, the single number <span class="math inline">\(\text{max} - \text{min}\)</span>, which is the form most textbooks call “the range”. That subtraction needs real numeric gaps, so it sits on the top rung – you cannot subtract Requires Improvement from Outstanding. Either way the range is pinned entirely to the two extremes, so a single freak value sets it.</p>
+<p>Because it rides on those two extremes, the range means quite different things depending on whether your data is a whole population or a sample drawn from one – the distinction the <a href="../chapters/03-describing-data.html">previous chapter</a> drew between describing the data in hand and estimating from a larger group. For a whole population the range is a fixed <em>fact</em>: by definition every value already lies inside it, so it states the outer limits and nothing more. That is occasionally what you want – a bounds check, “no wait exceeded 19 hours” – but it says nothing about how the bulk of providers behave, and adding more of the same population cannot change it. For a sample the range is no longer fixed but <em>random</em>, and that cuts both ways. On the one hand it now carries genuine information about the particular cases you drew. On the other, every extra case is another chance to catch a new extreme, so the observed range tends to <em>grow</em> with the sample size and, on average, falls short of the population’s true span. “Waits ran from 1 to 19 hours” can therefore say almost as much about how many providers you happened to sample as about the underlying variation. Either way the moral is the same: lean on the interquartile range, which ignores the extremes entirely.</p>
+<p>The same interval-versus-length distinction runs through the far steadier <strong>interquartile range</strong>:</p>
+<p><span class="math display">\[\text{IQR} = Q_3 - Q_1\]</span></p>
+<p>from the 25th percentile (<span class="math inline">\(Q_1\)</span>) to the 75th (<span class="math inline">\(Q_3\)</span>). Finding those quartiles is a matter of <em>position</em>: sort the data and read off the values a quarter and three-quarters of the way through, so the pair <span class="math inline">\((Q_1, Q_3)\)</span> marks out the central 50% of the distribution with only an ordering required. Turning that pair into the single number <span class="math inline">\(Q_3 - Q_1\)</span> is again a subtraction, so the IQR <em>as a width</em> needs quantitative data, just as the range does.</p>
+<p>This is exactly how far the region’s ratings reach. The ten providers are rated one Requires Improvement, six Good, three Outstanding; the median rating is Good, and the central 50% are <em>all</em> Good – so as an interval the IQR collapses onto a single grade. You can say that honestly without computing any width: the ratings barely spread. What you cannot do on <a href="../chapters/01-data-types.html">ordinal</a> data is put a <em>number</em> on the spread – no IQR width, no standard deviation – because the gaps between grades are undefined.</p>
+<p>The IQR’s real virtue, which comes into its own once the data is numeric, is <strong>robustness</strong>: because it looks only at the central 50%, no extreme value can inflate it. Hold that thought – it is about to matter.</p>
+</section>
+<section id="spread-you-can-compute-variance-standard-deviation-and-cv" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="spread-you-can-compute-variance-standard-deviation-and-cv"><span class="header-section-number">4.4</span> Spread You Can Compute: Variance, Standard Deviation, and CV</h2>
+<p>At the top rung, where the gaps between values are real numbers, you can measure the typical <em>distance</em> from the mean. Take each value’s deviation from the mean, square it (so that values above and below do not cancel), average the squares, and you have the <strong>variance</strong>; its square root, back in the original units, is the <strong>standard deviation</strong>, <span class="math inline">\(\sigma\)</span>. Writing the values <span class="math inline">\(x_1, \dots, x_n\)</span> with mean <span class="math inline">\(\mu\)</span>:</p>
+<p><span class="math display">\[\sigma^2 = \frac{1}{n}\sum_{i=1}^{n}(x_i - \mu)^2, \qquad \sigma = \sqrt{\sigma^2}\]</span></p>
+<p>That is the recipe in symbols: square the distances from the mean, take their mean. If you want the standard deviation, “undo” the squaring. Variance (<span class="math inline">\(\sigma^2\)</span>) lives in squared units (incidents², hours²) and is what many methods use internally; the standard deviation (<span class="math inline">\(\sigma\)</span>) is in the original units and is the one to report – “the typical distance from the mean is about 6 incidents.” They are the same information, related by <span class="math inline">\(\text{variance} = \sigma^2\)</span>.</p>
+<p>That word <em>distance</em> is the heart of it, and it is worth seeing rather than just reading. Both clouds below share the same centre; the standard deviation is, near enough, the typical length of the spokes running from each point to that centre – short on the left, long on the right.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-distance-variation" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two scatter panels side by side, each with points arranged around a single dark central mean point and a thin line drawn from every point to that centre. Left panel, labelled low variation: points cluster tightly around the mean, lines are short. Right panel, labelled high variation: the same number of points spread far from the mean, lines are long. The mean sits at the centre of both.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distance-variation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-variation-uncertainty_files/figure-html/fig-distance-variation-1.png" class="img-fluid figure-img" alt="Two scatter panels side by side, each with points arranged around a single dark central mean point and a thin line drawn from every point to that centre. Left panel, labelled low variation: points cluster tightly around the mean, lines are short. Right panel, labelled high variation: the same number of points spread far from the mean, lines are long. The mean sits at the centre of both." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distance-variation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.2: Two synthetic point clouds with the same mean (the dark central point), each spoke joining an observation to that mean. Left: low variation, points sit close to the mean, so the typical spoke is short. Right: high variation, the same number of points scatter much further, so the typical spoke is long. The standard deviation summarises that typical spoke length.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>You may have seen this formula with <span class="math inline">\(n-1\)</span> in the denominator rather than <span class="math inline">\(n\)</span>. That is the <strong>sample</strong> version: when the data is not the whole story but a sample standing in for a larger population you cannot fully see, dividing by <span class="math inline">\(n-1\)</span> corrects a slight bias in estimating that population’s spread, and the symbols switch to <span class="math inline">\(s^2\)</span> and <span class="math inline">\(s\)</span> to mark the change. It is the same idea; the reasons are inferential, and we return to them in <a href="../chapters/07-statistical-inference.html">Statistical Inference</a>. For the sake of this chapter and the point we are trying to make, it does not matter which version we use.</p>
+<p>The five care homes’ incident counts – 2, 3, 3, 4, 18, mean 6 – show both the machinery and its weakness. The deviations from the mean are −4, −3, −3, −2, 12; their squares 16, 9, 9, 4, 144 sum to 182, so <span class="math inline">\(\sigma^2 = 182/5 = 36.4\)</span> and <span class="math inline">\(\sigma \approx 6.0\)</span> incidents. Notice that the single home at 18 contributes 144 of those 182 – almost the entire spread – exactly as it dragged the mean in the last chapter. <strong>The standard deviation inherits the mean’s fragility.</strong></p>
+<p>The IQR does not. The central 50% of those five values runs from 3 to 4, so the IQR is just <strong>1</strong>: the 18 lies outside it and leaves it untouched. This is the spread-side echo of mean versus median. The standard deviation uses every value and feeds the methods in Part II – <a href="../chapters/12-z-scoring.html">z-scores</a>, control limits in <a href="../chapters/13-spc-basics.html">SPC</a>, <a href="../chapters/14-t-tests.html">t-tests</a> – but pays for it by bending to outliers; the IQR shrugs them off, and as a pair of quartile positions it can be read even on ordinal data. When the data is lopsided, report both.</p>
+<p>One more measure earns its place when you need to compare <em>across</em> indicators. A standard deviation carries units, so you cannot ask whether waiting times “vary more” than incident rates by comparing their standard deviations directly. The <strong>coefficient of variation</strong> strips the units out by measuring spread <em>relative to</em> the mean:</p>
+<p><span class="math display">\[\text{CV} = \frac{\sigma}{\mu} \quad (\text{often as a percentage})\]</span></p>
+<p>Read it as a question: how big is the typical wobble compared with the typical level? A CV of 0.2 says the standard deviation is one-fifth of the mean, and that statement holds whatever the units – which is exactly why it travels where a raw <span class="math inline">\(\sigma\)</span> cannot. Expressing spread in proportion to location also matches how variation is <em>felt</em>: a swing of ±2 hours is alarming around a mean wait of 3 hours and trivial around a mean of 50. So waiting times with a mean of 3 hours and <span class="math inline">\(\sigma\)</span> of 0.6 (CV = 20%) and incident rates with a mean of 15 and <span class="math inline">\(\sigma\)</span> of 3 (CV = 20%) are equally variable in relative terms, however different their raw standard deviations. For the five homes the CV is <span class="math inline">\(\sigma / \mu = 6.0 / 6.0 \approx 100\%\)</span> – the typical distance from the mean is about as large as the mean itself, a number that screams “outlier” on its own. Because it divides by the mean, the CV needs a non-zero mean and a meaningful zero on the scale, so it suits rates and counts but breaks down when the mean nears zero or the scale has no true zero (temperature in °C, say).</p>
+<p>The CV is really the first of a small family of <em>normalised</em> spread measures – rescalings that let two quantities on different scales be compared. The Overthinking box gives the general recipe and two more members.</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>⚙️ Overthinking: Normalising a spread measure
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Normalising means rescaling a measure so that values from different scales can be set side by side. The coefficient of variation does it by dividing by the mean; the most general recipe does it by reference to a known range,</p>
+<p><span class="math display">\[\text{normalised value} = \frac{\text{value} - \text{min}}{\text{max} - \text{min}}\]</span></p>
+<p>which maps anything onto a 0–1 scale once you know the smallest and largest values it can take. This is the move behind <strong>normalised entropy</strong>, <span class="math inline">\(H / \log_2 k\)</span>, which divides Shannon’s entropy by its maximum <span class="math inline">\(\log_2 k\)</span> so the diversity of incident types (say ten categories) and of provider types (four) sit on the same 0–1 footing however many categories each has. Gini’s index normalises in exactly the same way – divide by its own maximum, giving <span class="math inline">\(D_{\text{norm}} = \dfrac{D}{(k-1)/k} = \dfrac{k}{k-1}\,D\)</span>. That is the calculation behind calling the region’s <span class="math inline">\(D = 0.46\)</span> “two-thirds of the way to maximal” earlier: <span class="math inline">\(0.46 / 0.67 \approx 0.69\)</span>. The same rescaling is occasionally applied to a variance whose theoretical maximum is known.</p>
+<p>Two cautions. First, min–max normalisation leans on the extremes, so a single outlier sitting at the maximum quietly compresses everything below it. Second, normalising a number does not lower its data-type requirements: rescaling an IQR or a variance still needs quantitative data, whereas normalised entropy works all the way down on nominal data. When you want a robust, unit-free spread measure for skewed numeric data – where the CV would mislead – reach instead for the <strong>quartile coefficient of dispersion</strong>, <span class="math inline">\(\text{QCD} = \dfrac{Q_3 - Q_1}{Q_3 + Q_1}\)</span>. Its numerator is just the IQR; its denominator, <span class="math inline">\(Q_3 + Q_1\)</span>, is twice the <em>midhinge</em> <span class="math inline">\((Q_1 + Q_3)/2\)</span> – a robust measure of centre, the quartiles’ counterpart to the mean. So the QCD is spread divided by centre, exactly the logic of the CV, but built from quartiles instead of the mean and standard deviation: an outlier-resistant CV for skewed data.</p>
+<p>Reach for a normalised measure whenever the thing you are comparing sits on a different scale: different indicators, different baseline levels across regions, or the same indicator over time as its mean drifts. If you are unsure which normalisation fits, or stakeholders find them opaque, raise it with the Quantitative Analytics and Statistics Guild (the Guild).</p>
+</div>
+</div>
+</section>
+<section id="seeing-the-spread" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="seeing-the-spread"><span class="header-section-number">4.5</span> Seeing the Spread</h2>
+<p>Summary numbers are indispensable, but they can agree on the headline and hide the story. A <strong>box plot</strong> turns the five-number summary into a picture – the median, the quartiles (the IQR as the box), the reach of the whiskers, and any outliers as separate points – so the spreads of several groups can be set side by side at a glance. Always look before you summarise. (Choosing and building these plots well is a craft in its own right, taken up in <a href="../chapters/02-data-visualisation.html">Data Visualisation</a>.)</p>
+<p>The plots below make the case. Four provider types have been given similar typical waiting times, yet their spreads could hardly be more different.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-boxplot-variation" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Horizontal box plots for four provider types. Care Home: median around 3 hours, IQR approximately 2.7–3.3 hours – tightly clustered. Hospital Trust: median around 6 hours, IQR approximately 5.2–6.8 hours – moderate spread. GP Practice: median around 4 hours, IQR approximately 2.3–5.7 hours – wide spread. Mental Health Trust: median around 8 hours, IQR approximately 6–10 hours – widest spread with several high outliers.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boxplot-variation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-variation-uncertainty_files/figure-html/fig-boxplot-variation-1.png" class="img-fluid figure-img" alt="Horizontal box plots for four provider types. Care Home: median around 3 hours, IQR approximately 2.7–3.3 hours – tightly clustered. Hospital Trust: median around 6 hours, IQR approximately 5.2–6.8 hours – moderate spread. GP Practice: median around 4 hours, IQR approximately 2.3–5.7 hours – wide spread. Mental Health Trust: median around 8 hours, IQR approximately 6–10 hours – widest spread with several high outliers." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-variation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.3: Box plots comparing synthetic waiting times (hours) across four CQC-regulated provider types (n = 100 per group, values are illustrative). Care homes show the tightest spread; GP practices and mental health trusts show substantially higher variation, with outliers visible in the mental health trust group.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The box plot earns its keep for comparison, but it still shows only those five numbers: two groups can share a median, a box, and whiskers yet be shaped quite differently inside them. If you want to pack in more – the full distributional shape, where the data actually piles up, whether it is single-peaked or hiding a second mode beneath a long tail – a <strong>ridgeline plot</strong> draws each group’s whole density as its own curve.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-ridgeline-variation" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Stacked density curves, one per provider type, sharing a horizontal waiting-time axis. Care Home: a tall, narrow, symmetric hump at about 3 hours. Hospital Trust: a wider, roughly symmetric hump at about 6 hours. GP Practice: a low, wide, flat curve spanning roughly 0 to 9 hours. Mental Health Trust: an asymmetric curve peaking near 7 hours with a long tail stretching past 15 hours.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ridgeline-variation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-variation-uncertainty_files/figure-html/fig-ridgeline-variation-1.png" class="img-fluid figure-img" alt="Stacked density curves, one per provider type, sharing a horizontal waiting-time axis. Care Home: a tall, narrow, symmetric hump at about 3 hours. Hospital Trust: a wider, roughly symmetric hump at about 6 hours. GP Practice: a low, wide, flat curve spanning roughly 0 to 9 hours. Mental Health Trust: an asymmetric curve peaking near 7 hours with a long tail stretching past 15 hours." width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ridgeline-variation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.4: Ridgeline plot of the same synthetic data: each row is the distribution’s shape for one provider type, drawn as a smoothed density. Where the box plot reports five numbers, this shows the whole shape. Care homes are narrow and symmetric; hospital trusts moderately wide; GP practices wide and flat; mental health trusts right-skewed with a long upper tail.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The care homes are tightly clustered; the GP practices and mental health trusts spread wide, the latter with a long tail of high outliers. No table of means would have told you that – and the choice between <span class="math inline">\(\sigma\)</span> and the IQR for these groups follows straight from what the plots reveal.</p>
+</section>
+<section id="choosing-the-right-measure" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="choosing-the-right-measure"><span class="header-section-number">4.6</span> Choosing the Right Measure</h2>
+<p>As with location, the ladder is a <strong>gate, not a ranking</strong>. It rules out what makes no sense – there is no standard deviation of unordered categories, no arithmetic spread on a rating scale – but among the measures it permits, the question decides.</p>
+<table class="caption-top table">
+<caption>What each rung makes available</caption>
+<colgroup>
+<col style="width: 36%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>If your data is…</th>
+<th>the valid spread measures are…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Nominal</strong> (categories)</td>
+<td>diversity – Gini’s heterogeneity index, entropy, proportion in the largest category</td>
+</tr>
+<tr class="even">
+<td><strong>Ordinal</strong> (ordered)</td>
+<td>the above, plus the range and the IQR <em>as intervals</em> (lowest-to-highest, central-50% span)</td>
+</tr>
+<tr class="odd">
+<td><strong>Quantitative</strong> (numbers)</td>
+<td>the above turned into <em>widths</em> (range and IQR as single numbers), plus variance, standard deviation, and the CV</td>
+</tr>
+</tbody>
+</table>
+<p>As you climb the ladder you can often compute <em>several</em> of these, but they are not interchangeable – some carry more information than others, and which is most helpful depends on the question, so there is no absolute decision tree. On quantitative data a lower-rung measure is frequently the wiser pick. Reach for the <strong>standard deviation</strong> when the data is roughly symmetric and the result will feed a method that needs it (z-scores, control limits, t-tests). Reach for the <strong>IQR</strong> when outliers or skew would inflate <span class="math inline">\(\sigma\)</span>, or when “the central half spans this range” communicates more honestly – and, as ever, reporting both is frequently the most truthful answer, since the gap between them is itself a signal. When you are comparing across indicators, scales, or time, switch to a <strong>normalised</strong> measure (the CV, or the QCD for robust comparison).</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>⚙️ Overthinking: Robust spread beyond the IQR
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The IQR is the workhorse robust measure of spread, but it is not the only one, and at least two more are worth knowing because of their popularity.</p>
+<p>The first is the <strong>mean absolute deviation</strong>: rather than squaring each distance from the mean and then taking a square root, simply average the distances themselves, <span class="math inline">\(\frac{1}{n}\sum_{i=1}^{n}|x_i - \mu|\)</span>. Using the absolute value instead of the square stops large deviations from dominating as heavily as they do in the standard deviation, so it is <em>a little</em> more forgiving of outliers, and preserves the same measurement unit.</p>
+<p>The second goes further. The <strong>median absolute deviation</strong> (typically referred to as MAD - although the previous measure would abbreviate to the same thing) replaces <em>both</em> the mean and the averaging with medians: take the median of the absolute distances from the median, <span class="math inline">\(\text{median}\bigl(|x_i - \tilde{x}|\bigr)\)</span>. Because every step uses a median, no single extreme value can shift it – it is as robust as the IQR. It has statistical properties that, under the right conditions, let it stand in for the standard deviation, which makes it a popular robust replacement for <span class="math inline">\(\sigma\)</span> in the outlier rules of <a href="../chapters/16-outlier-methods.html">Outlier Methods</a>.</p>
+<p>For most CQC work the standard deviation and IQR are enough, and reporting both already signals when robustness matters. Reach for these only when you need a robust spread expressed on the standard deviation’s own scale – and if the choice is consequential, raise it with the Guild.</p>
+</div>
+</div>
+</section>
+<section id="spread-isnt-the-whole-story" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="spread-isnt-the-whole-story"><span class="header-section-number">4.7</span> Spread Isn’t the Whole Story</h2>
+<p>Location and spread are the first two questions to ask of any distribution, and together they already say far more than either alone. But notice how often this chapter reached past them for a third idea to settle a choice: the long tail that made <span class="math inline">\(\sigma\)</span> misleading, the lone value at 18 that the mean could not survive but the IQR shrugged off. That third idea is the distribution’s <em>shape</em>, and it is what ultimately adjudicates between <span class="math inline">\(\sigma\)</span> and the IQR. <a href="../chapters/05-distribution-shape.html">Distribution Shape</a> takes it up directly.</p>
+<p>Spread is also the engine of the comparison methods still to come. Every time <a href="../chapters/13-spc-basics.html">SPC</a> draws a control limit, or <a href="../chapters/12-z-scoring.html">z-scoring</a> measures how far a provider sits from its peers, it is the standard deviation from this chapter doing the work.</p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script>
+(function () {
+  'use strict';
+
+  function init() {
+    var sidebar = document.getElementById('quarto-margin-sidebar');
+    if (!sidebar) return;
+
+    var tocLinks = Array.from(sidebar.querySelectorAll('a[href^="#"]'));
+    if (!tocLinks.length) return;
+
+    var sectionIds = tocLinks
+      .map(function (a) { return a.getAttribute('href').slice(1); })
+      .filter(Boolean);
+
+    var sections = sectionIds
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+
+    if (!sections.length) return;
+
+    function setActive(id) {
+      tocLinks.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+
+    // Track the topmost visible section
+    var visible = new Set();
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            visible.add(e.target.id);
+          } else {
+            visible.delete(e.target.id);
+          }
+        });
+        // Activate the first section in document order that is visible
+        for (var i = 0; i < sections.length; i++) {
+          if (visible.has(sections[i].id)) {
+            setActive(sections[i].id);
+            return;
+          }
+        }
+      },
+      { rootMargin: '0px 0px -70% 0px', threshold: 0 }
+    );
+
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/03-describing-data.html" class="pagination-link" aria-label="Central Tendency and Position">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Central Tendency and Position</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/05-distribution-shape.html" class="pagination-link" aria-label="Distribution Shape">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distribution Shape</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Measuring Variation"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning outcomes</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>After reading this chapter you will be able to:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>measure spread at every rung of the ladder – **diversity** for categories, **range** and **IQR** for ordered data, **variance** and **standard deviation** for numbers;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>compute and interpret each, and read the standard deviation against the more robust IQR;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>use the **coefficient of variation** to compare spread across different scales;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>choose a spread measure by the data type and the question, and pair every location summary with one.</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## How Spread Out Is Your Data? {#sec-variation-uncertainty}</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>The <span class="co">[</span><span class="ot">previous chapter</span><span class="co">](03-describing-data.qmd)</span> found the middle; this one asks how far the data spreads around it. The two questions are inseparable, because the middle on its own can hide everything that matters.</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>Two providers might both average 10 incidents a month. One records 9, 10, 11, 10, 10 – steady, predictable. The other records 0, 2, 18, 20, 10 – the same mean, a completely different operation. Location alone cannot tell them apart; spread can. And spread is what makes a single value *unusual*: a provider five incidents above the mean is barely worth a glance where the typical swing is ±10, but a klaxon where it is ±2.</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>Spread, like location, climbs the <span class="co">[</span><span class="ot">ladder of measurement</span><span class="co">](01-data-types.qmd)</span>. Each rung unlocks a richer way to describe it: at the bottom you can say only how *diverse* the categories are; add ordering and you can measure a *range*; add arithmetic and you can measure the typical *distance* from the mean. This chapter climbs those rungs, working a single scenario as it goes – one region's providers, looked at three ways: their **type** (nominal), their **rating** (ordinal), and their monthly **incident counts** (quantitative).</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">## Spread Without Order: Diversity</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>Even where you cannot order the values or do arithmetic on them, data still varies – it can pile into one category or scatter across many. That is **diversity** (or heterogeneity), and it is the only kind of spread <span class="co">[</span><span class="ot">nominal</span><span class="co">](01-data-types.qmd)</span> data admits.</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>The plainest measure is the **proportion in the largest category**: if 90% of providers are one type, the mix is homogeneous; if no category dominates, it is diverse. Two summaries make this precise. Writing $p_i$ for the proportion in category $i$ and $k$ for the number of categories (and $\sum$ for "add up over all the categories"):</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Gini's heterogeneity index** $\displaystyle D = 1 - \sum_{i=1}^{k} p_i^{\,2}$ – the chance that two cases picked at random fall in *different* categories. $D = 0$ when everything is in one category; it rises towards $(k-1)/k$ as the categories even out. (The same quantity travels under several names: the *Gini–Simpson index*, or *Simpson's diversity index*. They are one formula.)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Shannon's entropy** $\displaystyle H = -\sum_{i=1}^{k} p_i \log_2 p_i$ – a measure from information theory, in *bits*. $H = 0$ for one category, rising to $\log_2 k$ for a perfectly even split. It is more sensitive to rare categories than Gini's index.</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>Take the region's ten providers: seven care homes, two GP practices, one hospital. Gini's index works out at $D = 1 - (0.7^2 + 0.2^2 + 0.1^2) = 1 - 0.54 = 0.46$, Shannon's entropy at $H = 1.16$ bits.</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>Two numbers are hard to feel in the abstract, so it helps to *see* the scale they sit on. The panels below hold the same ten providers but vary the mix – all in one type, the region's actual spread, and as even a split as three types allow. Diversity is, quite literally, how level the bars are: one tall bar means a single type dominates and both indices collapse to zero; bars of equal height push both indices to their maximum.</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-diversity-extremes</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "The same ten providers sorted into three types, shown at three points on the diversity scale. Left: all ten share one type, so there is no diversity and both indices are zero. Middle: the region's actual mix (seven care homes, two GP practices, one hospital), giving Gini D = 0.46 and Shannon H = 1.16 bits. Right: as even a three-way split as ten providers allow, close to the maxima (D = 0.67, H = 1.58 bits). The more level the bars, the higher both indices climb."</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "Three bar-chart panels side by side, each counting providers across three categories – care home, GP practice, hospital. Left panel, Concentrated: one bar of ten care homes, the other two categories empty; Gini index 0 and Shannon entropy 0. Middle panel, the region's mix: care home seven, GP practice two, hospital one; Gini index 0.46, Shannon entropy 1.16 bits. Right panel, Even mix: care home four, GP practice three, hospital three; Gini index 0.66, Shannon entropy 1.57 bits. The bar heights grow steadily more equal from left to right as both indices rise."</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 8</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3.4</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>div_levels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Concentrated</span><span class="sc">\n</span><span class="st">D = 0, H = 0"</span>,</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>                <span class="st">"The region's mix</span><span class="sc">\n</span><span class="st">D = 0.46, H = 1.16"</span>,</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Even mix</span><span class="sc">\n</span><span class="st">D = 0.66, H = 1.57"</span>)</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>div_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(div_levels, <span class="at">each =</span> <span class="dv">3</span>), <span class="at">levels =</span> div_levels),</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">type  =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Care home"</span>, <span class="st">"GP practice"</span>, <span class="st">"Hospital"</span>), <span class="at">times =</span> <span class="dv">3</span>),</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>                 <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Care home"</span>, <span class="st">"GP practice"</span>, <span class="st">"Hospital"</span>)),</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">count =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>             <span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">1</span>,</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>             <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">3</span>)</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>div_palette <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Care home"</span>   <span class="ot">=</span> <span class="st">"#006560"</span>,</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"GP practice"</span> <span class="ot">=</span> <span class="st">"#A57703"</span>,</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Hospital"</span>    <span class="ot">=</span> <span class="st">"#007EF5"</span>)</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(div_df, <span class="fu">aes</span>(<span class="at">x =</span> type, <span class="at">y =</span> count, <span class="at">fill =</span> type)) <span class="sc">+</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>panel) <span class="sc">+</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> div_palette, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Number of providers"</span>) <span class="sc">+</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">30</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>Only the first of those two numbers speaks for itself. Gini's index *is* a probability: $D = 0.46$ means that if you pick two of these providers at random, there is a 46% chance they are different types – a statement anyone can act on. Shannon's $1.16$ bits, by contrast, tells you almost nothing on its own. Bits of what, measured against what? The figure becomes interpretable only beside a yardstick, and the natural yardstick is the most diverse this mix *could* be: with three categories, the perfectly even split, worth $\log_2 3 \approx 1.58$ bits. Now $1.16 / 1.58 \approx 0.73$ says something real – this region is about **three-quarters of the way** to a perfectly even spread of provider types.</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>That same yardstick sharpens even the readable Gini index. Is $0.46$ "a lot" of diversity? Set against its own maximum of $(k-1)/k = 0.67$ for three categories, it sits about **two-thirds** of the way to maximal – aligned with the verdict the entropy gave, as it should be. The lesson is general: a diversity index read in isolation is hard to judge, so always pin it to something. Report it either **normalised** to its 0–1 maximum (the dedicated Overthinking box in this chapter gives the recipe for both indices) or as a **comparison** – this region against another, or this month against last.</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🤔 Rethinking: Why diversity matters for regulation</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>Heterogeneity is not just bookkeeping – it changes what a finding means.</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>A region's **incident categories** are a case in point. If 90% of incidents are medication errors, the problem is concentrated and targetable; if they spread evenly across ten categories, that points to a systemic quality issue with no single lever to pull. The same logic reads **provider types** in a region (a homogeneous mix is simpler to benchmark; a diverse one needs stratified, like-for-like comparison) and **ratings over time** (rising diversity means the system is pulling apart, some improving while others slip; falling diversity means it is converging). Measuring diversity tells you whether variation is concentrated where you can act on it, or diffuse in a way that signals something structural.</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="fu">## Spread You Can Order: Range and the IQR</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>Add an ordering and a new idea becomes available: you can mark off *where the data starts and ends*. Two measures matter here, and both carry a subtlety worth stating plainly – the difference between naming an **interval** and measuring its **length**.</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>Start with the **range**. The word does double duty. It can mean the *interval* the data covers – "ratings run from Requires Improvement to Outstanding", "waits run from 1 to 19 hours" – which needs only an ordering: name the smallest and largest values and you are done. Or it can mean the *length* of that interval, the single number $\text{max} - \text{min}$, which is the form most textbooks call "the range". That subtraction needs real numeric gaps, so it sits on the top rung – you cannot subtract Requires Improvement from Outstanding. Either way the range is pinned entirely to the two extremes, so a single freak value sets it.</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>Because it rides on those two extremes, the range means quite different things depending on whether your data is a whole population or a sample drawn from one – the distinction the <span class="co">[</span><span class="ot">previous chapter</span><span class="co">](03-describing-data.qmd)</span> drew between describing the data in hand and estimating from a larger group. For a whole population the range is a fixed *fact*: by definition every value already lies inside it, so it states the outer limits and nothing more. That is occasionally what you want – a bounds check, "no wait exceeded 19 hours" – but it says nothing about how the bulk of providers behave, and adding more of the same population cannot change it. For a sample the range is no longer fixed but *random*, and that cuts both ways. On the one hand it now carries genuine information about the particular cases you drew. On the other, every extra case is another chance to catch a new extreme, so the observed range tends to *grow* with the sample size and, on average, falls short of the population's true span. "Waits ran from 1 to 19 hours" can therefore say almost as much about how many providers you happened to sample as about the underlying variation. Either way the moral is the same: lean on the interquartile range, which ignores the extremes entirely.</span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>The same interval-versus-length distinction runs through the far steadier **interquartile range**:</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>$$\text{IQR} = Q_3 - Q_1$$</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>from the 25th percentile ($Q_1$) to the 75th ($Q_3$). Finding those quartiles is a matter of *position*: sort the data and read off the values a quarter and three-quarters of the way through, so the pair $(Q_1, Q_3)$ marks out the central 50% of the distribution with only an ordering required. Turning that pair into the single number $Q_3 - Q_1$ is again a subtraction, so the IQR *as a width* needs quantitative data, just as the range does.</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>This is exactly how far the region's ratings reach. The ten providers are rated one Requires Improvement, six Good, three Outstanding; the median rating is Good, and the central 50% are *all* Good – so as an interval the IQR collapses onto a single grade. You can say that honestly without computing any width: the ratings barely spread. What you cannot do on [ordinal](01-data-types.qmd) data is put a *number* on the spread – no IQR width, no standard deviation – because the gaps between grades are undefined.</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>The IQR's real virtue, which comes into its own once the data is numeric, is **robustness**: because it looks only at the central 50%, no extreme value can inflate it. Hold that thought – it is about to matter.</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="fu">## Spread You Can Compute: Variance, Standard Deviation, and CV</span></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>At the top rung, where the gaps between values are real numbers, you can measure the typical *distance* from the mean. Take each value's deviation from the mean, square it (so that values above and below do not cancel), average the squares, and you have the **variance**; its square root, back in the original units, is the **standard deviation**, $\sigma$. Writing the values $x_1, \dots, x_n$ with mean $\mu$:</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>$$\sigma^2 = \frac{1}{n}\sum_{i=1}^{n}(x_i - \mu)^2, \qquad \sigma = \sqrt{\sigma^2}$$</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>That is the recipe in symbols: square the distances from the mean, take their mean. If you want the standard deviation, "undo" the squaring. Variance ($\sigma^2$) lives in squared units (incidents², hours²) and is what many methods use internally; the standard deviation ($\sigma$) is in the original units and is the one to report – "the typical distance from the mean is about 6 incidents." They are the same information, related by $\text{variance} = \sigma^2$.</span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>That word *distance* is the heart of it, and it is worth seeing rather than just reading. Both clouds below share the same centre; the standard deviation is, near enough, the typical length of the spokes running from each point to that centre – short on the left, long on the right.</span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-distance-variation</span></span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Two synthetic point clouds with the same mean (the dark central point), each spoke joining an observation to that mean. Left: low variation, points sit close to the mean, so the typical spoke is short. Right: high variation, the same number of points scatter much further, so the typical spoke is long. The standard deviation summarises that typical spoke length."</span></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "Two scatter panels side by side, each with points arranged around a single dark central mean point and a thin line drawn from every point to that centre. Left panel, labelled low variation: points cluster tightly around the mean, lines are short. Right panel, labelled high variation: the same number of points spread far from the mean, lines are long. The mean sits at the centre of both."</span></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 8</span></span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 4</span></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>make_cloud <span class="ot">&lt;-</span> <span class="cf">function</span>(label, sd, <span class="at">n =</span> <span class="dv">60</span>) {</span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>  angle <span class="ot">&lt;-</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">2</span> <span class="sc">*</span> pi)</span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>  radius <span class="ot">&lt;-</span> <span class="fu">abs</span>(<span class="fu">rnorm</span>(n, <span class="dv">0</span>, sd))</span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel =</span> label,</span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> radius <span class="sc">*</span> <span class="fu">cos</span>(angle),</span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> radius <span class="sc">*</span> <span class="fu">sin</span>(angle)</span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>cloud_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_cloud</span>(<span class="st">"Low variation (points close to the mean)"</span>, <span class="at">sd =</span> <span class="fl">0.8</span>),</span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_cloud</span>(<span class="st">"High variation (points far from the mean)"</span>, <span class="at">sd =</span> <span class="fl">2.6</span>)</span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a>cloud_df<span class="sc">$</span>panel <span class="ot">&lt;-</span> <span class="fu">factor</span>(</span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a>  cloud_df<span class="sc">$</span>panel,</span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Low variation (points close to the mean)"</span>,</span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a>             <span class="st">"High variation (points far from the mean)"</span>)</span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cloud_df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> <span class="dv">0</span>, <span class="at">yend =</span> <span class="dv">0</span>), <span class="at">colour =</span> <span class="st">"#8796AA"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>               <span class="at">linewidth =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"#007EF5"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">size =</span> <span class="fl">1.6</span>) <span class="sc">+</span></span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"#A83DA4"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>panel) <span class="sc">+</span></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">7</span>, <span class="dv">7</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">7</span>, <span class="dv">7</span>)) <span class="sc">+</span></span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span></span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>You may have seen this formula with $n-1$ in the denominator rather than $n$. That is the **sample** version: when the data is not the whole story but a sample standing in for a larger population you cannot fully see, dividing by $n-1$ corrects a slight bias in estimating that population's spread, and the symbols switch to $s^2$ and $s$ to mark the change. It is the same idea; the reasons are inferential, and we return to them in <span class="co">[</span><span class="ot">Statistical Inference</span><span class="co">](07-statistical-inference.qmd)</span>. For the sake of this chapter and the point we are trying to make, it does not matter which version we use.</span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a>The five care homes' incident counts – 2, 3, 3, 4, 18, mean 6 – show both the machinery and its weakness. The deviations from the mean are −4, −3, −3, −2, 12; their squares 16, 9, 9, 4, 144 sum to 182, so $\sigma^2 = 182/5 = 36.4$ and $\sigma \approx 6.0$ incidents. Notice that the single home at 18 contributes 144 of those 182 – almost the entire spread – exactly as it dragged the mean in the last chapter. **The standard deviation inherits the mean's fragility.**</span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a>The IQR does not. The central 50% of those five values runs from 3 to 4, so the IQR is just **1**: the 18 lies outside it and leaves it untouched. This is the spread-side echo of mean versus median. The standard deviation uses every value and feeds the methods in Part II – <span class="co">[</span><span class="ot">z-scores</span><span class="co">](12-z-scoring.qmd)</span>, control limits in <span class="co">[</span><span class="ot">SPC</span><span class="co">](13-spc-basics.qmd)</span>, <span class="co">[</span><span class="ot">t-tests</span><span class="co">](14-t-tests.qmd)</span> – but pays for it by bending to outliers; the IQR shrugs them off, and as a pair of quartile positions it can be read even on ordinal data. When the data is lopsided, report both.</span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a>One more measure earns its place when you need to compare *across* indicators. A standard deviation carries units, so you cannot ask whether waiting times "vary more" than incident rates by comparing their standard deviations directly. The **coefficient of variation** strips the units out by measuring spread *relative to* the mean:</span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a>$$\text{CV} = \frac{\sigma}{\mu} \quad (\text{often as a percentage})$$</span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>Read it as a question: how big is the typical wobble compared with the typical level? A CV of 0.2 says the standard deviation is one-fifth of the mean, and that statement holds whatever the units – which is exactly why it travels where a raw $\sigma$ cannot. Expressing spread in proportion to location also matches how variation is *felt*: a swing of ±2 hours is alarming around a mean wait of 3 hours and trivial around a mean of 50. So waiting times with a mean of 3 hours and $\sigma$ of 0.6 (CV = 20%) and incident rates with a mean of 15 and $\sigma$ of 3 (CV = 20%) are equally variable in relative terms, however different their raw standard deviations. For the five homes the CV is $\sigma / \mu = 6.0 / 6.0 \approx 100\%$ – the typical distance from the mean is about as large as the mean itself, a number that screams "outlier" on its own. Because it divides by the mean, the CV needs a non-zero mean and a meaningful zero on the scale, so it suits rates and counts but breaks down when the mean nears zero or the scale has no true zero (temperature in °C, say).</span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>The CV is really the first of a small family of *normalised* spread measures – rescalings that let two quantities on different scales be compared. The Overthinking box gives the general recipe and two more members.</span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning icon=false}</span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚙️ Overthinking: Normalising a spread measure</span></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a>Normalising means rescaling a measure so that values from different scales can be set side by side. The coefficient of variation does it by dividing by the mean; the most general recipe does it by reference to a known range,</span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>$$\text{normalised value} = \frac{\text{value} - \text{min}}{\text{max} - \text{min}}$$</span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a>which maps anything onto a 0–1 scale once you know the smallest and largest values it can take. This is the move behind **normalised entropy**, $H / \log_2 k$, which divides Shannon's entropy by its maximum $\log_2 k$ so the diversity of incident types (say ten categories) and of provider types (four) sit on the same 0–1 footing however many categories each has. Gini's index normalises in exactly the same way – divide by its own maximum, giving $D_{\text{norm}} = \dfrac{D}{(k-1)/k} = \dfrac{k}{k-1}\,D$. That is the calculation behind calling the region's $D = 0.46$ "two-thirds of the way to maximal" earlier: $0.46 / 0.67 \approx 0.69$. The same rescaling is occasionally applied to a variance whose theoretical maximum is known.</span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a>Two cautions. First, min–max normalisation leans on the extremes, so a single outlier sitting at the maximum quietly compresses everything below it. Second, normalising a number does not lower its data-type requirements: rescaling an IQR or a variance still needs quantitative data, whereas normalised entropy works all the way down on nominal data. When you want a robust, unit-free spread measure for skewed numeric data – where the CV would mislead – reach instead for the **quartile coefficient of dispersion**, $\text{QCD} = \dfrac{Q_3 - Q_1}{Q_3 + Q_1}$. Its numerator is just the IQR; its denominator, $Q_3 + Q_1$, is twice the *midhinge* $(Q_1 + Q_3)/2$ – a robust measure of centre, the quartiles' counterpart to the mean. So the QCD is spread divided by centre, exactly the logic of the CV, but built from quartiles instead of the mean and standard deviation: an outlier-resistant CV for skewed data.</span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a>Reach for a normalised measure whenever the thing you are comparing sits on a different scale: different indicators, different baseline levels across regions, or the same indicator over time as its mean drifts. If you are unsure which normalisation fits, or stakeholders find them opaque, raise it with the Quantitative Analytics and Statistics Guild (the Guild).</span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a><span class="fu">## Seeing the Spread</span></span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a>Summary numbers are indispensable, but they can agree on the headline and hide the story. A **box plot** turns the five-number summary into a picture – the median, the quartiles (the IQR as the box), the reach of the whiskers, and any outliers as separate points – so the spreads of several groups can be set side by side at a glance. Always look before you summarise. (Choosing and building these plots well is a craft in its own right, taken up in <span class="co">[</span><span class="ot">Data Visualisation</span><span class="co">](02-data-visualisation.qmd)</span>.)</span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>The plots below make the case. Four provider types have been given similar typical waiting times, yet their spreads could hardly be more different.</span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-boxplot-variation</span></span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Box plots comparing synthetic waiting times (hours) across four CQC-regulated provider types (n = 100 per group, values are illustrative). Care homes show the tightest spread; GP practices and mental health trusts show substantially higher variation, with outliers visible in the mental health trust group."</span></span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "Horizontal box plots for four provider types. Care Home: median around 3 hours, IQR approximately 2.7–3.3 hours – tightly clustered. Hospital Trust: median around 6 hours, IQR approximately 5.2–6.8 hours – moderate spread. GP Practice: median around 4 hours, IQR approximately 2.3–5.7 hours – wide spread. Mental Health Trust: median around 8 hours, IQR approximately 6–10 hours – widest spread with several high outliers."</span></span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 8</span></span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 4</span></span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a>var_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">factor</span>(</span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Care Home"</span>, <span class="st">"Hospital Trust"</span>, <span class="st">"GP Practice"</span>, <span class="st">"Mental Health Trust"</span>), <span class="at">each =</span> n),</span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Care Home"</span>, <span class="st">"Hospital Trust"</span>, <span class="st">"GP Practice"</span>, <span class="st">"Mental Health Trust"</span>)</span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a>  <span class="at">waiting_time =</span> <span class="fu">c</span>(</span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="dv">3</span>, <span class="fl">0.4</span>),</span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="dv">6</span>, <span class="fl">1.2</span>),</span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="dv">4</span>, <span class="fl">2.5</span>),</span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="dv">8</span>, <span class="fl">3.0</span>)</span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a>var_df<span class="sc">$</span>waiting_time <span class="ot">&lt;-</span> <span class="fu">pmax</span>(var_df<span class="sc">$</span>waiting_time, <span class="fl">0.1</span>)</span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a>cqc_palette <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Care Home"</span>            <span class="ot">=</span> <span class="st">"#006560"</span>,</span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Hospital Trust"</span>       <span class="ot">=</span> <span class="st">"#007EF5"</span>,</span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a>  <span class="st">"GP Practice"</span>          <span class="ot">=</span> <span class="st">"#A57703"</span>,</span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Mental Health Trust"</span>  <span class="ot">=</span> <span class="st">"#A83DA4"</span></span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(var_df, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> waiting_time, <span class="at">fill =</span> group)) <span class="sc">+</span></span>
+<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.85</span>, <span class="at">outlier.size =</span> <span class="fl">1.2</span>, <span class="at">outlier.alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> cqc_palette, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">limits =</span> <span class="fu">rev</span>(<span class="fu">levels</span>(var_df<span class="sc">$</span>group))) <span class="sc">+</span></span>
+<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Waiting time (hours)"</span></span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span></span>
+<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a>The box plot earns its keep for comparison, but it still shows only those five numbers: two groups can share a median, a box, and whiskers yet be shaped quite differently inside them. If you want to pack in more – the full distributional shape, where the data actually piles up, whether it is single-peaked or hiding a second mode beneath a long tail – a **ridgeline plot** draws each group's whole density as its own curve.</span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-ridgeline-variation</span></span>
+<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Ridgeline plot of the same synthetic data: each row is the distribution's shape for one provider type, drawn as a smoothed density. Where the box plot reports five numbers, this shows the whole shape. Care homes are narrow and symmetric; hospital trusts moderately wide; GP practices wide and flat; mental health trusts right-skewed with a long upper tail."</span></span>
+<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "Stacked density curves, one per provider type, sharing a horizontal waiting-time axis. Care Home: a tall, narrow, symmetric hump at about 3 hours. Hospital Trust: a wider, roughly symmetric hump at about 6 hours. GP Practice: a low, wide, flat curve spanning roughly 0 to 9 hours. Mental Health Trust: an asymmetric curve peaking near 7 hours with a long tail stretching past 15 hours."</span></span>
+<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 8</span></span>
+<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 4</span></span>
+<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">requireNamespace</span>(<span class="st">"ggridges"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(var_df, <span class="fu">aes</span>(<span class="at">x =</span> waiting_time, <span class="at">y =</span> group, <span class="at">fill =</span> group)) <span class="sc">+</span></span>
+<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a>    ggridges<span class="sc">::</span><span class="fu">geom_density_ridges</span>(<span class="at">alpha =</span> <span class="fl">0.85</span>, <span class="at">scale =</span> <span class="fl">1.2</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> cqc_palette, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">limits =</span> <span class="fu">rev</span>(<span class="fu">levels</span>(var_df<span class="sc">$</span>group))) <span class="sc">+</span></span>
+<span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Waiting time (hours)"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span></span>
+<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Fallback if ggridges is unavailable: faceted densities convey the same shapes.</span></span>
+<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(var_df, <span class="fu">aes</span>(<span class="at">x =</span> waiting_time, <span class="at">fill =</span> group)) <span class="sc">+</span></span>
+<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.85</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>group, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">strip.position =</span> <span class="st">"right"</span>) <span class="sc">+</span></span>
+<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> cqc_palette, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Waiting time (hours)"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span></span>
+<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a>The care homes are tightly clustered; the GP practices and mental health trusts spread wide, the latter with a long tail of high outliers. No table of means would have told you that – and the choice between $\sigma$ and the IQR for these groups follows straight from what the plots reveal.</span>
+<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a><span class="fu">## Choosing the Right Measure</span></span>
+<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a>As with location, the ladder is a **gate, not a ranking**. It rules out what makes no sense – there is no standard deviation of unordered categories, no arithmetic spread on a rating scale – but among the measures it permits, the question decides.</span>
+<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> If your data is… <span class="pp">|</span> the valid spread measures are… <span class="pp">|</span></span>
+<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Nominal** (categories) <span class="pp">|</span> diversity – Gini's heterogeneity index, entropy, proportion in the largest category <span class="pp">|</span></span>
+<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Ordinal** (ordered) <span class="pp">|</span> the above, plus the range and the IQR *as intervals* (lowest-to-highest, central-50% span) <span class="pp">|</span></span>
+<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Quantitative** (numbers) <span class="pp">|</span> the above turned into *widths* (range and IQR as single numbers), plus variance, standard deviation, and the CV <span class="pp">|</span></span>
+<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a>: What each rung makes available {tbl-colwidths="<span class="co">[</span><span class="ot">36,64</span><span class="co">]</span>"}</span>
+<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a>As you climb the ladder you can often compute *several* of these, but they are not interchangeable – some carry more information than others, and which is most helpful depends on the question, so there is no absolute decision tree. On quantitative data a lower-rung measure is frequently the wiser pick. Reach for the **standard deviation** when the data is roughly symmetric and the result will feed a method that needs it (z-scores, control limits, t-tests). Reach for the **IQR** when outliers or skew would inflate $\sigma$, or when "the central half spans this range" communicates more honestly – and, as ever, reporting both is frequently the most truthful answer, since the gap between them is itself a signal. When you are comparing across indicators, scales, or time, switch to a **normalised** measure (the CV, or the QCD for robust comparison).</span>
+<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning icon=false}</span>
+<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚙️ Overthinking: Robust spread beyond the IQR</span></span>
+<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a>The IQR is the workhorse robust measure of spread, but it is not the only one, and at least two more are worth knowing because of their popularity.</span>
+<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a>The first is the **mean absolute deviation**: rather than squaring each distance from the mean and then taking a square root, simply average the distances themselves, $\frac{1}{n}\sum_{i=1}^{n}|x_i - \mu|$. Using the absolute value instead of the square stops large deviations from dominating as heavily as they do in the standard deviation, so it is *a little* more forgiving of outliers, and preserves the same measurement unit.</span>
+<span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a>The second goes further. The **median absolute deviation** (typically referred to as MAD - although the previous measure would abbreviate to the same thing) replaces *both* the mean and the averaging with medians: take the median of the absolute distances from the median, $\text{median}\bigl(|x_i - \tilde{x}|\bigr)$. Because every step uses a median, no single extreme value can shift it – it is as robust as the IQR. It has statistical properties that, under the right conditions, let it stand in for the standard deviation, which makes it a popular robust replacement for $\sigma$ in the outlier rules of <span class="co">[</span><span class="ot">Outlier Methods</span><span class="co">](16-outlier-methods.qmd)</span>.</span>
+<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a>For most CQC work the standard deviation and IQR are enough, and reporting both already signals when robustness matters. Reach for these only when you need a robust spread expressed on the standard deviation's own scale – and if the choice is consequential, raise it with the Guild.</span>
+<span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a><span class="fu">## Spread Isn't the Whole Story</span></span>
+<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a>Location and spread are the first two questions to ask of any distribution, and together they already say far more than either alone. But notice how often this chapter reached past them for a third idea to settle a choice: the long tail that made $\sigma$ misleading, the lone value at 18 that the mean could not survive but the IQR shrugged off. That third idea is the distribution's *shape*, and it is what ultimately adjudicates between $\sigma$ and the IQR. <span class="co">[</span><span class="ot">Distribution Shape</span><span class="co">](05-distribution-shape.qmd)</span> takes it up directly.</span>
+<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a>Spread is also the engine of the comparison methods still to come. Every time <span class="co">[</span><span class="ot">SPC</span><span class="co">](13-spc-basics.qmd)</span> draws a control limit, or <span class="co">[</span><span class="ot">z-scoring</span><span class="co">](12-z-scoring.qmd)</span> measures how far a provider sits from its peers, it is the standard deviation from this chapter doing the work.</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
